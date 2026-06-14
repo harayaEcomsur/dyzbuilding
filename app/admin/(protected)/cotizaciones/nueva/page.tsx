@@ -141,9 +141,17 @@ export default function NuevaCotizacion() {
       <style>{`
         @media print {
           * { visibility: hidden !important; }
-          #print-preview, #print-preview * { visibility: visible !important; }
+          #print-preview, #print-preview * {
+            visibility: visible !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
           #print-preview { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; padding: 0 !important; background: #fff !important; }
-          #print-preview .page { box-shadow: none !important; margin: 0 !important; width: 100% !important; }
+          #print-preview .page { box-shadow: none !important; margin: 0 !important; width: 100% !important; zoom: 1 !important; }
+        }
+        #print-preview .page {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
         .cot-layout { display: flex; height: 100%; overflow: hidden; }
         .cot-form  {
@@ -319,11 +327,13 @@ export default function NuevaCotizacion() {
             fontFamily: 'Outfit, sans-serif', color: '#1a1a1a', fontSize: 14,
             zoom: previewScale,
             margin: '0 auto',
-          }}>
+            WebkitPrintColorAdjust: 'exact',
+            printColorAdjust: 'exact',
+          } as React.CSSProperties}>
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingBottom: 24 }}>
               <div style={{ background: '#0c0c0c', padding: '14px 18px', display: 'inline-block' }}>
-                <Image src="/logo.png" alt="D&Z Building" width={120} height={40} style={{ height: 38, width: 'auto', objectFit: 'contain', display: 'block' }} />
+                <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ height: 38, width: 'auto', objectFit: 'contain', display: 'block' }} />
               </div>
               <div style={{ textAlign: 'right', paddingTop: 2 }}>
                 <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 28, fontWeight: 200, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0c0c0c', lineHeight: 1, marginBottom: 12 }}>Cotización</div>

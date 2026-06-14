@@ -81,9 +81,22 @@ export default function FirmaEmailPage() {
   }
 
   return (
-    <div style={{ maxWidth: 760 }}>
+    <div className="fe-root">
+      <style>{`
+        .fe-root { padding: 40px 48px; max-width: 960px; box-sizing: border-box; }
+        .fe-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+        .fe-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .fe-preview-box { overflow-x: auto; }
+        @media (max-width: 900px) {
+          .fe-header { flex-direction: column; align-items: flex-start; }
+          .fe-fields { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+          .fe-root { padding: 24px 18px; }
+        }
+      `}</style>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 36, flexWrap: 'wrap', gap: 16 }}>
+      <div className="fe-header">
         <div>
           <p style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 6 }}>
             Identidad Corporativa
@@ -109,7 +122,7 @@ export default function FirmaEmailPage() {
       {/* Fields editor */}
       <div style={{ border: '1px solid var(--border)', padding: 20, marginBottom: 28 }}>
         <p style={{ ...lbl, marginBottom: 16 }}>Personalizar datos</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div className="fe-fields">
           {([
             ['nombre', 'Nombre completo'],
             ['cargo', 'Cargo'],
@@ -134,7 +147,7 @@ export default function FirmaEmailPage() {
       <div style={{ marginBottom: 6 }}>
         <p style={{ ...lbl, marginBottom: 10 }}>Vista previa — fondo claro (Gmail, Outlook)</p>
       </div>
-      <div style={{ background: '#fff', padding: 24, marginBottom: 24, boxShadow: '0 4px 24px rgba(0,0,0,0.3)', overflowX: 'auto' }}>
+      <div className="fe-preview-box" style={{ background: '#fff', padding: 24, marginBottom: 24, boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}>
         <div dangerouslySetInnerHTML={{ __html: sigHtml }} />
       </div>
 
@@ -142,12 +155,12 @@ export default function FirmaEmailPage() {
       <div style={{ marginBottom: 6 }}>
         <p style={{ ...lbl, marginBottom: 10 }}>Vista previa — fondo oscuro (Apple Mail Dark Mode)</p>
       </div>
-      <div style={{ background: '#1a1a2e', padding: 24, marginBottom: 24, boxShadow: '0 4px 24px rgba(0,0,0,0.3)', overflowX: 'auto' }}>
+      <div className="fe-preview-box" style={{ background: '#1a1a2e', padding: 24, marginBottom: 24, boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}>
         <table cellPadding="0" cellSpacing="0" style={{ fontFamily: 'Arial,Helvetica,sans-serif', width: 580, maxWidth: '100%' }}>
           <tbody>
             <tr>
               <td style={{ background: '#0c0c0c', padding: '16px 20px', verticalAlign: 'middle', width: 160 }}>
-                <Image src="/logo.png" alt="D&Z Building" width={110} height={35} style={{ display: 'block', width: 110, height: 'auto' }} />
+                <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ display: 'block', width: 110, height: 'auto' }} />
               </td>
               <td style={{ background: '#C8A84B', width: 3 }} />
               <td style={{ padding: '12px 18px', verticalAlign: 'middle', border: '1px solid rgba(255,255,255,.08)', borderLeft: 'none', background: '#151515' }}>

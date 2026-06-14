@@ -16,6 +16,7 @@ export default function AdminSidebar() {
   const navItems = [
     { label: 'Dashboard', href: '/admin', icon: '▪' },
     { label: 'Nueva Cotización', href: '/admin/cotizaciones/nueva', icon: '▪' },
+    { label: 'Firma de Email', href: '/admin/firma-email', icon: '▪' },
   ]
 
   return (
