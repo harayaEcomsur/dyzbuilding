@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest) {
       updated_at = NOW()
   `
 
-  revalidateTag('site-content')
+  revalidateTag('site-content', {})
 
   return NextResponse.json({ ok: true })
 }
