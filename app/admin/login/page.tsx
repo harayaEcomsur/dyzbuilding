@@ -41,10 +41,19 @@ export default function LoginPage() {
       backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
       backgroundSize: '60px 60px',
     }}>
-      <div style={{ width: '100%', maxWidth: 380, padding: '0 24px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <Image src="/logo.png" alt="D&Z Building" width={120} height={40} style={{ height: 36, width: 'auto', objectFit: 'contain', marginBottom: 12 }} />
-          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 8 }}>
+      <div style={{ width: '100%', maxWidth: 400, padding: '0 24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <div style={{ display: 'inline-block', marginBottom: 20 }}>
+            <Image
+              src="/logo.png"
+              alt="D&Z Building"
+              width={650}
+              height={300}
+              priority
+              style={{ width: 260, height: 'auto', display: 'block' }}
+            />
+          </div>
+          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--dim)' }}>
             Panel de Administración
           </div>
         </div>
