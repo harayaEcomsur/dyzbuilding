@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -23,11 +23,12 @@ export default function LoginPage() {
       })
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.error ?? 'Error')
+        setError(data.error ?? 'Error al ingresar')
+        return
       }
       router.push('/admin')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al iniciar sesión')
+    } catch {
+      setError('Error de conexión')
     } finally {
       setLoading(false)
     }
@@ -37,28 +38,24 @@ export default function LoginPage() {
     <div style={{
       minHeight: '100vh', background: 'var(--bg)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: 24,
+      backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
+      backgroundSize: '60px 60px',
     }}>
-      <div style={{ width: '100%', maxWidth: 380 }}>
-        <div style={{ textAlign: 'center', marginBottom: 44 }}>
-          <Image src="/logo.png" alt="D&Z Building" width={120} height={40} style={{ height: 36, width: 'auto', objectFit: 'contain' }} />
-          <p style={{
-            fontFamily: 'var(--font-josefin), sans-serif',
-            fontSize: 8, letterSpacing: '0.32em', textTransform: 'uppercase',
-            color: 'var(--dim)', marginTop: 16,
-          }}>Panel de Administración</p>
+      <div style={{ width: '100%', maxWidth: 380, padding: '0 24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <Image src="/logo.png" alt="D&Z Building" width={120} height={40} style={{ height: 36, width: 'auto', objectFit: 'contain', marginBottom: 12 }} />
+          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.35em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 8 }}>
+            Panel de Administración
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} style={{
-          border: '1px solid var(--border)',
-          padding: 32,
-          display: 'flex', flexDirection: 'column', gap: 20,
-        }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="field">
             <label>Usuario</label>
             <input
               type="text" required autoComplete="username"
               value={username} onChange={e => setUsername(e.target.value)}
+              placeholder="admin"
             />
           </div>
           <div className="field">
@@ -66,14 +63,19 @@ export default function LoginPage() {
             <input
               type="password" required autoComplete="current-password"
               value={password} onChange={e => setPassword(e.target.value)}
+              placeholder="••••••••"
             />
           </div>
-          {error && <p style={{ color: '#e55', fontSize: 12, margin: 0 }}>{error}</p>}
+
+          {error && (
+            <p style={{ fontFamily: 'Outfit, sans-serif', fontSize: 12, color: '#e05252', margin: 0 }}>{error}</p>
+          )}
+
           <button
             type="submit"
             className="btn-primary"
             disabled={loading}
-            style={{ opacity: loading ? 0.6 : 1 }}
+            style={{ width: '100%', marginTop: 8, opacity: loading ? 0.6 : 1, textAlign: 'center' }}
           >
             {loading ? 'Ingresando...' : 'Ingresar'}
           </button>

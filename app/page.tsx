@@ -1,167 +1,203 @@
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
 
-const SERVICES = [
-  { title: 'Climatización Comercial / VRF', desc: 'Diseño e instalación de sistemas VRF/VRV para locales comerciales, oficinas y proyectos industriales.' },
-  { title: 'Refrigeración Comercial', desc: 'Vitrinas exhibidoras, góndolas y cámaras frigoríficas para supermercados, restaurantes y cadenas de retail.' },
-  { title: 'Ventilación y Extracción', desc: 'Sistemas de renovación de aire, extracción de humos y ventilación mecánica controlada (VMC).' },
-  { title: 'Mantenimiento Preventivo', desc: 'Programas de mantención periódica para maximizar la vida útil y eficiencia de tus equipos.' },
-  { title: 'Proyectos Llave en Mano', desc: 'Desde el estudio de factibilidad hasta la puesta en marcha. Un solo interlocutor, cero sorpresas.' },
-  { title: 'Asesoría de Ingeniería', desc: 'Cálculo de cargas térmicas, selección de equipos y revisión de proyectos para arquitectos y constructoras.' },
-  { title: 'Eficiencia Energética HVAC', desc: 'Auditorías energéticas y soluciones para reducir el consumo eléctrico de tus instalaciones de climatización.' },
-  { title: 'Análisis Operacional VRV/VRF', desc: 'Diagnóstico avanzado de sistemas multisplit y VRF: lectura de parámetros, presiones y datos operacionales.' },
-]
-
 export default function Home() {
   return (
     <>
-      <nav style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 52px', height: 68,
-        background: 'rgba(12,12,12,0.92)', backdropFilter: 'blur(14px)',
-        borderBottom: '1px solid var(--border)',
-      }}>
-        <Image src="/logo.png" alt="D&Z Building" width={110} height={36} style={{ objectFit: 'contain', height: 32, width: 'auto' }} priority />
-        <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
-          {([['Especialidades', '#especialidades'], ['Nosotros', '#nosotros'], ['Contacto', '#contacto']] as const).map(([label, href]) => (
-            <a key={href} href={href} style={{
-              fontFamily: 'var(--font-josefin), sans-serif',
-              fontSize: 10, letterSpacing: '0.26em', textTransform: 'uppercase',
-              color: 'var(--dim)', textDecoration: 'none',
-            }}>{label}</a>
-          ))}
-          <a href="#contacto" className="btn-primary" style={{ padding: '9px 20px', fontSize: '9px' }}>
-            Cotización
-          </a>
-        </div>
+      <nav>
+        <a className="nav-logo" href="#inicio">
+          <Image src="/logo.png" alt="D&Z Building" width={120} height={32} priority style={{ height: 32, width: 'auto' }} />
+        </a>
+        <ul className="nav-links">
+          <li><a href="#servicios">Especialidades</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <a className="nav-cta" href="#contacto">Solicitar Cotización</a>
       </nav>
 
-      <section style={{
-        minHeight: '100vh', display: 'flex', alignItems: 'center',
-        padding: '140px 52px 90px', position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.028) 1px,transparent 1px)',
-          backgroundSize: '60px 60px',
-        }} />
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 55% 60% at 68% 42%, rgba(200,168,75,0.08) 0%, transparent 70%)',
-        }} />
-        <div style={{ position: 'relative', maxWidth: 680 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
-            <div style={{ width: 36, height: 1, background: 'var(--accent)', opacity: 0.4 }} />
-            <p className="eyebrow" style={{ fontSize: '8.5px', letterSpacing: '0.46em' }}>
-              20 Años · Todo Chile · LG · Samsung · Gree
-            </p>
-          </div>
-          <h1 style={{
-            fontFamily: 'var(--font-josefin), sans-serif',
-            fontSize: 'clamp(42px, 5.5vw, 76px)', fontWeight: 200,
-            lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 28,
-          }}>
-            Ingeniería<br />
-            Climática<br />
-            <span style={{ color: 'var(--accent)', fontWeight: 300 }}>de Precisión</span>
-          </h1>
-          <p style={{ fontSize: 15, color: 'var(--dim)', maxWidth: 460, marginBottom: 46, fontWeight: 300, lineHeight: 1.82 }}>
-            Diseño, instalación y mantenimiento de sistemas VRF/VRV, refrigeración comercial y HVAC para proyectos en todo Chile.
-          </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="#especialidades" className="btn-primary">Ver Especialidades</a>
-            <a href="#contacto" className="btn-outline">Solicitar Cotización</a>
+      {/* HERO */}
+      <section id="inicio" className="hero">
+        <div className="hero-glow" />
+        <div className="hero-grid" />
+        <div className="hero-content">
+          <div className="eyebrow">20 años · Climatización · Refrigeración · Todo Chile</div>
+          <h1>20 años liderando<br />la <em>ingeniería<br />climática</em> en Chile</h1>
+          <p>Expertos en sistemas VRF/VRV, refrigeración comercial, eficiencia energética HVAC y proyectos llave en mano para industria y comercio.</p>
+          <div className="actions">
+            <a className="btn-p" href="#servicios">Nuestras especialidades</a>
+            <a className="btn-o" href="#contacto">Solicitar cotización</a>
           </div>
         </div>
       </section>
 
-      <div style={{
-        borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
-        padding: '22px 52px', display: 'flex', alignItems: 'center', gap: 48, flexWrap: 'wrap',
-      }}>
-        <span style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', opacity: 0.55 }}>
-          Distribuidores oficiales
-        </span>
-        {['LG', 'Samsung', 'Gree'].map(b => (
-          <span key={b} style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(240,238,235,0.2)' }}>{b}</span>
-        ))}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 44 }}>
-          {[['20+', 'Años'], ['Chile', 'Cobertura'], ['24/7', 'Soporte']].map(([n, l]) => (
-            <div key={l} style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 20, fontWeight: 200, color: 'var(--accent)', lineHeight: 1 }}>{n}</div>
-              <div style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 4 }}>{l}</div>
-            </div>
-          ))}
+      {/* MARCAS */}
+      <div className="brands">
+        <span className="brands-label">Marcas oficiales</span>
+        <div className="brands-list">
+          <span className="brand-name">LG</span>
+          <span className="brand-name">Samsung</span>
+          <span className="brand-name">Gree</span>
         </div>
       </div>
 
-      <section id="especialidades" style={{ padding: '96px 52px' }}>
-        <div style={{ marginBottom: 52 }}>
-          <p className="eyebrow" style={{ marginBottom: 10 }}>Servicios</p>
-          <h2 style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 200, letterSpacing: '-0.01em' }}>
-            Nuestras Especialidades
-          </h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 1, background: 'var(--border)', border: '1px solid var(--border)' }}>
-          {SERVICES.map((svc) => (
-            <div key={svc.title} style={{ background: 'var(--bg)', padding: '32px 28px' }}>
-              <div style={{ width: 4, height: 4, background: 'var(--accent)', marginBottom: 20, opacity: 0.6 }} />
-              <h3 style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 13, fontWeight: 300, letterSpacing: '0.04em', marginBottom: 12 }}>{svc.title}</h3>
-              <p style={{ fontSize: 12, color: 'var(--dim)', lineHeight: 1.7, fontWeight: 300 }}>{svc.desc}</p>
-            </div>
-          ))}
+      {/* ESPECIALIDADES */}
+      <section className="sec" id="servicios">
+        <div className="sec-eyebrow">Especialidades técnicas</div>
+        <div className="sec-title">Lo que hacemos</div>
+        <div className="svc-grid">
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <rect x="2" y="8" width="14" height="9" rx=".5"/><rect x="20" y="8" width="14" height="9" rx=".5"/>
+              <line x1="2" y1="12" x2="16" y2="12"/><line x1="20" y1="12" x2="34" y2="12"/>
+              <line x1="9" y1="17" x2="9" y2="22"/><line x1="27" y1="17" x2="27" y2="22"/>
+              <rect x="5" y="22" width="8" height="8" rx=".5"/><rect x="23" y="22" width="8" height="8" rx=".5"/>
+              <line x1="13" y1="26" x2="23" y2="26"/>
+            </svg>
+            <h3>Climatización Comercial / VRF</h3>
+            <p>Sistemas multi-split, VRF y fan-coils para oficinas, hoteles, locales y centros comerciales.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <rect x="3" y="6" width="30" height="22" rx=".5"/>
+              <line x1="3" y1="14" x2="33" y2="14"/>
+              <line x1="10" y1="6" x2="10" y2="14"/><line x1="18" y1="6" x2="18" y2="14"/><line x1="26" y1="6" x2="26" y2="14"/>
+              <line x1="7" y1="20" x2="7" y2="22"/><line x1="14" y1="20" x2="14" y2="22"/><line x1="21" y1="20" x2="21" y2="22"/><line x1="28" y1="20" x2="28" y2="22"/>
+              <line x1="3" y1="28" x2="33" y2="28"/>
+            </svg>
+            <h3>Refrigeración Comercial</h3>
+            <p>Vitrinas, góndolas y equipos de frío para supermercados, carnicerías y gastronomía.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <circle cx="18" cy="18" r="8"/><circle cx="18" cy="18" r="2.5"/>
+              <path d="M18 4v5M18 27v5M4 18h5M27 18h5"/>
+              <path d="M8.5 8.5l3.5 3.5M24 24l3.5 3.5M27.5 8.5L24 12M12 24l-3.5 3.5"/>
+            </svg>
+            <h3>Ventilación y Extracción</h3>
+            <p>Sistemas VMC, extractores industriales y renovación de aire para ambientes exigentes.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <path d="M6 28 C8 22 14 18 18 18 C22 18 24 14 22 10"/>
+              <path d="M22 10 L26 14 M22 10 L18 14"/>
+              <circle cx="28" cy="10" r="3"/>
+              <path d="M10 32 L14 26 L18 29 L24 20"/>
+            </svg>
+            <h3>Mantenimiento Preventivo</h3>
+            <p>Planes de mantenimiento periódico, diagnóstico y garantía de rendimiento para toda la instalación.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <rect x="5" y="5" width="18" height="26" rx=".5"/>
+              <line x1="9" y1="12" x2="19" y2="12"/><line x1="9" y1="17" x2="19" y2="17"/><line x1="9" y1="22" x2="15" y2="22"/>
+              <circle cx="26" cy="26" r="6"/>
+              <path d="M23 26 L25 28 L29 23"/>
+            </svg>
+            <h3>Proyectos Llave en Mano</h3>
+            <p>Diseño, suministro, instalación y puesta en marcha. Un solo interlocutor de inicio a fin.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <path d="M4 32 L12 20 L20 25 L28 10 L34 14"/>
+              <circle cx="12" cy="20" r="2" fill="currentColor" stroke="none"/>
+              <circle cx="20" cy="25" r="2" fill="currentColor" stroke="none"/>
+              <circle cx="28" cy="10" r="2" fill="currentColor" stroke="none"/>
+              <line x1="4" y1="32" x2="34" y2="32"/>
+            </svg>
+            <h3>Análisis Operacional VRV/VRF</h3>
+            <p>Auditoría de sistemas instalados, lectura de datos y optimización del rendimiento real.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <path d="M18 4 L21 13 L30 13 L23 19 L26 28 L18 22 L10 28 L13 19 L6 13 L15 13 Z"/>
+            </svg>
+            <h3>Eficiencia Energética HVAC</h3>
+            <p>Diagnóstico de consumo, selección de equipos A+++ y certificación de eficiencia energética.</p>
+          </div>
+
+          <div className="svc">
+            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+              <rect x="3" y="4" width="30" height="22" rx=".5"/>
+              <line x1="10" y1="4" x2="10" y2="26"/><line x1="18" y1="4" x2="18" y2="26"/>
+              <line x1="3" y1="12" x2="33" y2="12"/><line x1="3" y1="20" x2="33" y2="20"/>
+              <line x1="8" y1="30" x2="28" y2="30"/>
+              <line x1="18" y1="26" x2="18" y2="30"/>
+            </svg>
+            <h3>Asesoría de Ingeniería</h3>
+            <p>Ingeniería de detalle, especificaciones técnicas y soporte para arquitectos y constructoras.</p>
+          </div>
+
         </div>
       </section>
 
-      <section id="nosotros" style={{ padding: '96px 52px', borderTop: '1px solid var(--border)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-        <div>
-          <p className="eyebrow" style={{ marginBottom: 10 }}>Nosotros</p>
-          <div style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 'clamp(52px, 6vw, 80px)', fontWeight: 200, color: 'var(--accent)', lineHeight: 1, marginBottom: 16 }}>20+</div>
-          <p style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 14, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text)', marginBottom: 24 }}>
-            Años de Experiencia
-          </p>
-          <p style={{ fontSize: 14.5, color: 'var(--dim)', lineHeight: 1.82, fontWeight: 300, maxWidth: 440 }}>
-            D&Z Building es el socio técnico de confianza para proyectos de climatización, refrigeración comercial y HVAC en todo el territorio nacional. Desde 2006 entregamos soluciones de alta ingeniería con equipos certificados LG, Samsung y Gree.
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: 'var(--border)' }}>
-          {([['20+', 'Años de experiencia'], ['Nacional', 'Cobertura Chile'], ['24/7', 'Soporte técnico'], ['LG · Samsung · Gree', 'Marcas certificadas']] as const).map(([n, l]) => (
-            <div key={l} style={{ background: 'var(--bg)', padding: '32px 24px' }}>
-              <div style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: (n as string).length > 8 ? 13 : 30, fontWeight: 200, color: 'var(--accent)', lineHeight: 1.2, marginBottom: 8 }}>{n}</div>
-              <div style={{ fontSize: 12, color: 'var(--dim)', fontWeight: 300, lineHeight: 1.4 }}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="contacto" style={{ padding: '96px 52px', borderTop: '1px solid var(--border)', display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 80 }}>
-        <div>
-          <p className="eyebrow" style={{ marginBottom: 10 }}>Contacto</p>
-          <h2 style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 200, letterSpacing: '-0.01em', marginBottom: 24 }}>
-            Hablemos de<br />tu proyecto
-          </h2>
-          <p style={{ fontSize: 14, color: 'var(--dim)', lineHeight: 1.82, fontWeight: 300, marginBottom: 40 }}>
-            Cuéntanos tu proyecto. Nuestro equipo técnico te responderá con una propuesta personalizada.
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            {([['Email', 'contacto@dyzbuilding.cl'], ['Cobertura', 'Todo Chile'], ['Horario', 'Lunes a Viernes 8:00 – 18:00']] as const).map(([label, value]) => (
-              <div key={label}>
-                <div style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 4 }}>{label}</div>
-                <div style={{ fontSize: 13, color: 'var(--text)', fontWeight: 300 }}>{value}</div>
-              </div>
-            ))}
+      {/* NOSOTROS */}
+      <section className="sec" id="nosotros">
+        <div className="nosotros-wrap">
+          <div className="nt">
+            <div className="sec-eyebrow">Quiénes somos</div>
+            <div className="sec-title">Dos décadas de<br />excelencia climática</div>
+            <p>D&Z Building es una empresa especializada en soluciones integrales de climatización, refrigeración y ambientación climática para proyectos comerciales e industriales en todo Chile.</p>
+            <p>Con 20 años de trayectoria, combinamos ingeniería de precisión con un profundo conocimiento del mercado nacional, ofreciendo desde asesoría técnica hasta proyectos llave en mano con los sistemas VRF/VRV más avanzados del mercado.</p>
+          </div>
+          <div className="stats">
+            <div className="stat"><div className="stat-n">20</div><div className="stat-l">años de experiencia</div></div>
+            <div className="stat"><div className="stat-n">CL</div><div className="stat-l">Cobertura nacional</div></div>
+            <div className="stat"><div className="stat-n">3</div><div className="stat-l">Marcas oficiales</div></div>
+            <div className="stat"><div className="stat-n">24/7</div><div className="stat-l">Soporte técnico</div></div>
           </div>
         </div>
-        <ContactForm />
       </section>
 
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '32px 52px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <Image src="/logo.png" alt="D&Z Building" width={90} height={28} style={{ objectFit: 'contain', height: 24, width: 'auto', opacity: 0.7 }} />
-        <p style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--dim)' }}>
-          Climatización · Refrigeración · Ambientación Climática · Chile
-        </p>
-        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.06em' }}>© 2026 D&Z Building</p>
+      {/* CONTACTO */}
+      <section className="sec" id="contacto">
+        <div className="sec-eyebrow">Hablemos</div>
+        <div className="sec-title">Solicitar Cotización</div>
+        <div className="contact-grid">
+          <div className="ci-block">
+            <h4>Contacto directo</h4>
+            <div className="ci">
+              <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                <path d="M7.5 1C5.6 1 4 2.6 4 4.5c0 3 3.5 8.5 3.5 8.5S11 7.5 11 4.5C11 2.6 9.4 1 7.5 1z"/>
+                <circle cx="7.5" cy="4.5" r="1.5"/>
+              </svg>
+              <div className="ci-txt"><strong>Ubicación</strong>Chile</div>
+            </div>
+            <div className="ci">
+              <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                <path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/>
+              </svg>
+              <div className="ci-txt"><strong>Teléfono</strong>Por definir</div>
+            </div>
+            <div className="ci">
+              <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                <rect x="1" y="2.5" width="13" height="10" rx="1"/>
+                <path d="M1 3.5l6.5 4.5 6.5-4.5"/>
+              </svg>
+              <div className="ci-txt"><strong>Email</strong>contacto@dyzbuilding.cl</div>
+            </div>
+          </div>
+          <ContactForm />
+        </div>
+      </section>
+
+      <footer>
+        <div className="f-logo">
+          <Image src="/logo.png" alt="D&Z Building" width={90} height={24} style={{ height: 24, width: 'auto' }} />
+        </div>
+        <ul className="f-links">
+          <li><a href="#servicios">Especialidades</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <div className="f-copy">© 2026 D&Z Building. Todos los derechos reservados.</div>
       </footer>
     </>
   )

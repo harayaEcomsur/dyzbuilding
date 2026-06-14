@@ -1,299 +1,364 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useCallback } from 'react'
+import Image from 'next/image'
 
-const SERVICES = [
-  'Climatización Comercial / VRF',
-  'Refrigeración Comercial',
-  'Ventilación y Extracción',
-  'Mantenimiento Preventivo y Correctivo',
-  'Proyectos Llave en Mano',
-  'Asesoría de Ingeniería',
-  'Eficiencia Energética HVAC',
-  'Análisis Operacional VRV/VRF',
-]
-
-interface Item {
+interface LineItem {
   id: number
   descripcion: string
-  cantidad: number
-  precio: number
+  subtitulo: string
+  cantidad: string
+  unidad: string
+  precioUnitario: string
 }
 
-const today = new Date().toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' })
-const nextMonth = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' })
-const cotNum = `COT-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100).padStart(3, '0')}`
-
-function fmt(n: number, moneda: string) {
-  if (moneda === 'UF') return `UF ${n.toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-  if (moneda === 'USD') return `USD ${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-  return `$ ${n.toLocaleString('es-CL', { minimumFractionDigits: 0 })}`
+interface QuotationData {
+  numero: string
+  fecha: string
+  validez: string
+  moneda: string
+  clienteNombre: string
+  clienteEmpresa: string
+  clienteRut: string
+  clienteEmail: string
+  clienteTelefono: string
+  clienteDireccion: string
+  items: LineItem[]
+  incluirIva: boolean
+  notas: string
 }
+
+const MONEDAS: Record<string, { sym: string; label: string }> = {
+  CLP: { sym: '$', label: 'CLP — Pesos Chilenos' },
+  USD: { sym: 'US$', label: 'USD — Dólares' },
+  UF: { sym: 'UF', label: 'UF — Unidad de Fomento' },
+}
+
+function formatNum(val: string, sym: string) {
+  const n = parseFloat(val.replace(/[^\d.]/g, ''))
+  if (isNaN(n)) return `${sym} —`
+  if (sym === 'UF') return `UF ${n.toFixed(2)}`
+  return `${sym} ${n.toLocaleString('es-CL')}`
+}
+
+function calcSubtotal(item: LineItem): number {
+  const q = parseFloat(item.cantidad) || 0
+  const p = parseFloat(item.precioUnitario.replace(/[^\d.]/g, '')) || 0
+  return q * p
+}
+
+let idCounter = 3
 
 export default function NuevaCotizacion() {
-  const [cliente, setCliente] = useState({ nombre: '', empresa: '', rut: '', email: '', telefono: '', direccion: '' })
-  const [moneda, setMoneda] = useState('CLP')
-  const [iva, setIva] = useState(true)
-  const [notas, setNotas] = useState('Precios no incluyen traslado fuera del área metropolitana. Válido por 30 días.')
-  const [items, setItems] = useState<Item[]>([{ id: 1, descripcion: '', cantidad: 1, precio: 0 }])
+  const today = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
+  const yearShort = today.getFullYear()
+  const cotNum = String(Math.floor(Math.random() * 900) + 100)
 
-  const addItem = useCallback(() => {
-    setItems(prev => [...prev, { id: Date.now(), descripcion: '', cantidad: 1, precio: 0 }])
-  }, [])
+  const [data, setData] = useState<QuotationData>({
+    numero: `COT-${yearShort}-${cotNum}`,
+    fecha: todayStr,
+    validez: '30',
+    moneda: 'CLP',
+    clienteNombre: '',
+    clienteEmpresa: '',
+    clienteRut: '',
+    clienteEmail: '',
+    clienteTelefono: '',
+    clienteDireccion: '',
+    items: [
+      { id: 1, descripcion: '', subtitulo: '', cantidad: '1', unidad: 'gl.', precioUnitario: '' },
+      { id: 2, descripcion: '', subtitulo: '', cantidad: '1', unidad: 'gl.', precioUnitario: '' },
+    ],
+    incluirIva: true,
+    notas: 'Precios no incluyen IVA (salvo indicación).\nValidez de la oferta: 30 días corridos desde la fecha de emisión.\nPlazo de entrega a confirmar según stock y logística.\nForma de pago: 50% anticipo, 50% contra entrega.',
+  })
 
-  const removeItem = useCallback((id: number) => {
-    setItems(prev => prev.filter(i => i.id !== id))
-  }, [])
+  const set = useCallback((patch: Partial<QuotationData>) => setData(d => ({ ...d, ...patch })), [])
 
-  const updateItem = useCallback((id: number, field: keyof Item, value: string | number) => {
-    setItems(prev => prev.map(i => i.id === id ? { ...i, [field]: value } : i))
-  }, [])
-
-  const subtotal = items.reduce((acc, i) => acc + i.cantidad * i.precio, 0)
-  const ivaAmt = iva ? subtotal * 0.19 : 0
-  const total = subtotal + ivaAmt
-
-  const fieldStyle = { display: 'flex', flexDirection: 'column' as const, gap: 5 }
-  const labelStyle = {
-    fontFamily: 'var(--font-josefin), sans-serif',
-    fontSize: 7.5, letterSpacing: '0.28em', textTransform: 'uppercase' as const, color: 'var(--dim)',
+  function addItem() {
+    set({ items: [...data.items, { id: ++idCounter, descripcion: '', subtitulo: '', cantidad: '1', unidad: 'gl.', precioUnitario: '' }] })
   }
-  const inputStyle = {
-    background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)',
-    color: 'var(--text)', padding: '9px 12px',
-    fontFamily: 'var(--font-outfit), sans-serif', fontSize: 12, fontWeight: 300,
-    outline: 'none', width: '100%',
+
+  function removeItem(id: number) {
+    if (data.items.length <= 1) return
+    set({ items: data.items.filter(i => i.id !== id) })
   }
+
+  function updateItem(id: number, patch: Partial<LineItem>) {
+    set({ items: data.items.map(i => i.id === id ? { ...i, ...patch } : i) })
+  }
+
+  const sym = MONEDAS[data.moneda]?.sym ?? '$'
+  const subtotalAll = data.items.reduce((acc, i) => acc + calcSubtotal(i), 0)
+  const iva = data.incluirIva ? subtotalAll * 0.19 : 0
+  const total = subtotalAll + iva
+
+  const fechaDisplay = (() => {
+    try {
+      return new Date(data.fecha + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })
+    } catch { return data.fecha }
+  })()
 
   return (
     <>
-      {/* Print styles */}
       <style>{`
         @media print {
           body > * { display: none !important; }
-          #print-preview { display: block !important; position: fixed !important; inset: 0 !important; background: white !important; }
-          #print-preview * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          #print-preview { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: auto !important; }
+          #print-preview .page { box-shadow: none !important; margin: 0 !important; }
         }
       `}</style>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
-
-        {/* ── LEFT: FORM ───────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+        {/* LEFT PANEL — FORM */}
+        <div style={{ width: 420, flexShrink: 0, overflowY: 'auto', borderRight: '1px solid var(--border)', padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: 28 }}>
           <div>
-            <p style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 6 }}>
-              Nueva Cotización
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-josefin), sans-serif', fontSize: 22, fontWeight: 300, letterSpacing: '-0.01em' }}>
-              {cotNum}
-            </h1>
+            <div className="eyebrow" style={{ marginBottom: 8 }}>Nueva Cotización</div>
+            <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 20, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)' }}>Generar Documento</h1>
           </div>
 
+          {/* Doc meta */}
+          <section>
+            <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Datos del Documento</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="field"><label>Número</label><input value={data.numero} onChange={e => set({ numero: e.target.value })} /></div>
+                <div className="field"><label>Moneda</label>
+                  <select value={data.moneda} onChange={e => set({ moneda: e.target.value })}>
+                    <option value="CLP">CLP</option>
+                    <option value="USD">USD</option>
+                    <option value="UF">UF</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="field"><label>Fecha</label><input type="date" value={data.fecha} onChange={e => set({ fecha: e.target.value })} /></div>
+                <div className="field"><label>Validez (días)</label><input type="number" value={data.validez} onChange={e => set({ validez: e.target.value })} /></div>
+              </div>
+            </div>
+          </section>
+
           {/* Cliente */}
-          <section style={{ border: '1px solid var(--border)', padding: 20 }}>
-            <p style={{ ...labelStyle, marginBottom: 14 }}>Datos del Cliente</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {([['nombre', 'Nombre *'], ['empresa', 'Empresa'], ['rut', 'RUT'], ['email', 'Email'], ['telefono', 'Teléfono'], ['direccion', 'Dirección']] as const).map(([key, lbl]) => (
-                <div key={key} style={fieldStyle}>
-                  <label style={labelStyle}>{lbl}</label>
-                  <input style={inputStyle} value={cliente[key]} onChange={e => setCliente(p => ({ ...p, [key]: e.target.value }))} />
-                </div>
-              ))}
+          <section>
+            <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Datos del Cliente</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="field"><label>Nombre</label><input value={data.clienteNombre} onChange={e => set({ clienteNombre: e.target.value })} placeholder="Nombre contacto" /></div>
+                <div className="field"><label>Empresa</label><input value={data.clienteEmpresa} onChange={e => set({ clienteEmpresa: e.target.value })} placeholder="Razón social" /></div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="field"><label>RUT</label><input value={data.clienteRut} onChange={e => set({ clienteRut: e.target.value })} placeholder="XX.XXX.XXX-X" /></div>
+                <div className="field"><label>Teléfono</label><input value={data.clienteTelefono} onChange={e => set({ clienteTelefono: e.target.value })} placeholder="+56 9 XXXX XXXX" /></div>
+              </div>
+              <div className="field"><label>Email</label><input type="email" value={data.clienteEmail} onChange={e => set({ clienteEmail: e.target.value })} placeholder="cliente@empresa.cl" /></div>
+              <div className="field"><label>Dirección</label><input value={data.clienteDireccion} onChange={e => set({ clienteDireccion: e.target.value })} placeholder="Dirección, Ciudad" /></div>
             </div>
           </section>
 
-          {/* Config */}
-          <section style={{ border: '1px solid var(--border)', padding: 20 }}>
-            <p style={{ ...labelStyle, marginBottom: 14 }}>Configuración</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, alignItems: 'center' }}>
-              <div style={fieldStyle}>
-                <label style={labelStyle}>Moneda</label>
-                <select style={inputStyle} value={moneda} onChange={e => setMoneda(e.target.value)}>
-                  <option value="CLP">CLP — Peso Chileno</option>
-                  <option value="USD">USD — Dólar</option>
-                  <option value="UF">UF — Unidad de Fomento</option>
-                </select>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 18 }}>
-                <input type="checkbox" id="iva" checked={iva} onChange={e => setIva(e.target.checked)} style={{ accentColor: 'var(--accent)', width: 14, height: 14 }} />
-                <label htmlFor="iva" style={{ ...labelStyle, cursor: 'pointer' }}>Incluir IVA 19%</label>
-              </div>
+          {/* Ítems */}
+          <section>
+            <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Ítems</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {data.items.map((item, idx) => (
+                <div key={item.id} style={{ border: '1px solid var(--border)', padding: 14, position: 'relative' }}>
+                  <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7, letterSpacing: '0.25em', color: 'var(--dim)', marginBottom: 10 }}>ÍTEM {idx + 1}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div className="field"><label>Descripción</label><input value={item.descripcion} onChange={e => updateItem(item.id, { descripcion: e.target.value })} placeholder="Descripción del servicio o producto" /></div>
+                    <div className="field"><label>Detalle (opcional)</label><input value={item.subtitulo} onChange={e => updateItem(item.id, { subtitulo: e.target.value })} placeholder="Especificaciones adicionales" /></div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 8 }}>
+                      <div className="field"><label>Cant.</label><input type="number" value={item.cantidad} onChange={e => updateItem(item.id, { cantidad: e.target.value })} /></div>
+                      <div className="field"><label>Unidad</label><input value={item.unidad} onChange={e => updateItem(item.id, { unidad: e.target.value })} /></div>
+                      <div className="field" style={{ gridColumn: 'span 2' }}><label>Precio Unitario</label><input value={item.precioUnitario} onChange={e => updateItem(item.id, { precioUnitario: e.target.value })} placeholder="0" /></div>
+                    </div>
+                    <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.2em', color: 'var(--dim)', textAlign: 'right' }}>
+                      Subtotal: <span style={{ color: 'var(--accent)' }}>{formatNum(String(calcSubtotal(item)), sym)}</span>
+                    </div>
+                  </div>
+                  {data.items.length > 1 && (
+                    <button onClick={() => removeItem(item.id)} style={{ position: 'absolute', top: 10, right: 10, background: 'none', border: 'none', color: 'var(--dim)', cursor: 'pointer', fontSize: 14, lineHeight: 1 }}>×</button>
+                  )}
+                </div>
+              ))}
+              <button onClick={addItem} className="btn-outline" style={{ alignSelf: 'flex-start', padding: '9px 18px', fontSize: 8 }}>+ Agregar ítem</button>
             </div>
           </section>
 
-          {/* Items */}
-          <section style={{ border: '1px solid var(--border)', padding: 20 }}>
-            <p style={{ ...labelStyle, marginBottom: 14 }}>Ítems</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {items.map((item, idx) => (
-                <div key={item.id} style={{ display: 'grid', gridTemplateColumns: '1fr 60px 90px 24px', gap: 8, alignItems: 'center' }}>
-                  <input
-                    style={inputStyle} placeholder={`Ítem ${idx + 1}`}
-                    value={item.descripcion} onChange={e => updateItem(item.id, 'descripcion', e.target.value)}
-                  />
-                  <input
-                    style={{ ...inputStyle, textAlign: 'center' }} type="number" min={1}
-                    value={item.cantidad} onChange={e => updateItem(item.id, 'cantidad', Number(e.target.value))}
-                  />
-                  <input
-                    style={{ ...inputStyle, textAlign: 'right' }} type="number" min={0} placeholder="0"
-                    value={item.precio || ''} onChange={e => updateItem(item.id, 'precio', Number(e.target.value))}
-                  />
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    style={{ background: 'none', border: 'none', color: 'var(--dim)', cursor: 'pointer', fontSize: 14, padding: 0, lineHeight: 1 }}
-                    title="Eliminar"
-                  >×</button>
-                </div>
-              ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 60px 90px 24px', gap: 8 }}>
-                <span style={{ ...labelStyle, paddingTop: 2 }}>Descripción</span>
-                <span style={{ ...labelStyle, textAlign: 'center' }}>Cant.</span>
-                <span style={{ ...labelStyle, textAlign: 'right' }}>P. Unit.</span>
-                <span />
+          {/* Totales */}
+          <section>
+            <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Totales</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'Outfit, sans-serif', fontSize: 12, color: 'var(--dim)', padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
+                <span>Subtotal</span><span style={{ color: 'var(--text)' }}>{formatNum(String(subtotalAll), sym)}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                  <input type="checkbox" checked={data.incluirIva} onChange={e => set({ incluirIva: e.target.checked })} style={{ width: 'auto' }} />
+                  <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--dim)' }}>IVA 19%</span>
+                </label>
+                <span style={{ fontFamily: 'Outfit, sans-serif', fontSize: 12, color: 'var(--text)' }}>{formatNum(String(iva), sym)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text)' }}>Total</span>
+                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 18, fontWeight: 200, color: 'var(--accent)' }}>{formatNum(String(total), sym)}</span>
               </div>
             </div>
-            <button onClick={addItem} style={{
-              marginTop: 12, background: 'none', border: '1px dashed rgba(200,168,75,0.25)',
-              color: 'var(--accent)', padding: '8px 0', width: '100%', cursor: 'pointer',
-              fontFamily: 'var(--font-josefin), sans-serif', fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
-            }}>
-              + Agregar Ítem
-            </button>
           </section>
 
           {/* Notas */}
-          <section style={{ border: '1px solid var(--border)', padding: 20 }}>
-            <p style={{ ...labelStyle, marginBottom: 10 }}>Notas / Condiciones</p>
-            <textarea
-              rows={3} style={{ ...inputStyle, resize: 'vertical' }}
-              value={notas} onChange={e => setNotas(e.target.value)}
-            />
+          <section>
+            <div className="field">
+              <label>Notas y Condiciones</label>
+              <textarea rows={6} value={data.notas} onChange={e => set({ notas: e.target.value })} />
+            </div>
           </section>
 
-          <button
-            onClick={() => window.print()}
-            className="btn-primary"
-            style={{ alignSelf: 'flex-start' }}
-          >
+          {/* Print button */}
+          <button onClick={() => window.print()} className="btn-primary" style={{ width: '100%', textAlign: 'center', padding: '14px' }}>
             Descargar PDF
           </button>
         </div>
 
-        {/* ── RIGHT: A4 PREVIEW ────────────────────── */}
-        <div>
-          <p style={{ ...labelStyle, marginBottom: 12 }}>Vista Previa</p>
-          <div id="print-preview" style={{
-            background: 'white', color: '#1a1a1a',
-            width: '100%', aspectRatio: '210/297',
-            fontFamily: 'Georgia, serif', fontSize: 11,
-            boxShadow: '0 4px 32px rgba(0,0,0,0.4)',
-            overflow: 'hidden', display: 'flex', flexDirection: 'column',
+        {/* RIGHT PANEL — PREVIEW */}
+        <div id="print-preview" style={{ flex: 1, overflowY: 'auto', background: '#ccc', padding: '32px', display: 'flex', justifyContent: 'center' }}>
+          <div className="page" style={{
+            width: 794, minHeight: 1123, background: '#fff', padding: '50px 52px 80px',
+            position: 'relative', boxShadow: '0 4px 28px rgba(0,0,0,0.2)',
+            fontFamily: 'Outfit, sans-serif', color: '#1a1a1a', fontSize: 14,
           }}>
             {/* Header */}
-            <div style={{ background: '#0c0c0c', padding: '24px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexShrink: 0 }}>
-              <div>
-                <Image src="/logo.png" alt="D&Z Building" width={100} height={32} style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
-                <p style={{ fontFamily: 'sans-serif', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#666', marginTop: 6 }}>
-                  Climatización · Refrigeración · Chile
-                </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingBottom: 24 }}>
+              <div style={{ background: '#0c0c0c', padding: '14px 18px', display: 'inline-block' }}>
+                <Image src="/logo.png" alt="D&Z Building" width={120} height={40} style={{ height: 38, width: 'auto', objectFit: 'contain', display: 'block' }} />
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <p style={{ fontFamily: 'sans-serif', fontSize: 16, fontWeight: 200, color: '#C8A84B', letterSpacing: '-0.01em', margin: 0 }}>COTIZACIÓN</p>
-                <p style={{ fontFamily: 'sans-serif', fontSize: 9, letterSpacing: '0.1em', color: '#999', margin: '2px 0 0' }}>{cotNum}</p>
+              <div style={{ textAlign: 'right', paddingTop: 2 }}>
+                <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 28, fontWeight: 200, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0c0c0c', lineHeight: 1, marginBottom: 12 }}>Cotización</div>
+                <div style={{ fontSize: 11.5, color: '#666', lineHeight: 1.9 }}>
+                  <strong style={{ display: 'block', color: '#1a1a1a', fontWeight: 500, fontSize: 13 }}>N° {data.numero}</strong>
+                  Fecha: {fechaDisplay}<br />
+                  Validez: {data.validez} días corridos
+                </div>
               </div>
             </div>
 
-            {/* Gold rule */}
-            <div style={{ height: 2, background: 'linear-gradient(90deg, #C8A84B, rgba(200,168,75,0.3))', flexShrink: 0 }} />
+            {/* Accent bar */}
+            <div style={{ height: 3, background: '#C8A84B', margin: '22px 0 28px' }} />
 
-            {/* Body */}
-            <div style={{ flex: 1, padding: '20px 28px', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {/* Meta */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                <div>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: 7, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 6 }}>CLIENTE</p>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: 11, fontWeight: 600, color: '#1a1a1a', margin: '0 0 2px' }}>{cliente.nombre || '—'}</p>
-                  {cliente.empresa && <p style={{ fontFamily: 'sans-serif', fontSize: 10, color: '#555', margin: '0 0 2px' }}>{cliente.empresa}</p>}
-                  {cliente.rut && <p style={{ fontFamily: 'sans-serif', fontSize: 10, color: '#555', margin: 0 }}>RUT: {cliente.rut}</p>}
-                  {cliente.email && <p style={{ fontFamily: 'sans-serif', fontSize: 10, color: '#555', margin: 0 }}>{cliente.email}</p>}
-                  {cliente.telefono && <p style={{ fontFamily: 'sans-serif', fontSize: 10, color: '#555', margin: 0 }}>{cliente.telefono}</p>}
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: 7, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 6 }}>DETALLES</p>
-                  {[['Fecha', today], ['Validez', nextMonth], ['Moneda', moneda]].map(([k, v]) => (
-                    <div key={k} style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 2 }}>
-                      <span style={{ fontFamily: 'sans-serif', fontSize: 9, color: '#999' }}>{k}</span>
-                      <span style={{ fontFamily: 'sans-serif', fontSize: 9, color: '#1a1a1a', fontWeight: 600 }}>{v}</span>
-                    </div>
+            {/* Parties */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 28 }}>
+              <div>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>Cliente</h4>
+                <p style={{ fontSize: 12, lineHeight: 1.78, color: '#666' }}>
+                  {data.clienteNombre && <strong style={{ display: 'block', fontSize: 13.5, color: '#1a1a1a', fontWeight: 500, marginBottom: 1 }}>{data.clienteNombre}</strong>}
+                  {data.clienteEmpresa || '[Empresa / Razón social]'}<br />
+                  {data.clienteDireccion || '[Dirección]'}<br />
+                  {data.clienteRut && <>RUT: {data.clienteRut}<br /></>}
+                  {data.clienteEmail || '[email@cliente.cl]'} · {data.clienteTelefono || '[Teléfono]'}
+                </p>
+              </div>
+              <div>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>Proveedor</h4>
+                <p style={{ fontSize: 12, lineHeight: 1.78, color: '#666' }}>
+                  <strong style={{ display: 'block', fontSize: 13.5, color: '#1a1a1a', fontWeight: 500, marginBottom: 1 }}>D&Z Building</strong>
+                  Chile<br />
+                  contacto@dyzbuilding.cl
+                </p>
+              </div>
+            </div>
+
+            {/* Currency badge */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
+              <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#666' }}>Moneda:</span>
+              <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 11, letterSpacing: '0.1em', background: 'rgba(200,168,75,0.1)', color: '#C8A84B', border: '1px solid rgba(200,168,75,0.25)', padding: '3px 10px' }}>
+                {MONEDAS[data.moneda]?.label}
+              </div>
+            </div>
+
+            {/* Table */}
+            <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 24 }}>
+              <thead>
+                <tr style={{ background: '#0c0c0c', color: '#fff' }}>
+                  {['#', 'Descripción', 'Cant.', 'P. Unitario', 'Total'].map((h, i) => (
+                    <th key={h} style={{
+                      fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.26em',
+                      textTransform: 'uppercase', fontWeight: 400, padding: '10px 11px',
+                      textAlign: i === 0 ? 'left' : i === 1 ? 'left' : 'right',
+                      width: i === 0 ? 26 : i === 2 ? 56 : i === 3 ? 90 : i === 4 ? 90 : undefined,
+                    }}>{h}</th>
                   ))}
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div style={{ height: 1, background: 'rgba(200,168,75,0.2)', flexShrink: 0 }} />
-
-              {/* Items table */}
-              <div style={{ flex: 1 }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'sans-serif', fontSize: 9.5 }}>
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-                      {['Descripción', 'Cant.', 'P. Unit.', 'Total'].map((h, i) => (
-                        <th key={h} style={{
-                          padding: '6px 8px', textAlign: i === 0 ? 'left' : 'right',
-                          fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase',
-                          color: '#C8A84B', fontWeight: 400,
-                        }}>{h}</th>
-                      ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.items.map((item, idx) => {
+                  const sub = calcSubtotal(item)
+                  return (
+                    <tr key={item.id} style={{ borderBottom: '1px solid #e2e2e2', background: idx % 2 === 1 ? '#fafafa' : '#fff' }}>
+                      <td style={{ padding: '11px 11px', fontSize: 12, verticalAlign: 'top' }}>{idx + 1}</td>
+                      <td style={{ padding: '11px 11px', fontSize: 12, verticalAlign: 'top' }}>
+                        <div style={{ color: '#1a1a1a', fontWeight: 400 }}>{item.descripcion || <span style={{ color: '#ccc' }}>[Descripción del ítem]</span>}</div>
+                        {item.subtitulo && <div style={{ fontSize: 10.5, color: '#999', marginTop: 2 }}>{item.subtitulo}</div>}
+                      </td>
+                      <td style={{ padding: '11px 11px', fontSize: 12, textAlign: 'right', verticalAlign: 'top' }}>{item.cantidad} {item.unidad}</td>
+                      <td style={{ padding: '11px 11px', fontSize: 12, textAlign: 'right', verticalAlign: 'top' }}>{item.precioUnitario ? formatNum(item.precioUnitario, sym) : '—'}</td>
+                      <td style={{ padding: '11px 11px', fontSize: 12, textAlign: 'right', verticalAlign: 'top' }}>{sub > 0 ? formatNum(String(sub), sym) : '—'}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {items.map((item, i) => (
-                      <tr key={item.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.04)', background: i % 2 ? 'rgba(0,0,0,0.018)' : 'transparent' }}>
-                        <td style={{ padding: '7px 8px', color: '#1a1a1a' }}>{item.descripcion || `Ítem ${i + 1}`}</td>
-                        <td style={{ padding: '7px 8px', textAlign: 'right', color: '#555' }}>{item.cantidad}</td>
-                        <td style={{ padding: '7px 8px', textAlign: 'right', color: '#555' }}>{fmt(item.precio, moneda)}</td>
-                        <td style={{ padding: '7px 8px', textAlign: 'right', color: '#1a1a1a', fontWeight: 600 }}>{fmt(item.cantidad * item.precio, moneda)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  )
+                })}
+              </tbody>
+            </table>
 
-              {/* Totals */}
-              <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: 12 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, fontFamily: 'sans-serif' }}>
-                  <div style={{ display: 'flex', gap: 32 }}>
-                    <span style={{ fontSize: 9, color: '#999' }}>Subtotal</span>
-                    <span style={{ fontSize: 9, color: '#1a1a1a', minWidth: 100, textAlign: 'right' }}>{fmt(subtotal, moneda)}</span>
+            {/* Totals */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 28 }}>
+              <div style={{ width: 256 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', fontSize: 12, borderBottom: '1px solid #e2e2e2' }}>
+                  <span style={{ color: '#666' }}>Subtotal</span>
+                  <span>{formatNum(String(subtotalAll), sym)}</span>
+                </div>
+                {data.incluirIva && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', fontSize: 12, borderBottom: '1px solid #e2e2e2' }}>
+                    <span style={{ color: '#666' }}>IVA (19%)</span>
+                    <span>{formatNum(String(iva), sym)}</span>
                   </div>
-                  {iva && (
-                    <div style={{ display: 'flex', gap: 32 }}>
-                      <span style={{ fontSize: 9, color: '#999' }}>IVA 19%</span>
-                      <span style={{ fontSize: 9, color: '#1a1a1a', minWidth: 100, textAlign: 'right' }}>{fmt(ivaAmt, moneda)}</span>
-                    </div>
-                  )}
-                  <div style={{ display: 'flex', gap: 32, borderTop: '1px solid #C8A84B', paddingTop: 6, marginTop: 2 }}>
-                    <span style={{ fontSize: 11, color: '#C8A84B', fontWeight: 600 }}>TOTAL</span>
-                    <span style={{ fontSize: 11, color: '#1a1a1a', fontWeight: 700, minWidth: 100, textAlign: 'right' }}>{fmt(total, moneda)}</span>
-                  </div>
+                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0 7px', borderBottom: '2px solid #0c0c0c', borderTop: '2px solid #0c0c0c', marginTop: 4 }}>
+                  <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#1a1a1a' }}>Total</span>
+                  <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 19, fontWeight: 200, color: '#C8A84B' }}>{formatNum(String(total), sym)}</span>
                 </div>
               </div>
+            </div>
 
-              {/* Notas */}
-              {notas && (
-                <div style={{ background: 'rgba(200,168,75,0.04)', border: '1px solid rgba(200,168,75,0.15)', padding: '10px 12px', borderRadius: 2 }}>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 5 }}>Notas</p>
-                  <p style={{ fontFamily: 'sans-serif', fontSize: 9, color: '#666', lineHeight: 1.5, margin: 0 }}>{notas}</p>
+            {/* Conditions */}
+            {data.notas && (
+              <div style={{ background: '#f5f5f5', padding: '16px 20px', marginBottom: 32 }}>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10, fontWeight: 400 }}>Condiciones</h4>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  {data.notas.split('\n').filter(Boolean).map((line, i) => (
+                    <li key={i} style={{ fontSize: 11, color: '#666', paddingLeft: 13, position: 'relative', lineHeight: 1.55 }}>
+                      <span style={{ position: 'absolute', left: 0, color: '#C8A84B' }}>—</span>
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Signature lines */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 44, marginBottom: 56 }}>
+              {['Cliente', 'D&Z Building'].map(label => (
+                <div key={label} style={{ textAlign: 'center' }}>
+                  <div style={{ height: 52 }} />
+                  <div style={{ height: 1, background: '#1a1a1a', marginBottom: 7 }} />
+                  <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#666' }}>{label}</div>
                 </div>
-              )}
+              ))}
             </div>
 
             {/* Footer */}
-            <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', padding: '10px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-              <p style={{ fontFamily: 'sans-serif', fontSize: 8, color: '#aaa', margin: 0 }}>contacto@dyzbuilding.cl</p>
-              <p style={{ fontFamily: 'sans-serif', fontSize: 8, color: '#aaa', margin: 0 }}>D&Z Building · Todo Chile · 2026</p>
+            <div style={{ position: 'absolute', bottom: 26, left: 52, right: 52, display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid #e2e2e2' }}>
+              <span style={{ fontSize: 9.5, color: '#bbb', letterSpacing: '0.06em' }}>D&Z Building · Chile</span>
+              <span style={{ fontSize: 9.5, color: '#bbb', letterSpacing: '0.06em' }}>contacto@dyzbuilding.cl</span>
+              <span style={{ fontSize: 9.5, color: '#bbb', letterSpacing: '0.06em' }}>{data.numero}</span>
             </div>
           </div>
         </div>
