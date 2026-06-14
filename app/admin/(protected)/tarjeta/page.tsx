@@ -39,19 +39,19 @@ export default function TarjetaPage() {
         }
         .tc-field label {
           display: block;
-          font-family: Josefin Sans, sans-serif; font-size: 7.5px;
+          font-family: Josefin Sans, sans-serif; font-size: 9.5px;
           letter-spacing: 0.3em; text-transform: uppercase;
           color: var(--dim); margin-bottom: 6px;
         }
         .tc-field input {
           background: rgba(255,255,255,0.04); border: 1px solid var(--border);
           color: var(--text); padding: 9px 12px;
-          font-family: Outfit, sans-serif; font-size: 12px; font-weight: 300;
+          font-family: Outfit, sans-serif; font-size: 14px; font-weight: 300;
           outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.2s;
         }
         .tc-field input:focus { border-color: rgba(200,168,75,0.45); }
         .tc-group-label {
-          font-family: Josefin Sans, sans-serif; font-size: 7.5px;
+          font-family: Josefin Sans, sans-serif; font-size: 9.5px;
           letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.35);
           margin-bottom: 10px;
         }
@@ -67,11 +67,11 @@ export default function TarjetaPage() {
         {/* LEFT — editor */}
         <div className="tc-form">
           <div>
-            <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Identidad</div>
+            <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Identidad</div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-              <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 20, fontWeight: 200, letterSpacing: '0.06em' }}>Tarjeta</h1>
+              <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em' }}>Tarjeta</h1>
               <button onClick={() => window.print()} style={{
-                fontFamily: 'Josefin Sans, sans-serif', fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
+                fontFamily: 'Josefin Sans, sans-serif', fontSize: 10.5, letterSpacing: '0.22em', textTransform: 'uppercase',
                 background: 'var(--accent)', color: '#0c0c0c', border: 'none', padding: '9px 16px', cursor: 'pointer',
               }}>Imprimir</button>
             </div>
@@ -90,8 +90,8 @@ export default function TarjetaPage() {
           ))}
 
           <div style={{ background: 'rgba(200,168,75,.06)', border: '1px solid rgba(200,168,75,.15)', padding: '12px 14px', marginTop: 4 }}>
-            <p style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Impresión</p>
-            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Impresión</p>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6, margin: 0 }}>
               Formato: 85 × 54 mm<br />
               Papel: couché 300 g/m²<br />
               Imprimir las 4 caras en una hoja
@@ -147,18 +147,19 @@ function CardFrontDark({ nombre, cargo }: { nombre: string; cargo: string }) {
     <div style={{ width: CARD_W, height: CARD_H, background: '#0c0c0c', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.6)', flexShrink: 0 }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: '#C8A84B' }} />
       <div style={{ padding: '30px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', boxSizing: 'border-box' }}>
-        <div style={{ width: 100, height: 46, position: 'relative' }}>
+        <div style={{ width: 100, height: 46 }}>
           <Image
             src="/logo.png"
             alt="D&Z Building"
-            fill
-            style={{ objectFit: 'contain', objectPosition: 'left center' }}
+            width={650}
+            height={300}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left center' }}
           />
         </div>
         <div>
-          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 13, fontWeight: 700, color: '#f0eeeb', letterSpacing: '0.02em', marginBottom: 5 }}>{nombre}</div>
-          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 8 }}>{cargo}</div>
-          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#333' }}>Climatización · Refrigeración · Todo Chile</div>
+          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 15, fontWeight: 700, color: '#f0eeeb', letterSpacing: '0.02em', marginBottom: 5 }}>{nombre}</div>
+          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 9.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 8 }}>{cargo}</div>
+          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#333' }}>Climatización · Refrigeración · Todo Chile</div>
         </div>
       </div>
     </div>
@@ -173,8 +174,8 @@ function CardBackDark({ telefono, email }: { telefono: string; email: string }) 
       <div style={{ padding: '28px 26px 28px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', boxSizing: 'border-box', gap: 13 }}>
         {[['📞', telefono], ['✉', email], ['🌐', 'www.dyzbuilding.cl']].map(([icon, val]) => (
           <div key={val} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 11, width: 18, textAlign: 'center' }}>{icon}</span>
-            <span style={{ fontFamily: 'Arial, sans-serif', fontSize: 10, color: '#aaa' }}>{val}</span>
+            <span style={{ fontSize: 13, width: 18, textAlign: 'center' }}>{icon}</span>
+            <span style={{ fontFamily: 'Arial, sans-serif', fontSize: 12, color: '#aaa' }}>{val}</span>
           </div>
         ))}
       </div>
@@ -187,12 +188,13 @@ function CardFrontLight({ nombre, cargo }: { nombre: string; cargo: string }) {
     <div style={{ width: CARD_W, height: CARD_H, background: '#fff', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', flexShrink: 0 }}>
       {/* Franja oscura superior con logo */}
       <div style={{ background: '#0c0c0c', padding: '18px 24px 16px', display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: 110, height: 48, position: 'relative' }}>
+        <div style={{ width: 110, height: 48 }}>
           <Image
             src="/logo.png"
             alt="D&Z Building"
-            fill
-            style={{ objectFit: 'contain', objectPosition: 'left center' }}
+            width={650}
+            height={300}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left center' }}
           />
         </div>
       </div>
@@ -200,9 +202,9 @@ function CardFrontLight({ nombre, cargo }: { nombre: string; cargo: string }) {
       <div style={{ background: '#C8A84B', height: 3 }} />
       {/* Cuerpo blanco con nombre/cargo */}
       <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1 }}>
-        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 13, fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.02em', marginBottom: 5 }}>{nombre}</div>
-        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10 }}>{cargo}</div>
-        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#bbb' }}>Climatización · Refrigeración · Todo Chile</div>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 15, fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.02em', marginBottom: 5 }}>{nombre}</div>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 9.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10 }}>{cargo}</div>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#bbb' }}>Climatización · Refrigeración · Todo Chile</div>
       </div>
     </div>
   )
@@ -215,11 +217,11 @@ function CardBackLight({ telefono, email }: { telefono: string; email: string })
       <div style={{ padding: '28px 26px 28px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', boxSizing: 'border-box', gap: 13 }}>
         {[['📞', telefono], ['✉', email], ['🌐', 'www.dyzbuilding.cl']].map(([icon, val]) => (
           <div key={val} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: 11, width: 18, textAlign: 'center' }}>{icon}</span>
-            <span style={{ fontFamily: 'Arial, sans-serif', fontSize: 10, color: '#555' }}>{val}</span>
+            <span style={{ fontSize: 13, width: 18, textAlign: 'center' }}>{icon}</span>
+            <span style={{ fontFamily: 'Arial, sans-serif', fontSize: 12, color: '#555' }}>{val}</span>
           </div>
         ))}
-        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#bbb', marginTop: 4 }}>D&Z Building SpA · Santiago, Chile</div>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#bbb', marginTop: 4 }}>D&Z Building SpA · Santiago, Chile</div>
       </div>
     </div>
   )

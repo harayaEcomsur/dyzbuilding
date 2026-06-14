@@ -15,9 +15,8 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: 'D&Z Building — Climatización & Refrigeración Comercial',
-  description: '20 años de experiencia en climatización comercial, refrigeración, ventilación y proyectos VRF/VRV en todo Chile. LG, Samsung, Gree.',
-  keywords: 'climatización, refrigeración, HVAC, VRF, Chile, D&Z Building',
+  title: { default: 'D&Z Building', template: '%s | D&Z Building' },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

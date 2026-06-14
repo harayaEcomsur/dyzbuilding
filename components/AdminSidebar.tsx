@@ -4,13 +4,40 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 
-const groups = [
+interface NavItem {
+  label: string
+  href: string
+  children?: { label: string; href: string }[]
+}
+
+const groups: { label: string; items: NavItem[] }[] = [
   {
     label: 'Documentos',
     items: [
-      { label: 'Nueva Cotización', href: '/admin/cotizaciones/nueva' },
-      { label: 'Membrete', href: '/admin/membrete' },
-      { label: 'Informe Técnico', href: '/admin/informe' },
+      {
+        label: 'Cotizaciones',
+        href: '/admin/cotizaciones',
+        children: [
+          { label: 'Nueva Cotización', href: '/admin/cotizaciones/nueva' },
+          { label: 'Historial', href: '/admin/cotizaciones' },
+        ],
+      },
+      {
+        label: 'Membrete',
+        href: '/admin/membrete',
+        children: [
+          { label: 'Nuevo Membrete', href: '/admin/membrete/nuevo' },
+          { label: 'Historial', href: '/admin/membrete' },
+        ],
+      },
+      {
+        label: 'Informe Técnico',
+        href: '/admin/informe',
+        children: [
+          { label: 'Nuevo Informe', href: '/admin/informe/nuevo' },
+          { label: 'Historial', href: '/admin/informe' },
+        ],
+      },
     ],
   },
   {
@@ -52,28 +79,52 @@ export default function AdminSidebar() {
           style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain' }}
           priority
         />
-        <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 10 }}>
+        <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 10 }}>
           Panel de Administración
         </div>
       </div>
 
       <div role="navigation" style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
-        <NavLink href="/admin" active={pathname === '/admin'}>Dashboard</NavLink>
+        <div style={{ marginBottom: 16, paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
+          <NavLink href="/admin" active={pathname === '/admin'}>Dashboard</NavLink>
+        </div>
 
         {groups.map(({ label, items }) => (
-          <div key={label} style={{ marginTop: 8 }}>
+          <div key={label} style={{ marginTop: 20 }}>
             <div style={{
-              fontFamily: 'Josefin Sans, sans-serif', fontSize: 7, letterSpacing: '0.35em',
-              textTransform: 'uppercase', color: 'rgba(200,168,75,0.45)',
-              padding: '10px 12px 4px',
+              fontFamily: 'Josefin Sans, sans-serif', fontSize: 12, letterSpacing: '0.18em',
+              textTransform: 'uppercase', color: 'rgba(200,168,75,0.85)', fontWeight: 400,
+              padding: '0 12px 8px',
+              borderBottom: '1px solid rgba(200,168,75,0.12)',
+              marginBottom: 4,
             }}>
               {label}
             </div>
-            {items.map(({ label: itemLabel, href }) => (
-              <NavLink key={href} href={href} active={pathname === href}>
-                {itemLabel}
-              </NavLink>
-            ))}
+            {items.map(({ label: itemLabel, href, children }) => {
+              const childActive = children?.some(c => pathname === c.href) ?? false
+              const selfActive = pathname === href && !childActive
+
+              return (
+                <div key={href}>
+                  <NavLink
+                    href={href}
+                    active={selfActive}
+                    parentActive={childActive}
+                  >
+                    {itemLabel}
+                  </NavLink>
+                  {children && (
+                    <div style={{ marginLeft: 10, borderLeft: '1px solid var(--border)', marginBottom: 4 }}>
+                      {children.map(child => (
+                        <NavLink key={child.href} href={child.href} active={pathname === child.href} sub>
+                          {child.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         ))}
       </div>
@@ -83,7 +134,7 @@ export default function AdminSidebar() {
           onClick={handleLogout}
           style={{
             width: '100%', fontFamily: 'Josefin Sans, sans-serif',
-            fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
+            fontSize: 10.5, letterSpacing: '0.22em', textTransform: 'uppercase',
             color: 'var(--dim)', background: 'none', border: 'none',
             cursor: 'pointer', padding: '10px 12px', textAlign: 'left',
             transition: 'color 0.2s',
@@ -98,18 +149,29 @@ export default function AdminSidebar() {
   )
 }
 
-function NavLink({ href, active, children }: {
-  href: string; active: boolean; children: React.ReactNode
+function NavLink({ href, active, parentActive, sub, children }: {
+  href: string
+  active: boolean
+  parentActive?: boolean
+  sub?: boolean
+  children: React.ReactNode
 }) {
   return (
     <Link
       href={href}
       style={{
         display: 'flex', alignItems: 'center',
-        padding: '9px 12px',
+        padding: sub ? '7px 12px' : '9px 12px',
         fontFamily: 'Josefin Sans, sans-serif',
-        fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
-        color: active ? 'var(--accent)' : 'rgba(240,238,235,0.5)',
+        fontSize: sub ? 10 : 10.5,
+        letterSpacing: '0.22em', textTransform: 'uppercase',
+        color: active
+          ? 'var(--accent)'
+          : parentActive
+            ? 'rgba(200,168,75,0.55)'
+            : sub
+              ? 'rgba(240,238,235,0.35)'
+              : 'rgba(240,238,235,0.5)',
         background: active ? 'rgba(200,168,75,0.06)' : 'transparent',
         textDecoration: 'none',
         borderLeft: active ? '2px solid var(--accent)' : '2px solid transparent',

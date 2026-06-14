@@ -53,7 +53,7 @@ export default function LoginPage() {
               style={{ width: 260, height: 'auto', display: 'block' }}
             />
           </div>
-          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--dim)' }}>
+          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--dim)' }}>
             Panel de Administración
           </div>
         </div>
@@ -77,7 +77,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p style={{ fontFamily: 'Outfit, sans-serif', fontSize: 12, color: '#e05252', margin: 0 }}>{error}</p>
+            <p style={{ fontFamily: 'Outfit, sans-serif', fontSize: 14, color: '#e05252', margin: 0 }}>{error}</p>
           )}
 
           <button

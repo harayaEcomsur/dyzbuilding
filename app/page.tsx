@@ -1,12 +1,168 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
+import { getSiteContent } from '@/lib/site-content'
 
-export default function Home() {
+export async function generateMetadata(): Promise<Metadata> {
+  const c = await getSiteContent()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
+  return {
+    metadataBase: new URL(siteUrl),
+    title: c.seo.titulo,
+    description: c.seo.descripcion,
+    keywords: c.seo.keywords,
+    alternates: {
+      canonical: '/',
+      languages: { 'es-CL': '/' },
+    },
+    openGraph: {
+      title: c.seo.titulo,
+      description: c.seo.descripcion,
+      type: 'website',
+      locale: 'es_CL',
+      url: '/',
+      siteName: c.empresa.nombre,
+    },
+    twitter: {
+      card: 'summary',
+      title: c.seo.titulo,
+      description: c.seo.descripcion,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+    },
+  }
+}
+
+export default async function Home() {
+  const c = await getSiteContent()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'LocalBusiness',
+        '@id': `${siteUrl}/#business`,
+        name: c.empresa.nombre,
+        description: c.seo.descripcion,
+        url: siteUrl,
+        telephone: c.empresa.telefono,
+        email: c.empresa.email,
+        logo: `${siteUrl}/logo.png`,
+        image: `${siteUrl}/logo.png`,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Santiago',
+          addressRegion: 'Región Metropolitana',
+          addressCountry: 'CL',
+        },
+        areaServed: { '@type': 'Country', name: 'Chile' },
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:30',
+            closes: '18:00',
+          },
+        ],
+        priceRange: '$$',
+        knowsAbout: [
+          'Climatización comercial', 'Sistemas VRF', 'Sistemas VRV',
+          'Refrigeración comercial', 'HVAC', 'Eficiencia energética',
+          'Proyectos llave en mano', 'Mantención preventiva',
+        ],
+        brand: [
+          { '@type': 'Brand', name: 'LG' },
+          { '@type': 'Brand', name: 'Samsung' },
+          { '@type': 'Brand', name: 'Gree' },
+        ],
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Servicios de Climatización y Refrigeración',
+          itemListElement: [
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Climatización Comercial VRF/VRV',
+                description: 'Diseño, suministro e instalación de sistemas VRF/VRV para oficinas, hoteles, locales y centros comerciales.',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Refrigeración Comercial',
+                description: 'Vitrinas, cámaras frigoríficas y equipos de frío para supermercados, gastronomía e industria alimentaria.',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Proyectos Llave en Mano HVAC',
+                description: 'Ingeniería, suministro, instalación y puesta en marcha de sistemas de climatización completos.',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Mantención Preventiva de Climatización',
+                description: 'Planes de mantención periódica para sistemas VRF, aire acondicionado y refrigeración comercial en empresas.',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Eficiencia Energética HVAC',
+                description: 'Diagnóstico de consumo, auditoría energética y optimización de sistemas de climatización.',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Ventilación y Extracción Industrial',
+                description: 'Sistemas VMC, extractores y renovación de aire para espacios industriales y comerciales.',
+              },
+            },
+          ],
+        },
+        foundingDate: '2006',
+        numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 10 },
+        sameAs: [],
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}/#website`,
+        url: siteUrl,
+        name: c.empresa.nombre,
+        description: c.seo.descripcion,
+        publisher: { '@id': `${siteUrl}/#business` },
+        inLanguage: 'es-CL',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: { '@type': 'EntryPoint', urlTemplate: `${siteUrl}/#contacto` },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav>
         <a className="nav-logo" href="#inicio">
-          <Image src="/logo.png" alt="D&Z Building" width={650} height={300} priority style={{ height: 44, width: 'auto' }} />
+          <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} priority style={{ height: 44, width: 'auto' }} />
         </a>
         <ul className="nav-links">
           <li><a href="#servicios">Especialidades</a></li>
@@ -21,9 +177,9 @@ export default function Home() {
         <div className="hero-glow" />
         <div className="hero-grid" />
         <div className="hero-content">
-          <div className="eyebrow">20 años · Climatización · Refrigeración · Todo Chile</div>
-          <h1>20 años liderando<br />la <em>ingeniería<br />climática</em> en Chile</h1>
-          <p>Expertos en sistemas VRF/VRV, refrigeración comercial, eficiencia energética HVAC y proyectos llave en mano para industria y comercio.</p>
+          <div className="eyebrow">{c.hero.eyebrow}</div>
+          <h1>{c.hero.titulo}</h1>
+          <p>{c.hero.subtitulo}</p>
           <div className="actions">
             <a className="btn-p" href="#servicios">Nuestras especialidades</a>
             <a className="btn-o" href="#contacto">Solicitar cotización</a>
@@ -144,8 +300,8 @@ export default function Home() {
           <div className="nt">
             <div className="sec-eyebrow">Quiénes somos</div>
             <div className="sec-title">Dos décadas de<br />excelencia climática</div>
-            <p>D&Z Building es una empresa especializada en soluciones integrales de climatización, refrigeración y ambientación climática para proyectos comerciales e industriales en todo Chile.</p>
-            <p>Con 20 años de trayectoria, combinamos ingeniería de precisión con un profundo conocimiento del mercado nacional, ofreciendo desde asesoría técnica hasta proyectos llave en mano con los sistemas VRF/VRV más avanzados del mercado.</p>
+            <p>{c.nosotros.p1}</p>
+            <p>{c.nosotros.p2}</p>
           </div>
           <div className="stats">
             <div className="stat"><div className="stat-n">20</div><div className="stat-l">años de experiencia</div></div>
@@ -168,20 +324,20 @@ export default function Home() {
                 <path d="M7.5 1C5.6 1 4 2.6 4 4.5c0 3 3.5 8.5 3.5 8.5S11 7.5 11 4.5C11 2.6 9.4 1 7.5 1z"/>
                 <circle cx="7.5" cy="4.5" r="1.5"/>
               </svg>
-              <div className="ci-txt"><strong>Ubicación</strong>Chile</div>
+              <div className="ci-txt"><strong>Ubicación</strong>{c.empresa.direccion}</div>
             </div>
             <div className="ci">
               <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 <path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/>
               </svg>
-              <div className="ci-txt"><strong>Teléfono</strong>Por definir</div>
+              <div className="ci-txt"><strong>Teléfono</strong>{c.empresa.telefono}</div>
             </div>
             <div className="ci">
               <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 <rect x="1" y="2.5" width="13" height="10" rx="1"/>
                 <path d="M1 3.5l6.5 4.5 6.5-4.5"/>
               </svg>
-              <div className="ci-txt"><strong>Email</strong>contacto@dyzbuilding.cl</div>
+              <div className="ci-txt"><strong>Email</strong>{c.empresa.email}</div>
             </div>
           </div>
           <ContactForm />
@@ -190,14 +346,14 @@ export default function Home() {
 
       <footer>
         <div className="f-logo">
-          <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ height: 32, width: 'auto' }} />
+          <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} style={{ height: 32, width: 'auto' }} />
         </div>
         <ul className="f-links">
           <li><a href="#servicios">Especialidades</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
-        <div className="f-copy">© 2026 D&Z Building. Todos los derechos reservados.</div>
+        <div className="f-copy">© {new Date().getFullYear()} {c.empresa.nombre}. Todos los derechos reservados.</div>
       </footer>
     </>
   )

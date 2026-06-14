@@ -1,93 +1,123 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
-import { siteConfig } from '@/lib/site-config'
+import { useState, useEffect } from 'react'
+import { SiteContent, defaultContent, deepMerge } from '@/lib/site-content-types'
 
-type Config = typeof siteConfig
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 export default function ContenidoPage() {
-  const [cfg, setCfg] = useState<Config>(JSON.parse(JSON.stringify(siteConfig)))
-  const [copied, setCopied] = useState(false)
-  const [generated, setGenerated] = useState(false)
-  const [code, setCode] = useState('')
+  const [cfg, setCfg] = useState<SiteContent>(defaultContent)
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/site-content')
+      .then(r => r.json())
+      .then((data: Partial<SiteContent>) => {
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          setCfg(prev => deepMerge(prev, data))
+        }
+      })
+      .catch(() => {/* use defaults */})
+      .finally(() => setLoading(false))
+  }, [])
 
   function set(path: string, value: string) {
     setCfg(prev => {
-      const next = JSON.parse(JSON.stringify(prev))
+      const next = JSON.parse(JSON.stringify(prev)) as SiteContent
       const keys = path.split('.')
-      let cur: Record<string, unknown> = next
+      let cur: Record<string, unknown> = next as unknown as Record<string, unknown>
       for (let i = 0; i < keys.length - 1; i++) cur = cur[keys[i]] as Record<string, unknown>
       cur[keys[keys.length - 1]] = value
       return next
     })
-    setGenerated(false)
+    if (saveStatus === 'saved') setSaveStatus('idle')
   }
 
-  function generateCode() {
-    const c = cfg
-    const out = `export const siteConfig = {
-  empresa: {
-    nombre: ${JSON.stringify(c.empresa.nombre)},
-    email: ${JSON.stringify(c.empresa.email)},
-    telefono: ${JSON.stringify(c.empresa.telefono)},
-    web: ${JSON.stringify(c.empresa.web)},
-    direccion: ${JSON.stringify(c.empresa.direccion)},
-    horario: ${JSON.stringify(c.empresa.horario)},
-    rut: ${JSON.stringify(c.empresa.rut)},
-  },
-  hero: {
-    eyebrow: ${JSON.stringify(c.hero.eyebrow)},
-    titulo: ${JSON.stringify(c.hero.titulo)},
-    subtitulo: ${JSON.stringify(c.hero.subtitulo)},
-  },
-  nosotros: {
-    titulo: ${JSON.stringify(c.nosotros.titulo)},
-    p1: ${JSON.stringify(c.nosotros.p1)},
-    p2: ${JSON.stringify(c.nosotros.p2)},
-  },
-}
-`
-    setCode(out)
-    setGenerated(true)
+  async function handleSave() {
+    setSaveStatus('saving')
+    try {
+      const res = await fetch('/api/site-content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cfg),
+      })
+      if (!res.ok) throw new Error()
+      setSaveStatus('saved')
+    } catch {
+      setSaveStatus('error')
+    }
   }
 
-  async function copyCode() {
-    await navigator.clipboard.writeText(code)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2200)
-  }
+  const saveLabel =
+    saveStatus === 'saving' ? 'Guardando…'
+    : saveStatus === 'saved' ? '✓ Guardado — sitio actualizado'
+    : saveStatus === 'error' ? 'Error al guardar'
+    : 'Guardar cambios'
+
+  const saveBg =
+    saveStatus === 'saving' ? 'rgba(200,168,75,0.5)'
+    : saveStatus === 'saved' ? '#2e7d32'
+    : saveStatus === 'error' ? '#b71c1c'
+    : 'var(--accent)'
 
   return (
     <div style={{ height: '100%', overflowY: 'auto' }}>
       <style>{`
         .cn-page { padding: 28px 36px; max-width: 900px; display: flex; flex-direction: column; gap: 32px; }
         .cn-section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-        .cn-section-title span { font-family: Josefin Sans, sans-serif; font-size: 8.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+        .cn-section-title span { font-family: Josefin Sans, sans-serif; font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
         .cn-section-title hr { flex: 1; border: none; border-top: 1px solid var(--border); margin: 0; }
         .cn-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .cn-fields { display: flex; flex-direction: column; gap: 12px; }
-        .cn-field label { display: block; font-family: Josefin Sans, sans-serif; font-size: 7.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+        .cn-field label { display: block; font-family: Josefin Sans, sans-serif; font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
         .cn-field input, .cn-field textarea {
           background: rgba(255,255,255,0.04); border: 1px solid var(--border);
           color: var(--text); padding: 9px 12px;
-          font-family: Outfit, sans-serif; font-size: 12px; font-weight: 300;
+          font-family: Outfit, sans-serif; font-size: 14px; font-weight: 300;
           outline: none; width: 100%; box-sizing: border-box; transition: border-color 0.2s; resize: vertical;
         }
         .cn-field input:focus, .cn-field textarea:focus { border-color: rgba(200,168,75,0.45); }
+        .cn-info { background: rgba(200,168,75,0.04); border: 1px solid rgba(200,168,75,0.15); padding: 12px 16px; font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
         @media (max-width: 640px) { .cn-grid-2 { grid-template-columns: 1fr; } .cn-page { padding: 20px 18px; } }
       `}</style>
 
       <div className="cn-page">
-        {/* Header */}
         <div>
-          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Sitio Web</div>
+          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Sitio Web</div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12 }}>
-            <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 20, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)' }}>Contenido del Sitio</h1>
-            <button onClick={generateCode} style={{
-              fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase',
-              background: 'var(--accent)', color: '#0c0c0c', border: 'none', padding: '11px 24px', cursor: 'pointer',
-            }}>Generar código</button>
+            <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)' }}>
+              {loading ? 'Cargando…' : 'Contenido del Sitio'}
+            </h1>
+            <button
+              onClick={() => void handleSave()}
+              disabled={saveStatus === 'saving' || loading}
+              style={{
+                fontFamily: 'Josefin Sans, sans-serif', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase',
+                background: saveBg, color: saveStatus === 'saving' ? '#0c0c0c' : saveStatus === 'saved' ? '#fff' : saveStatus === 'error' ? '#fff' : '#0c0c0c',
+                border: 'none', padding: '11px 24px', cursor: saveStatus === 'saving' ? 'not-allowed' : 'pointer',
+                transition: 'background 0.3s',
+              }}
+            >
+              {saveLabel}
+            </button>
+          </div>
+          <div className="cn-info" style={{ marginTop: 12 }}>
+            Los cambios se publican en el sitio web de forma inmediata al guardar — no es necesario hacer deploy.
+          </div>
+        </div>
+
+        {/* SEO */}
+        <div>
+          <SectionTitle>SEO y metadatos</SectionTitle>
+          <div className="cn-info" style={{ marginBottom: 16 }}>
+            Estos campos controlan cómo aparece el sitio en Google. El <strong style={{ color: 'var(--text)' }}>título</strong> es lo primero que ven los usuarios en los resultados de búsqueda. La <strong style={{ color: 'var(--text)' }}>descripción</strong> es el texto que aparece debajo — debe incluir palabras clave y terminar con una llamada a la acción.
+          </div>
+          <div className="cn-fields">
+            <CharField cfg={cfg} path="seo.titulo" label="Título (meta title)" set={set} optimal={[50, 60]} hint="Óptimo 50–60 caracteres. Incluye la keyword principal al inicio." />
+            <CharField cfg={cfg} path="seo.descripcion" label="Descripción (meta description)" set={set} optimal={[140, 160]} multiline hint="Óptimo 140–160 caracteres. Incluye keywords + llamada a acción (ej: 'Cotización gratuita')." />
+            <Field cfg={cfg} path="seo.keywords" label="Keywords secundarias (separadas por coma)" set={set} />
           </div>
         </div>
 
@@ -133,44 +163,17 @@ export default function ContenidoPage() {
               <Image src="/logo.png" alt="Logo actual" width={650} height={300} style={{ height: 48, width: 'auto', objectFit: 'contain', display: 'block' }} />
             </div>
             <ol style={{ paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 5, margin: 0 }}>
-              {['Renombra tu nuevo logo como logo.png', 'Reemplázalo en /public/logo.png en el repositorio', 'Haz push — Vercel desplegará en ~30 segundos'].map((s, i) => (
-                <li key={i} style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>{s}</li>
+              {['Renombra tu nuevo logo como logo.png', 'Reemplázalo en /public/logo.png en el repositorio', 'Haz push — Vercel redesployará en ~30 segundos'].map((s, i) => (
+                <li key={i} style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>{s}</li>
               ))}
             </ol>
           </div>
         </div>
-
-        {/* Generated code */}
-        {generated && (
-          <div>
-            <SectionTitle>Código generado</SectionTitle>
-            <div style={{ border: '1px solid rgba(200,168,75,0.3)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', borderBottom: '1px solid var(--border)', background: 'rgba(200,168,75,0.06)' }}>
-                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)' }}>lib/site-config.ts — reemplaza el archivo completo</span>
-                <button onClick={copyCode} style={{
-                  fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase',
-                  background: copied ? '#2e7d32' : 'var(--accent)', color: copied ? '#fff' : '#0c0c0c',
-                  border: 'none', padding: '6px 14px', cursor: 'pointer', transition: 'background 0.3s',
-                }}>{copied ? '¡Copiado!' : 'Copiar'}</button>
-              </div>
-              <div style={{ padding: 16, overflowX: 'auto' }}>
-                <pre style={{ fontFamily: 'Courier New, monospace', fontSize: 11, color: 'rgba(255,255,255,0.5)', whiteSpace: 'pre', margin: 0, lineHeight: 1.6 }}>{code}</pre>
-              </div>
-            </div>
-            <div style={{ marginTop: 14, background: 'rgba(200,168,75,.04)', border: '1px solid rgba(200,168,75,.12)', padding: '14px 18px' }}>
-              <p style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 10 }}>Cómo aplicar</p>
-              <ol style={{ paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 5, margin: 0 }}>
-                {['Copia el código de arriba', 'Abre lib/site-config.ts en el repo y reemplaza todo el contenido', 'Haz commit y push al repo de GitHub', 'Vercel detectará el cambio y redesployará en ~30 segundos'].map((s, i) => (
-                  <li key={i} style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55 }}>{s}</li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )
 }
+
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
@@ -182,7 +185,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 function Field({ cfg, path, label, set, multiline }: {
-  cfg: Config; path: string; label: string
+  cfg: SiteContent; path: string; label: string
   set: (p: string, v: string) => void; multiline?: boolean
 }) {
   const keys = path.split('.')
@@ -196,6 +199,38 @@ function Field({ cfg, path, label, set, multiline }: {
       ) : (
         <input value={val as string} onChange={e => set(path, e.target.value)} />
       )}
+    </div>
+  )
+}
+
+function CharField({ cfg, path, label, set, optimal, multiline, hint }: {
+  cfg: SiteContent; path: string; label: string
+  set: (p: string, v: string) => void
+  optimal: [number, number]; multiline?: boolean; hint?: string
+}) {
+  const keys = path.split('.')
+  let val: unknown = cfg
+  for (const k of keys) val = (val as Record<string, unknown>)[k]
+  const str = (val as string) ?? ''
+  const len = str.length
+  const [min, max] = optimal
+  const color = len === 0 ? 'var(--dim)' : len < min ? '#f59e0b' : len <= max ? '#22c55e' : '#ef4444'
+  const status = len === 0 ? '' : len < min ? 'muy corto' : len <= max ? 'óptimo' : 'muy largo'
+
+  return (
+    <div className="cn-field">
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+        <label style={{ margin: 0 }}>{label}</label>
+        <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color }}>
+          {len} chars{status ? ` · ${status}` : ''}
+        </span>
+      </div>
+      {multiline ? (
+        <textarea style={{ minHeight: 72 }} value={str} onChange={e => set(path, e.target.value)} />
+      ) : (
+        <input value={str} onChange={e => set(path, e.target.value)} />
+      )}
+      {hint && <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.3)', marginTop: 5, lineHeight: 1.5 }}>{hint}</div>}
     </div>
   )
 }
