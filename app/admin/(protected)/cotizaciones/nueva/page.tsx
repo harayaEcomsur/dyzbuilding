@@ -65,7 +65,7 @@ export default function NuevaCotizacion() {
 
   const editingIdRef = useRef<string | null>(null)
   const estadoRef = useRef<'borrador' | 'emitida'>('borrador')
-  const saveTimer = useRef<ReturnType<typeof setTimeout>>()
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const set = useCallback((patch: Partial<QuotationData>) => setData(d => ({ ...d, ...patch })), [])
 
