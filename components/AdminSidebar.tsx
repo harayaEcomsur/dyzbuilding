@@ -24,12 +24,21 @@ export default function AdminSidebar() {
       display: 'flex', flexDirection: 'column', padding: '28px 0',
       position: 'sticky', top: 0, height: '100vh',
     }}>
-      <div style={{ padding: '0 24px 28px', borderBottom: '1px solid var(--border)' }}>
-        <Image src="/logo.png" alt="D&Z Building" width={100} height={32} style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
-        <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 8 }}>Admin</div>
+      <div style={{ padding: '20px 20px 20px', borderBottom: '1px solid var(--border)' }}>
+        <Image
+          src="/logo.png"
+          alt="D&Z Building"
+          width={650}
+          height={300}
+          style={{ width: '100%', height: 'auto', display: 'block' }}
+          priority
+        />
+        <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 10 }}>
+          Panel de Administración
+        </div>
       </div>
 
-      <nav style={{ flex: 1, padding: '20px 12px' }}>
+      <div role="navigation" style={{ flex: 1, padding: '20px 12px' }}>
         {navItems.map(({ label, href, icon }) => {
           const active = pathname === href
           return (
@@ -49,7 +58,7 @@ export default function AdminSidebar() {
             </Link>
           )
         })}
-      </nav>
+      </div>
 
       <div style={{ padding: '20px 12px', borderTop: '1px solid var(--border)' }}>
         <button onClick={handleLogout} style={{

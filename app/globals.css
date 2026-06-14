@@ -12,7 +12,7 @@ h1,h2,h3,h4{font-family:'Josefin Sans',sans-serif;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:68px;background:var(--nb);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
-.nav-logo img{height:32px;}
+.nav-logo img{height:44px;width:auto;}
 .nav-links{display:flex;gap:36px;list-style:none;}
 .nav-links a{color:var(--dim);text-decoration:none;font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;transition:color .2s;}
 .nav-links a:hover{color:var(--text);}
@@ -80,9 +80,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .fg textarea{resize:vertical;min-height:90px;}
 .fg select option{background:#1a1a1a;}
 
+/* ADMIN — shared form & button classes */
+.field{margin-bottom:16px;}
+.field label{display:block;font-family:'Josefin Sans',sans-serif;font-size:8.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+.field input,.field textarea,.field select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);padding:10px 13px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(200,168,75,.4);}
+.field textarea{resize:vertical;min-height:90px;}
+.field select option{background:#1a1a1a;}
+.btn-primary{font-family:'Josefin Sans',sans-serif;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#0c0c0c;background:var(--accent);border:none;padding:13px 30px;cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .2s;}
+.btn-primary:hover{opacity:.85;}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+.btn-outline{font-family:'Josefin Sans',sans-serif;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text);background:transparent;border:1px solid var(--border);padding:13px 30px;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s,background .2s;}
+.btn-outline:hover{border-color:rgba(200,168,75,.35);background:rgba(200,168,75,.04);}
+
 /* FOOTER */
 footer{border-top:1px solid var(--border);padding:32px 52px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;}
-.f-logo img{height:24px;}
+.f-logo img{height:32px;width:auto;}
 .f-links{display:flex;gap:28px;list-style:none;}
 .f-links a{font-family:'Josefin Sans',sans-serif;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-decoration:none;}
 .f-copy{font-size:10.5px;color:var(--dim);opacity:.45;letter-spacing:.04em;}

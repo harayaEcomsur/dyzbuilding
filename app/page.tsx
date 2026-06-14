@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <nav>
         <a className="nav-logo" href="#inicio">
-          <Image src="/logo.png" alt="D&Z Building" width={120} height={32} priority style={{ height: 32, width: 'auto' }} />
+          <Image src="/logo.png" alt="D&Z Building" width={650} height={300} priority style={{ height: 44, width: 'auto' }} />
         </a>
         <ul className="nav-links">
           <li><a href="#servicios">Especialidades</a></li>
@@ -190,7 +190,7 @@ export default function Home() {
 
       <footer>
         <div className="f-logo">
-          <Image src="/logo.png" alt="D&Z Building" width={90} height={24} style={{ height: 24, width: 'auto' }} />
+          <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ height: 32, width: 'auto' }} />
         </div>
         <ul className="f-links">
           <li><a href="#servicios">Especialidades</a></li>

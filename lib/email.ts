@@ -4,6 +4,13 @@ const EMAIL_FROM = process.env.EMAIL_FROM ?? 'D&Z Building <onboarding@resend.de
 const EMAIL_TO = process.env.EMAIL_TO ?? 'duzzam@gmail.com'
 const EMAIL_CC = process.env.EMAIL_CC ?? 'duzzam@gmail.com'
 
+const RETRY_ATTEMPTS = 3
+const RETRY_DELAY_MS = 500
+
+async function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export async function sendContactEmail({
   nombre, email, telefono, mensaje, tipo,
 }: {
@@ -13,12 +20,13 @@ export async function sendContactEmail({
   mensaje: string
   tipo: string
 }) {
-  const resend = new Resend(process.env.RESEND_API_KEY ?? 'placeholder')
-  return resend.emails.send({
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const payload = {
     from: EMAIL_FROM,
     to: EMAIL_TO,
     cc: EMAIL_CC !== EMAIL_TO ? EMAIL_CC : undefined,
-    replyTo: email,
+    reply_to: email,
     subject: `[D&Z Building] ${tipo === 'cotizacion' ? 'Solicitud de cotización' : 'Contacto'} — ${nombre}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:32px;background:#0c0c0c;color:#f0eeeb;">
@@ -41,5 +49,22 @@ export async function sendContactEmail({
         </div>
       </div>
     `,
-  })
+  } as const
+
+  let lastError: string | undefined
+
+  for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++) {
+    const { data, error } = await resend.emails.send(payload)
+
+    if (data) return
+
+    lastError = error?.message ?? 'Error desconocido'
+    console.error(`[email] Intento ${attempt}/${RETRY_ATTEMPTS} fallido: ${lastError}`)
+
+    if (attempt < RETRY_ATTEMPTS) {
+      await sleep(RETRY_DELAY_MS * attempt)
+    }
+  }
+
+  throw new Error(lastError)
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 interface LineItem {
@@ -49,16 +49,18 @@ function calcSubtotal(item: LineItem): number {
 
 let idCounter = 3
 
-export default function NuevaCotizacion() {
+function getTodayStr() {
   const today = new Date()
   const pad = (n: number) => String(n).padStart(2, '0')
-  const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
-  const yearShort = today.getFullYear()
-  const cotNum = String(Math.floor(Math.random() * 900) + 100)
+  return `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`
+}
+
+export default function NuevaCotizacion() {
+  const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form')
 
   const [data, setData] = useState<QuotationData>({
-    numero: `COT-${yearShort}-${cotNum}`,
-    fecha: todayStr,
+    numero: `COT-${new Date().getFullYear()}-000`,
+    fecha: getTodayStr(),
     validez: '30',
     moneda: 'CLP',
     clienteNombre: '',
@@ -76,6 +78,39 @@ export default function NuevaCotizacion() {
   })
 
   const set = useCallback((patch: Partial<QuotationData>) => setData(d => ({ ...d, ...patch })), [])
+
+  useEffect(() => {
+    const cotNum = String(Math.floor(Math.random() * 900) + 100)
+    set({ numero: `COT-${new Date().getFullYear()}-${cotNum}` })
+  }, [])
+
+  const previewRef = useRef<HTMLDivElement>(null)
+  const [previewScale, setPreviewScale] = useState(1)
+
+  useEffect(() => {
+    const el = previewRef.current
+    if (!el) return
+    const update = () => {
+      if (el.clientWidth === 0) return
+      const available = el.clientWidth - 48
+      setPreviewScale(Math.min(1, available / 794))
+    }
+    update()
+    const obs = new ResizeObserver(update)
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (mobileTab === 'preview') {
+      requestAnimationFrame(() => {
+        const el = previewRef.current
+        if (!el) return
+        const available = el.clientWidth - 48
+        if (available > 0) setPreviewScale(Math.min(1, available / 794))
+      })
+    }
+  }, [mobileTab])
 
   function addItem() {
     set({ items: [...data.items, { id: ++idCounter, descripcion: '', subtitulo: '', cantidad: '1', unidad: 'gl.', precioUnitario: '' }] })
@@ -105,15 +140,71 @@ export default function NuevaCotizacion() {
     <>
       <style>{`
         @media print {
-          body > * { display: none !important; }
-          #print-preview { display: block !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: auto !important; }
-          #print-preview .page { box-shadow: none !important; margin: 0 !important; }
+          * { visibility: hidden !important; }
+          #print-preview, #print-preview * { visibility: visible !important; }
+          #print-preview { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; padding: 0 !important; background: #fff !important; }
+          #print-preview .page { box-shadow: none !important; margin: 0 !important; width: 100% !important; }
+        }
+        .cot-layout { display: flex; height: 100%; overflow: hidden; }
+        .cot-form  {
+          width: 850px; flex-shrink: 0; overflow-y: auto;
+          border-right: 1px solid var(--border);
+          padding: 28px 36px;
+          display: flex; flex-direction: column; gap: 24px;
+        }
+        .cot-preview {
+          flex: 1; min-width: 0;
+          overflow-y: auto; overflow-x: hidden;
+          background: #888; padding: 24px;
+        }
+        /* Tabs solo visibles en mobile */
+        .cot-mobile-tabs { display: none; }
+
+        @media (max-width: 1280px) {
+          .cot-form { width: 520px; padding: 24px 28px; }
+        }
+        @media (max-width: 900px) {
+          .cot-layout { flex-direction: column; }
+          .cot-form { width: 100%; max-height: 56vh; border-right: none; border-bottom: 1px solid var(--border); }
+          .cot-preview { flex: 1; }
+        }
+        @media (max-width: 640px) {
+          .cot-mobile-tabs { display: flex; border-bottom: 1px solid var(--border); }
+          .cot-form { max-height: none; border-bottom: none; }
+          .cot-layout { flex-direction: column; }
+          .mobile-hidden { display: none !important; }
         }
       `}</style>
 
-      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
+      {/* Tabs mobile */}
+      <div className="cot-mobile-tabs">
+        {(['form', 'preview'] as const).map(tab => (
+          <button
+            key={tab}
+            type="button"
+            onClick={() => setMobileTab(tab)}
+            style={{
+              flex: 1,
+              fontFamily: 'Josefin Sans, sans-serif',
+              fontSize: 8.5,
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
+              padding: '12px',
+              background: 'none',
+              border: 'none',
+              borderBottom: mobileTab === tab ? '2px solid var(--accent)' : '2px solid transparent',
+              color: mobileTab === tab ? 'var(--accent)' : 'var(--dim)',
+              cursor: 'pointer',
+            }}
+          >
+            {tab === 'form' ? 'Formulario' : 'Vista previa'}
+          </button>
+        ))}
+      </div>
+
+      <div className="cot-layout">
         {/* LEFT PANEL — FORM */}
-        <div style={{ width: 420, flexShrink: 0, overflowY: 'auto', borderRight: '1px solid var(--border)', padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: 28 }}>
+        <div className={`cot-form${mobileTab === 'preview' ? ' mobile-hidden' : ''}`}>
           <div>
             <div className="eyebrow" style={{ marginBottom: 8 }}>Nueva Cotización</div>
             <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 20, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)' }}>Generar Documento</h1>
@@ -221,11 +312,13 @@ export default function NuevaCotizacion() {
         </div>
 
         {/* RIGHT PANEL — PREVIEW */}
-        <div id="print-preview" style={{ flex: 1, overflowY: 'auto', background: '#ccc', padding: '32px', display: 'flex', justifyContent: 'center' }}>
+        <div ref={previewRef} id="print-preview" className={`cot-preview${mobileTab === 'form' ? ' mobile-hidden' : ''}`}>
           <div className="page" style={{
             width: 794, minHeight: 1123, background: '#fff', padding: '50px 52px 80px',
-            position: 'relative', boxShadow: '0 4px 28px rgba(0,0,0,0.2)',
+            position: 'relative', boxShadow: '0 4px 28px rgba(0,0,0,0.25)',
             fontFamily: 'Outfit, sans-serif', color: '#1a1a1a', fontSize: 14,
+            zoom: previewScale,
+            margin: '0 auto',
           }}>
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingBottom: 24 }}>

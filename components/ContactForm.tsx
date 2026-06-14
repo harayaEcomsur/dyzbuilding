@@ -24,6 +24,16 @@ export default function ContactForm() {
     tipo_servicio: SERVICES[0], ubicacion: '', descripcion: '', moneda: 'CLP',
   })
 
+  function reset() {
+    setStatus('idle')
+    setErrorMsg('')
+    setContactData({ nombre: '', email: '', telefono: '', mensaje: '' })
+    setCotData({
+      nombre: '', empresa: '', email: '', telefono: '',
+      tipo_servicio: SERVICES[0], ubicacion: '', descripcion: '', moneda: 'CLP',
+    })
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('loading')
@@ -62,9 +72,35 @@ export default function ContactForm() {
         <p style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 12 }}>
           MENSAJE ENVIADO
         </p>
-        <p style={{ fontSize: 13, color: 'var(--dim)', fontWeight: 300 }}>
+        <p style={{ fontSize: 13, color: 'var(--dim)', fontWeight: 300, marginBottom: 28 }}>
           Gracias por contactarnos. Te responderemos a la brevedad.
         </p>
+        <button
+          type="button"
+          onClick={reset}
+          style={{
+            fontFamily: 'Josefin Sans, sans-serif',
+            fontSize: 8.5,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'var(--dim)',
+            background: 'transparent',
+            border: '1px solid var(--border)',
+            padding: '10px 22px',
+            cursor: 'pointer',
+            transition: 'border-color 0.2s, color 0.2s',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = 'rgba(200,168,75,0.35)'
+            e.currentTarget.style.color = 'var(--text)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = 'var(--border)'
+            e.currentTarget.style.color = 'var(--dim)'
+          }}
+        >
+          Enviar otro mensaje
+        </button>
       </div>
     )
   }
