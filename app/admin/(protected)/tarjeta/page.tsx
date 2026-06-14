@@ -185,10 +185,9 @@ function CardBackDark({ telefono, email }: { telefono: string; email: string }) 
 function CardFrontLight({ nombre, cargo }: { nombre: string; cargo: string }) {
   return (
     <div style={{ width: CARD_W, height: CARD_H, background: '#fff', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', flexShrink: 0 }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: '#C8A84B' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 42, background: '#0c0c0c' }} />
-      <div style={{ padding: '30px 26px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', boxSizing: 'border-box' }}>
-        <div style={{ width: 100, height: 46, position: 'relative' }}>
+      {/* Franja oscura superior con logo */}
+      <div style={{ background: '#0c0c0c', padding: '18px 24px 16px', display: 'flex', alignItems: 'center' }}>
+        <div style={{ width: 110, height: 48, position: 'relative' }}>
           <Image
             src="/logo.png"
             alt="D&Z Building"
@@ -196,10 +195,14 @@ function CardFrontLight({ nombre, cargo }: { nombre: string; cargo: string }) {
             style={{ objectFit: 'contain', objectPosition: 'left center' }}
           />
         </div>
-        <div style={{ paddingBottom: 10 }}>
-          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 13, fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.02em', marginBottom: 5 }}>{nombre}</div>
-          <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C8A84B' }}>{cargo}</div>
-        </div>
+      </div>
+      {/* Barra dorada */}
+      <div style={{ background: '#C8A84B', height: 3 }} />
+      {/* Cuerpo blanco con nombre/cargo */}
+      <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1 }}>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 13, fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.02em', marginBottom: 5 }}>{nombre}</div>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10 }}>{cargo}</div>
+        <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#bbb' }}>Climatización · Refrigeración · Todo Chile</div>
       </div>
     </div>
   )
