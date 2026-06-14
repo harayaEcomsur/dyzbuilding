@@ -50,7 +50,7 @@ export default function NuevoInforme() {
 
   const editingIdRef = useRef<string | null>(null)
   const estadoRef = useRef<'borrador' | 'emitido'>('borrador')
-  const saveTimer = useRef<ReturnType<typeof setTimeout>>()
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const set = useCallback((patch: Partial<InformeData>) => setData(d => ({ ...d, ...patch })), [])
   const setMeta = useCallback((patch: Partial<InformeData['meta']>) =>

@@ -29,7 +29,7 @@ export default function NuevoMembrete() {
 
   const editingIdRef = useRef<string | null>(null)
   const estadoRef = useRef<'borrador' | 'emitido'>('borrador')
-  const saveTimer = useRef<ReturnType<typeof setTimeout>>()
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const set = useCallback((patch: Partial<MembreteData>) => setData(d => ({ ...d, ...patch })), [])
 
