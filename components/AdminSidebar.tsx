@@ -13,17 +13,35 @@ export default function AdminSidebar() {
     router.push('/admin/login')
   }
 
-  const navItems = [
-    { label: 'Dashboard', href: '/admin', icon: '▪' },
-    { label: 'Nueva Cotización', href: '/admin/cotizaciones/nueva', icon: '▪' },
-    { label: 'Firma de Email', href: '/admin/firma-email', icon: '▪' },
+  const groups = [
+    {
+      label: 'Documentos',
+      items: [
+        { label: 'Nueva Cotización', href: '/admin/cotizaciones/nueva' },
+        { label: 'Membrete', href: '/admin/membrete' },
+        { label: 'Informe Técnico', href: '/admin/informe' },
+      ],
+    },
+    {
+      label: 'Identidad',
+      items: [
+        { label: 'Firma de Email', href: '/admin/firma-email' },
+        { label: 'Tarjeta', href: '/admin/tarjeta' },
+      ],
+    },
+    {
+      label: 'Sitio Web',
+      items: [
+        { label: 'Contenido', href: '/admin/contenido' },
+      ],
+    },
   ]
 
   return (
     <aside style={{
       width: 220, background: 'var(--bg2)', borderRight: '1px solid var(--border)',
       display: 'flex', flexDirection: 'column', padding: '28px 0',
-      position: 'sticky', top: 0, height: '100vh',
+      position: 'sticky', top: 0, height: '100vh', overflowY: 'auto',
     }}>
       <div style={{ padding: '20px 20px 20px', borderBottom: '1px solid var(--border)' }}>
         <Image
@@ -40,25 +58,47 @@ export default function AdminSidebar() {
       </div>
 
       <div role="navigation" style={{ flex: 1, padding: '20px 12px' }}>
-        {navItems.map(({ label, href, icon }) => {
-          const active = pathname === href
-          return (
-            <Link key={href} href={href} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '10px 12px',
-              fontFamily: 'Josefin Sans, sans-serif',
-              fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
-              color: active ? 'var(--accent)' : 'rgba(240,238,235,0.5)',
-              background: active ? 'rgba(200,168,75,0.06)' : 'transparent',
-              textDecoration: 'none',
-              borderLeft: active ? '2px solid var(--accent)' : '2px solid transparent',
-              transition: 'all 0.15s',
+        <Link href="/admin" style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: '10px 12px', marginBottom: 8,
+          fontFamily: 'Josefin Sans, sans-serif',
+          fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
+          color: pathname === '/admin' ? 'var(--accent)' : 'rgba(240,238,235,0.5)',
+          background: pathname === '/admin' ? 'rgba(200,168,75,0.06)' : 'transparent',
+          textDecoration: 'none',
+          borderLeft: pathname === '/admin' ? '2px solid var(--accent)' : '2px solid transparent',
+          transition: 'all 0.15s',
+        }}>
+          Dashboard
+        </Link>
+        {groups.map(({ label, items }) => (
+          <div key={label} style={{ marginTop: 4 }}>
+            <div style={{
+              fontFamily: 'Josefin Sans, sans-serif', fontSize: 7, letterSpacing: '0.35em',
+              textTransform: 'uppercase', color: 'rgba(200,168,75,0.45)', padding: '10px 12px 4px',
             }}>
-              <span style={{ fontSize: 6, color: active ? 'var(--accent)' : 'var(--dim)' }}>{icon}</span>
               {label}
-            </Link>
-          )
-        })}
+            </div>
+            {items.map(({ label: itemLabel, href }) => {
+              const active = pathname === href
+              return (
+                <Link key={href} href={href} style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  padding: '9px 12px',
+                  fontFamily: 'Josefin Sans, sans-serif',
+                  fontSize: 8.5, letterSpacing: '0.22em', textTransform: 'uppercase',
+                  color: active ? 'var(--accent)' : 'rgba(240,238,235,0.5)',
+                  background: active ? 'rgba(200,168,75,0.06)' : 'transparent',
+                  textDecoration: 'none',
+                  borderLeft: active ? '2px solid var(--accent)' : '2px solid transparent',
+                  transition: 'all 0.15s',
+                }}>
+                  {itemLabel}
+                </Link>
+              )
+            })}
+          </div>
+        ))}
       </div>
 
       <div style={{ padding: '20px 12px', borderTop: '1px solid var(--border)' }}>
