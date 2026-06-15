@@ -201,8 +201,8 @@ export default async function Home() {
 
       {/* ESPECIALIDADES */}
       <section className="sec" id="servicios">
-        <div className="sec-eyebrow">Especialidades técnicas</div>
-        <div className="sec-title">Lo que hacemos</div>
+        <div className="sec-eyebrow">{c.servicios.eyebrow}</div>
+        <div className="sec-title">{c.servicios.titulo}</div>
         <div className="svc-grid">
 
           <div className="svc">
@@ -301,7 +301,11 @@ export default async function Home() {
         <div className="nosotros-wrap">
           <div className="nt">
             <div className="sec-eyebrow">Quiénes somos</div>
-            <div className="sec-title">Dos décadas de<br />excelencia climática</div>
+            <div className="sec-title">
+              {c.nosotros.titulo.split('\n').map((line, i, arr) => (
+                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+              ))}
+            </div>
             <p>{c.nosotros.p1}</p>
             <p>{c.nosotros.p2}</p>
           </div>

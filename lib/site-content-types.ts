@@ -18,6 +18,10 @@ export interface SiteContent {
     p1: string
     p2: string
   }
+  servicios: {
+    eyebrow: string
+    titulo: string
+  }
   seo: {
     titulo: string
     descripcion: string
@@ -41,9 +45,13 @@ export const defaultContent: SiteContent = {
     subtitulo: 'Expertos en sistemas VRF/VRV, refrigeración comercial, eficiencia energética HVAC y proyectos llave en mano para industria y comercio.',
   },
   nosotros: {
-    titulo: 'Sobre nosotros',
+    titulo: 'Dos décadas de\nexcelencia climática',
     p1: 'D&Z Building es una empresa especializada en climatización y refrigeración con más de 20 años de experiencia en el mercado chileno.',
     p2: 'Trabajamos con las principales marcas del sector — LG, Samsung y Gree — ofreciendo soluciones integrales para proyectos residenciales, comerciales e industriales en todo Chile.',
+  },
+  servicios: {
+    eyebrow: 'Especialidades técnicas',
+    titulo: 'Lo que hacemos',
   },
   seo: {
     titulo: 'Climatización Comercial y Sistemas VRF en Chile | D&Z Building',
@@ -56,11 +64,16 @@ export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
   const result = { ...base }
   for (const key in override) {
     const val = override[key]
-    if (val && typeof val === 'object' && !Array.isArray(val) && typeof base[key] === 'object') {
+    if (val === undefined || val === null) continue
+    if (typeof val === 'object' && !Array.isArray(val) && typeof base[key] === 'object' && base[key] !== null) {
       result[key] = deepMerge(base[key] as object, val as object) as T[typeof key]
-    } else if (val !== undefined) {
+    } else {
       result[key] = val as T[typeof key]
     }
   }
   return result
+}
+
+export function normalizeSiteContent(data?: Partial<SiteContent> | null): SiteContent {
+  return deepMerge(defaultContent, data ?? {})
 }

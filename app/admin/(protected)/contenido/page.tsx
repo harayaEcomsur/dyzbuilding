@@ -2,26 +2,36 @@
 
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { SiteContent, defaultContent, deepMerge } from '@/lib/site-content-types'
+import { SiteContent, defaultContent, normalizeSiteContent } from '@/lib/site-content-types'
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 export default function ContenidoPage() {
   const [cfg, setCfg] = useState<SiteContent>(defaultContent)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
-  const [loading, setLoading] = useState(true)
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     fetch('/api/site-content')
       .then(r => r.json())
       .then((data: Partial<SiteContent>) => {
         if (data && typeof data === 'object' && Object.keys(data).length > 0) {
-          setCfg(prev => deepMerge(prev, data))
+          setCfg(normalizeSiteContent(data))
         }
       })
       .catch(() => {/* use defaults */})
-      .finally(() => setLoading(false))
+      .finally(() => setReady(true))
   }, [])
+
+  if (!ready) {
+    return (
+      <div style={{ height: '100%', overflowY: 'auto', padding: '28px 36px' }}>
+        <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, color: 'var(--text)' }}>
+          Cargando…
+        </div>
+      </div>
+    )
+  }
 
   function set(path: string, value: string) {
     setCfg(prev => {
@@ -88,11 +98,11 @@ export default function ContenidoPage() {
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Sitio Web</div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12 }}>
             <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)' }}>
-              {loading ? 'Cargando…' : 'Contenido del Sitio'}
+              Contenido del Sitio
             </h1>
             <button
               onClick={() => void handleSave()}
-              disabled={saveStatus === 'saving' || loading}
+              disabled={saveStatus === 'saving'}
               style={{
                 fontFamily: 'Josefin Sans, sans-serif', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase',
                 background: saveBg, color: saveStatus === 'saving' ? '#0c0c0c' : saveStatus === 'saved' ? '#fff' : saveStatus === 'error' ? '#fff' : '#0c0c0c',
@@ -145,11 +155,26 @@ export default function ContenidoPage() {
           </div>
         </div>
 
+        {/* Especialidades */}
+        <div>
+          <SectionTitle>Especialidades</SectionTitle>
+          <div className="cn-info" style={{ marginBottom: 16 }}>
+            Encabezado de la sección de servicios. Los nombres y descripciones de cada especialidad se editan directamente en el código.
+          </div>
+          <div className="cn-fields">
+            <Field cfg={cfg} path="servicios.eyebrow" label="Texto pequeño (eyebrow)" set={set} />
+            <Field cfg={cfg} path="servicios.titulo" label="Título de sección" set={set} />
+          </div>
+        </div>
+
         {/* Nosotros */}
         <div>
           <SectionTitle>Sobre Nosotros</SectionTitle>
+          <div className="cn-info" style={{ marginBottom: 16 }}>
+            El título admite saltos de línea — presiona Enter para dividirlo en dos líneas en el sitio.
+          </div>
           <div className="cn-fields">
-            <Field cfg={cfg} path="nosotros.titulo" label="Título de sección" set={set} />
+            <Field cfg={cfg} path="nosotros.titulo" label="Título de sección" set={set} multiline />
             <Field cfg={cfg} path="nosotros.p1" label="Párrafo 1" set={set} multiline />
             <Field cfg={cfg} path="nosotros.p2" label="Párrafo 2" set={set} multiline />
           </div>
