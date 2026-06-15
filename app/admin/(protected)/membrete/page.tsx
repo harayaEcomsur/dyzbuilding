@@ -57,7 +57,7 @@ export default function MembretesHistorial() {
         }
         .mb-nueva-text h2 { font-family: Josefin Sans, sans-serif; font-size: 18px; font-weight: 200; letter-spacing: 0.06em; margin-bottom: 5px; }
         .mb-nueva-text p { font-size: 14px; color: var(--dim); margin: 0; }
-        .mb-table { width: 100%; border-collapse: collapse; }
+        .mb-table { width: 100%; border-collapse: collapse; min-width: 560px; }
         .mb-table th {
           font-family: Josefin Sans, sans-serif; font-size: 9.5px;
           letter-spacing: 0.32em; text-transform: uppercase;
@@ -75,6 +75,11 @@ export default function MembretesHistorial() {
         }
         .mb-search:focus { border-color: rgba(200,168,75,.4); }
         @media (max-width: 800px) { .mb-wrap { padding: 20px 18px; } .col-dest, .col-updated { display: none; } .mb-nueva { flex-direction: column; align-items: flex-start; gap: 14px; } }
+        @media (max-width: 640px) {
+          .mb-filters { flex-direction: column; align-items: stretch; }
+          .mb-search { width: 100%; }
+          .mb-filters-count { margin-left: 0 !important; }
+        }
       `}</style>
 
       <div className="mb-wrap">
@@ -98,14 +103,14 @@ export default function MembretesHistorial() {
             Historial
           </div>
 
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 16 }}>
+          <div className="mb-filters" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 16 }}>
             <input
               className="mb-search"
               placeholder="Buscar asunto, destinatario…"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
-            <span style={{ marginLeft: 'auto', fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
+            <span className="mb-filters-count" style={{ marginLeft: 'auto', fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
               {loading ? 'Cargando…' : `${visible.length} ${visible.length === 1 ? 'membrete' : 'membretes'}`}
             </span>
           </div>
@@ -119,7 +124,8 @@ export default function MembretesHistorial() {
               {records.length === 0 ? 'Aún no hay membretes guardados' : 'Sin resultados para esta búsqueda'}
             </div>
           ) : (
-            <table className="mb-table">
+            <div className="admin-table-wrap">
+              <table className="mb-table">
               <thead>
                 <tr>
                   <th>Asunto</th>
@@ -148,7 +154,7 @@ export default function MembretesHistorial() {
                       <span className={`badge badge-${r.estado}`}>{r.estado}</span>
                     </td>
                     <td>
-                      <div style={{ display: 'flex', gap: 5 }}>
+                      <div className="admin-doc-actions">
                         <Link href={`/admin/membrete/nuevo?id=${r.id}`} className="doc-btn">
                           <EditIcon /> Editar
                         </Link>
@@ -166,7 +172,8 @@ export default function MembretesHistorial() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           )}
         </div>
       </div>

@@ -83,7 +83,7 @@ export default function Cotizaciones() {
         }
 
         /* Table */
-        .cot-table { width: 100%; border-collapse: collapse; }
+        .cot-table { width: 100%; border-collapse: collapse; min-width: 640px; }
         .cot-table th {
           font-family: Josefin Sans, sans-serif; font-size: 9.5px;
           letter-spacing: 0.32em; text-transform: uppercase;
@@ -119,6 +119,11 @@ export default function Cotizaciones() {
           .cot-wrap { padding: 20px 18px; }
           .col-empresa, .col-updated, .col-version { display: none; }
           .cot-nueva { flex-direction: column; align-items: flex-start; gap: 14px; }
+        }
+        @media (max-width: 640px) {
+          .cot-filters { flex-direction: column; align-items: stretch; }
+          .cot-search { width: 100%; }
+          .cot-filters-count { margin-left: 0 !important; }
         }
       `}</style>
 
@@ -161,7 +166,7 @@ export default function Cotizaciones() {
                 </button>
               ))}
             </div>
-            <span style={{ marginLeft: 'auto', fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
+            <span className="cot-filters-count" style={{ marginLeft: 'auto', fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
               {loading ? 'Cargando…' : `${visible.length} ${visible.length === 1 ? 'cotización' : 'cotizaciones'}`}
             </span>
           </div>
@@ -175,7 +180,8 @@ export default function Cotizaciones() {
               {records.length === 0 ? 'Aún no hay cotizaciones guardadas' : 'Sin resultados para esta búsqueda'}
             </div>
           ) : (
-            <table className="cot-table">
+            <div className="admin-table-wrap">
+              <table className="cot-table">
               <thead>
                 <tr>
                   <th>Número</th>
@@ -212,7 +218,7 @@ export default function Cotizaciones() {
                       <span className={`badge badge-${r.estado}`}>{r.estado}</span>
                     </td>
                     <td>
-                      <div style={{ display: 'flex', gap: 5 }}>
+                      <div className="admin-doc-actions">
                         <Link href={`/admin/cotizaciones/nueva?id=${r.id}`} className="doc-btn">
                           <EditIcon /> Editar
                         </Link>
@@ -230,7 +236,8 @@ export default function Cotizaciones() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           )}
         </div>
       </div>

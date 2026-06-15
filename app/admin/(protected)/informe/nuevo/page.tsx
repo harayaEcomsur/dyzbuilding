@@ -43,6 +43,7 @@ function makeDefaultData(): InformeData {
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 export default function NuevoInforme() {
+  const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form')
   const [data, setData] = useState<InformeData>(makeDefaultData)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
@@ -218,13 +219,30 @@ export default function NuevoInforme() {
         .equip-table select option { background: #1a1a1a; }
         @media (max-width: 1280px) { .it-form { width: 520px; padding: 24px 28px; } }
         @media (max-width: 900px) {
+          .admin-editor-tabs { display: flex; }
           .it-layout { flex-direction: column; }
-          .it-form { width: 100%; max-height: 56vh; border-right: none; border-bottom: 1px solid var(--border); }
+          .it-form { width: 100%; max-height: none; border-right: none; border-bottom: none; }
+          .it-preview { flex: 1; min-height: 50vh; }
+          .it-meta-grid { grid-template-columns: 1fr !important; }
+          .admin-mobile-hidden { display: none !important; }
         }
       `}</style>
 
+      <div className="admin-editor-tabs">
+        {(['form', 'preview'] as const).map(tab => (
+          <button
+            key={tab}
+            type="button"
+            className={`admin-editor-tab${mobileTab === tab ? ' active' : ''}`}
+            onClick={() => setMobileTab(tab)}
+          >
+            {tab === 'form' ? 'Formulario' : 'Vista previa'}
+          </button>
+        ))}
+      </div>
+
       <div className="it-layout">
-        <div className="it-form">
+        <div className={`it-form${mobileTab === 'preview' ? ' admin-mobile-hidden' : ''}`}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 6 }}>
               <Link href="/admin/informe" style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', textDecoration: 'none' }}>
@@ -242,7 +260,7 @@ export default function NuevoInforme() {
           </div>
 
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)' }}>Datos del informe</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="it-meta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {(['codigo', 'fecha', 'cliente', 'tecnico'] as const).map(k => (
               <div key={k} className="it-field">
                 <label>{k === 'codigo' ? 'Código' : k === 'fecha' ? 'Fecha' : k === 'cliente' ? 'Cliente' : 'Técnico'}</label>
@@ -318,7 +336,7 @@ export default function NuevoInforme() {
           </div>
         </div>
 
-        <div ref={previewRef} id="it-print" className="it-preview">
+        <div ref={previewRef} id="it-print" className={`it-preview${mobileTab === 'form' ? ' admin-mobile-hidden' : ''}`}>
           <div className="it-page" style={{
             width: 794, minHeight: 1123, background: '#fff',
             fontFamily: 'Arial, Helvetica, sans-serif', color: '#1a1a1a',

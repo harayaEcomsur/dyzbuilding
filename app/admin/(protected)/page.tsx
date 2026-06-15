@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function AdminDashboard() {
   return (
-    <div style={{ padding: '48px 40px' }}>
+    <div className="admin-page" style={{ maxWidth: 800 }}>
       <div className="eyebrow" style={{ marginBottom: 12 }}>Panel de Administración</div>
       <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 30, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)', marginBottom: 48 }}>
         Dashboard

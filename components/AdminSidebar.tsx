@@ -55,22 +55,25 @@ const groups: { label: string; items: NavItem[] }[] = [
   },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({
+  open = false,
+  onNavigate,
+}: {
+  open?: boolean
+  onNavigate?: () => void
+}) {
   const router = useRouter()
   const pathname = usePathname()
 
   async function handleLogout() {
     await fetch('/api/auth/logout', { method: 'POST' })
+    onNavigate?.()
     router.push('/admin/login')
   }
 
   return (
-    <aside style={{
-      width: 220, background: 'var(--bg2)', borderRight: '1px solid var(--border)',
-      display: 'flex', flexDirection: 'column', padding: '28px 0',
-      position: 'sticky', top: 0, height: '100vh', overflowY: 'auto',
-    }}>
-      <div style={{ padding: '20px 20px', borderBottom: '1px solid var(--border)' }}>
+    <aside className={`admin-sidebar${open ? ' open' : ''}`}>
+      <div className="admin-sidebar-brand">
         <Image
           src="/logo.png"
           alt="D&Z Building"
@@ -79,27 +82,19 @@ export default function AdminSidebar() {
           style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain' }}
           priority
         />
-        <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginTop: 10 }}>
-          Panel de Administración
-        </div>
+        <div className="admin-sidebar-tag">Panel de Administración</div>
       </div>
 
-      <div role="navigation" style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
-        <div style={{ marginBottom: 16, paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
-          <NavLink href="/admin" active={pathname === '/admin'}>Dashboard</NavLink>
+      <div role="navigation" className="admin-sidebar-nav">
+        <div className="admin-sidebar-dashboard">
+          <NavLink href="/admin" active={pathname === '/admin'} onNavigate={onNavigate}>
+            Dashboard
+          </NavLink>
         </div>
 
         {groups.map(({ label, items }) => (
-          <div key={label} style={{ marginTop: 20 }}>
-            <div style={{
-              fontFamily: 'Josefin Sans, sans-serif', fontSize: 12, letterSpacing: '0.18em',
-              textTransform: 'uppercase', color: 'rgba(200,168,75,0.85)', fontWeight: 400,
-              padding: '0 12px 8px',
-              borderBottom: '1px solid rgba(200,168,75,0.12)',
-              marginBottom: 4,
-            }}>
-              {label}
-            </div>
+          <div key={label} className="admin-sidebar-group">
+            <div className="admin-sidebar-section">{label}</div>
             {items.map(({ label: itemLabel, href, children }) => {
               const childActive = children?.some(c => pathname === c.href) ?? false
               const selfActive = pathname === href && !childActive
@@ -110,13 +105,20 @@ export default function AdminSidebar() {
                     href={href}
                     active={selfActive}
                     parentActive={childActive}
+                    onNavigate={onNavigate}
                   >
                     {itemLabel}
                   </NavLink>
                   {children && (
-                    <div style={{ marginLeft: 10, borderLeft: '1px solid var(--border)', marginBottom: 4 }}>
+                    <div className="admin-sidebar-children">
                       {children.map(child => (
-                        <NavLink key={child.href} href={child.href} active={pathname === child.href} sub>
+                        <NavLink
+                          key={child.href}
+                          href={child.href}
+                          active={pathname === child.href}
+                          sub
+                          onNavigate={onNavigate}
+                        >
                           {child.label}
                         </NavLink>
                       ))}
@@ -129,19 +131,8 @@ export default function AdminSidebar() {
         ))}
       </div>
 
-      <div style={{ padding: '16px 12px', borderTop: '1px solid var(--border)' }}>
-        <button
-          onClick={handleLogout}
-          style={{
-            width: '100%', fontFamily: 'Josefin Sans, sans-serif',
-            fontSize: 10.5, letterSpacing: '0.22em', textTransform: 'uppercase',
-            color: 'var(--dim)', background: 'none', border: 'none',
-            cursor: 'pointer', padding: '10px 12px', textAlign: 'left',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.color = 'var(--text)' }}
-          onMouseLeave={e => { e.currentTarget.style.color = 'var(--dim)' }}
-        >
+      <div className="admin-sidebar-footer">
+        <button type="button" className="admin-sidebar-logout" onClick={() => void handleLogout()}>
           Cerrar sesión
         </button>
       </div>
@@ -149,34 +140,31 @@ export default function AdminSidebar() {
   )
 }
 
-function NavLink({ href, active, parentActive, sub, children }: {
+function NavLink({
+  href,
+  active,
+  parentActive,
+  sub,
+  onNavigate,
+  children,
+}: {
   href: string
   active: boolean
   parentActive?: boolean
   sub?: boolean
+  onNavigate?: () => void
   children: React.ReactNode
 }) {
   return (
     <Link
       href={href}
-      style={{
-        display: 'flex', alignItems: 'center',
-        padding: sub ? '7px 12px' : '9px 12px',
-        fontFamily: 'Josefin Sans, sans-serif',
-        fontSize: sub ? 10 : 10.5,
-        letterSpacing: '0.22em', textTransform: 'uppercase',
-        color: active
-          ? 'var(--accent)'
-          : parentActive
-            ? 'rgba(200,168,75,0.55)'
-            : sub
-              ? 'rgba(240,238,235,0.35)'
-              : 'rgba(240,238,235,0.5)',
-        background: active ? 'rgba(200,168,75,0.06)' : 'transparent',
-        textDecoration: 'none',
-        borderLeft: active ? '2px solid var(--accent)' : '2px solid transparent',
-        transition: 'all 0.15s',
-      }}
+      onClick={onNavigate}
+      className={[
+        'admin-nav-link',
+        sub ? 'admin-nav-link-sub' : '',
+        active ? 'active' : '',
+        parentActive ? 'parent-active' : '',
+      ].filter(Boolean).join(' ')}
     >
       {children}
     </Link>

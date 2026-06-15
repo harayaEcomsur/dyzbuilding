@@ -7,6 +7,7 @@ const CARD_W = 322
 const CARD_H = 208
 
 export default function TarjetaPage() {
+  const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form')
   const [nombre, setNombre] = useState('Nombre Apellido')
   const [cargo, setCargo] = useState('Cargo · D&Z Building')
   const [telefono, setTelefono] = useState('+56 9 1234 5678')
@@ -56,16 +57,31 @@ export default function TarjetaPage() {
           margin-bottom: 10px;
         }
         .tc-row { display: flex; gap: 16px; flex-wrap: wrap; }
-        @media (max-width: 800px) {
+        @media (max-width: 900px) {
+          .admin-editor-tabs { display: flex; }
           .tc-layout { flex-direction: column; }
-          .tc-form { width: 100%; max-height: 48vh; border-right: none; border-bottom: 1px solid var(--border); }
-          .tc-canvas { padding: 20px 16px; }
+          .tc-form { width: 100%; max-height: none; border-right: none; border-bottom: none; }
+          .tc-canvas { padding: 20px 16px; min-height: 50vh; }
+          .admin-mobile-hidden { display: none !important; }
         }
       `}</style>
 
+      <div className="admin-editor-tabs">
+        {(['form', 'preview'] as const).map(tab => (
+          <button
+            key={tab}
+            type="button"
+            className={`admin-editor-tab${mobileTab === tab ? ' active' : ''}`}
+            onClick={() => setMobileTab(tab)}
+          >
+            {tab === 'form' ? 'Formulario' : 'Vista previa'}
+          </button>
+        ))}
+      </div>
+
       <div className="tc-layout">
         {/* LEFT — editor */}
-        <div className="tc-form">
+        <div className={`tc-form${mobileTab === 'preview' ? ' admin-mobile-hidden' : ''}`}>
           <div>
             <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Identidad</div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -100,7 +116,7 @@ export default function TarjetaPage() {
         </div>
 
         {/* RIGHT — card previews */}
-        <div className="tc-canvas">
+        <div className={`tc-canvas${mobileTab === 'form' ? ' admin-mobile-hidden' : ''}`}>
           <div>
             <div className="tc-group-label">Variante A — Oscura</div>
             <div className="tc-row">

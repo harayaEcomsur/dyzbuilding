@@ -250,27 +250,23 @@ export default function NuevaCotizacion() {
         .cot-mobile-tabs { display: none; }
         @media (max-width: 1280px) { .cot-form { width: 520px; padding: 24px 28px; } }
         @media (max-width: 900px) {
+          .admin-editor-tabs { display: flex; }
           .cot-layout { flex-direction: column; }
-          .cot-form { width: 100%; max-height: 56vh; border-right: none; border-bottom: 1px solid var(--border); }
-          .cot-preview { flex: 1; }
-        }
-        @media (max-width: 640px) {
-          .cot-mobile-tabs { display: flex; border-bottom: 1px solid var(--border); }
-          .cot-form { max-height: none; border-bottom: none; }
-          .cot-layout { flex-direction: column; }
-          .mobile-hidden { display: none !important; }
+          .cot-form { width: 100%; max-height: none; border-right: none; border-bottom: none; }
+          .cot-preview { flex: 1; min-height: 50vh; }
+          .cot-grid-2 { grid-template-columns: 1fr !important; }
+          .admin-mobile-hidden { display: none !important; }
         }
       `}</style>
 
-      <div className="cot-mobile-tabs">
+      <div className="admin-editor-tabs">
         {(['form', 'preview'] as const).map(tab => (
-          <button key={tab} type="button" onClick={() => setMobileTab(tab)} style={{
-            flex: 1, fontFamily: 'Josefin Sans, sans-serif', fontSize: 10.5,
-            letterSpacing: '0.28em', textTransform: 'uppercase',
-            padding: '12px', background: 'none', border: 'none',
-            borderBottom: mobileTab === tab ? '2px solid var(--accent)' : '2px solid transparent',
-            color: mobileTab === tab ? 'var(--accent)' : 'var(--dim)', cursor: 'pointer',
-          }}>
+          <button
+            key={tab}
+            type="button"
+            className={`admin-editor-tab${mobileTab === tab ? ' active' : ''}`}
+            onClick={() => setMobileTab(tab)}
+          >
             {tab === 'form' ? 'Formulario' : 'Vista previa'}
           </button>
         ))}
@@ -278,7 +274,7 @@ export default function NuevaCotizacion() {
 
       <div className="cot-layout">
         {/* LEFT — FORM */}
-        <div className={`cot-form${mobileTab === 'preview' ? ' mobile-hidden' : ''}`}>
+        <div className={`cot-form${mobileTab === 'preview' ? ' admin-mobile-hidden' : ''}`}>
 
           <div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 6 }}>
@@ -304,7 +300,7 @@ export default function NuevaCotizacion() {
           <section>
             <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Datos del Documento</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="cot-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div className="field"><label>Número</label><input value={data.numero} onChange={e => set({ numero: e.target.value })} /></div>
                 <div className="field"><label>Moneda</label>
                   <select value={data.moneda} onChange={e => set({ moneda: e.target.value })}>
@@ -314,7 +310,7 @@ export default function NuevaCotizacion() {
                   </select>
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="cot-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div className="field"><label>Fecha</label><input type="date" value={data.fecha} onChange={e => set({ fecha: e.target.value })} /></div>
                 <div className="field"><label>Validez (días)</label><input type="number" value={data.validez} onChange={e => set({ validez: e.target.value })} /></div>
               </div>
@@ -325,11 +321,11 @@ export default function NuevaCotizacion() {
           <section>
             <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Datos del Cliente</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="cot-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div className="field"><label>Nombre</label><input value={data.clienteNombre} onChange={e => set({ clienteNombre: e.target.value })} placeholder="Nombre contacto" /></div>
                 <div className="field"><label>Empresa</label><input value={data.clienteEmpresa} onChange={e => set({ clienteEmpresa: e.target.value })} placeholder="Razón social" /></div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div className="cot-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div className="field"><label>RUT</label><input value={data.clienteRut} onChange={e => set({ clienteRut: e.target.value })} placeholder="XX.XXX.XXX-X" /></div>
                 <div className="field"><label>Teléfono</label><input value={data.clienteTelefono} onChange={e => set({ clienteTelefono: e.target.value })} placeholder="+56 9 XXXX XXXX" /></div>
               </div>
@@ -407,7 +403,7 @@ export default function NuevaCotizacion() {
         </div>
 
         {/* RIGHT — PREVIEW */}
-        <div ref={previewRef} id="print-preview" className={`cot-preview${mobileTab === 'form' ? ' mobile-hidden' : ''}`}>
+        <div ref={previewRef} id="print-preview" className={`cot-preview${mobileTab === 'form' ? ' admin-mobile-hidden' : ''}`}>
           <div className="page" style={{
             width: 794, minHeight: 1123, background: '#fff', padding: '50px 52px 80px',
             position: 'relative', boxShadow: '0 4px 28px rgba(0,0,0,0.25)',

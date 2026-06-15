@@ -22,6 +22,7 @@ function makeDefaultData(): MembreteData {
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 
 export default function NuevoMembrete() {
+  const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form')
   const [data, setData] = useState<MembreteData>(makeDefaultData)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
@@ -172,13 +173,29 @@ export default function NuevoMembrete() {
         .mb-field input:focus, .mb-field textarea:focus { border-color: rgba(200,168,75,0.45); }
         @media (max-width: 1280px) { .mb-form { width: 520px; padding: 24px 28px; } }
         @media (max-width: 900px) {
+          .admin-editor-tabs { display: flex; }
           .mb-layout { flex-direction: column; }
-          .mb-form { width: 100%; max-height: 56vh; border-right: none; border-bottom: 1px solid var(--border); }
+          .mb-form { width: 100%; max-height: none; border-right: none; border-bottom: none; }
+          .mb-preview { flex: 1; min-height: 50vh; }
+          .admin-mobile-hidden { display: none !important; }
         }
       `}</style>
 
+      <div className="admin-editor-tabs">
+        {(['form', 'preview'] as const).map(tab => (
+          <button
+            key={tab}
+            type="button"
+            className={`admin-editor-tab${mobileTab === tab ? ' active' : ''}`}
+            onClick={() => setMobileTab(tab)}
+          >
+            {tab === 'form' ? 'Formulario' : 'Vista previa'}
+          </button>
+        ))}
+      </div>
+
       <div className="mb-layout">
-        <div className="mb-form">
+        <div className={`mb-form${mobileTab === 'preview' ? ' admin-mobile-hidden' : ''}`}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 6 }}>
               <Link href="/admin/membrete" style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', textDecoration: 'none' }}>
@@ -227,7 +244,7 @@ export default function NuevoMembrete() {
           </div>
         </div>
 
-        <div ref={previewRef} id="mb-print" className="mb-preview">
+        <div ref={previewRef} id="mb-print" className={`mb-preview${mobileTab === 'form' ? ' admin-mobile-hidden' : ''}`}>
           <div className="mb-page" style={{
             width: 794, minHeight: 1123, background: '#fff',
             fontFamily: 'Arial, Helvetica, sans-serif', color: '#1a1a1a',

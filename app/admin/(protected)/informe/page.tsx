@@ -60,7 +60,7 @@ export default function InformesHistorial() {
         }
         .it-nueva-text h2 { font-family: Josefin Sans, sans-serif; font-size: 18px; font-weight: 200; letter-spacing: 0.06em; margin-bottom: 5px; }
         .it-nueva-text p { font-size: 14px; color: var(--dim); margin: 0; }
-        .it-table { width: 100%; border-collapse: collapse; }
+        .it-table { width: 100%; border-collapse: collapse; min-width: 560px; }
         .it-table th {
           font-family: Josefin Sans, sans-serif; font-size: 9.5px;
           letter-spacing: 0.32em; text-transform: uppercase;
@@ -78,6 +78,11 @@ export default function InformesHistorial() {
         }
         .it-search:focus { border-color: rgba(200,168,75,.4); }
         @media (max-width: 800px) { .it-wrap { padding: 20px 18px; } .col-cliente, .col-updated { display: none; } .it-nueva { flex-direction: column; align-items: flex-start; gap: 14px; } }
+        @media (max-width: 640px) {
+          .it-filters { flex-direction: column; align-items: stretch; }
+          .it-search { width: 100%; }
+          .it-filters-count { margin-left: 0 !important; }
+        }
       `}</style>
 
       <div className="it-wrap">
@@ -101,14 +106,14 @@ export default function InformesHistorial() {
             Historial
           </div>
 
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 16 }}>
+          <div className="it-filters" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 16 }}>
             <input
               className="it-search"
               placeholder="Buscar código, cliente…"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
-            <span style={{ marginLeft: 'auto', fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
+            <span className="it-filters-count" style={{ marginLeft: 'auto', fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
               {loading ? 'Cargando…' : `${visible.length} ${visible.length === 1 ? 'informe' : 'informes'}`}
             </span>
           </div>
@@ -122,7 +127,8 @@ export default function InformesHistorial() {
               {records.length === 0 ? 'Aún no hay informes guardados' : 'Sin resultados para esta búsqueda'}
             </div>
           ) : (
-            <table className="it-table">
+            <div className="admin-table-wrap">
+              <table className="it-table">
               <thead>
                 <tr>
                   <th>Código</th>
@@ -151,7 +157,7 @@ export default function InformesHistorial() {
                       <span className={`badge badge-${r.estado}`}>{r.estado}</span>
                     </td>
                     <td>
-                      <div style={{ display: 'flex', gap: 5 }}>
+                      <div className="admin-doc-actions">
                         <Link href={`/admin/informe/nuevo?id=${r.id}`} className="doc-btn">
                           <EditIcon /> Editar
                         </Link>
@@ -169,7 +175,8 @@ export default function InformesHistorial() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           )}
         </div>
       </div>
