@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
+import HeroCanvas from '@/components/HeroCanvas'
 import { getSiteContent } from '@/lib/site-content'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -174,6 +175,7 @@ export default async function Home() {
 
       {/* HERO */}
       <section id="inicio" className="hero">
+        <HeroCanvas />
         <div className="hero-glow" />
         <div className="hero-grid" />
         <div className="hero-content">
