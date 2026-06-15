@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type React from 'react'
 import Image from 'next/image'
+import Script from 'next/script'
 import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
 import { getSiteContent } from '@/lib/site-content'
@@ -181,6 +182,13 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-1G3JSB5T7X" strategy="afterInteractive" />
+      <Script id="gtag-init" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1G3JSB5T7X');
+      `}</Script>
       <nav>
         <a className="nav-logo" href="#inicio">
           <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} priority style={{ height: 44, width: 'auto' }} />

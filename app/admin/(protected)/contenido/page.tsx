@@ -75,7 +75,7 @@ export default function ContenidoPage() {
   return (
     <div style={{ height: '100%', overflowY: 'auto' }}>
       <style>{`
-        .cn-page { padding: 28px 36px; max-width: 900px; display: flex; flex-direction: column; gap: 32px; }
+        .cn-page { padding: 28px 36px; display: flex; flex-direction: column; gap: 32px; }
         .cn-section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
         .cn-section-title span { font-family: Josefin Sans, sans-serif; font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
         .cn-section-title hr { flex: 1; border: none; border-top: 1px solid var(--border); margin: 0; }
