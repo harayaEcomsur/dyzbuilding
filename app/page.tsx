@@ -1,8 +1,28 @@
 import type { Metadata } from 'next'
+import type React from 'react'
 import Image from 'next/image'
 import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
 import { getSiteContent } from '@/lib/site-content'
+
+const SVC_ICONS: React.ReactNode[] = [
+  /* Climatización Comercial / VRF */
+  <><rect key="a" x="2" y="8" width="14" height="9" rx=".5"/><rect key="b" x="20" y="8" width="14" height="9" rx=".5"/><line key="c" x1="2" y1="12" x2="16" y2="12"/><line key="d" x1="20" y1="12" x2="34" y2="12"/><line key="e" x1="9" y1="17" x2="9" y2="22"/><line key="f" x1="27" y1="17" x2="27" y2="22"/><rect key="g" x="5" y="22" width="8" height="8" rx=".5"/><rect key="h" x="23" y="22" width="8" height="8" rx=".5"/><line key="i" x1="13" y1="26" x2="23" y2="26"/></>,
+  /* Refrigeración Comercial */
+  <><rect key="a" x="3" y="6" width="30" height="22" rx=".5"/><line key="b" x1="3" y1="14" x2="33" y2="14"/><line key="c" x1="10" y1="6" x2="10" y2="14"/><line key="d" x1="18" y1="6" x2="18" y2="14"/><line key="e" x1="26" y1="6" x2="26" y2="14"/><line key="f" x1="7" y1="20" x2="7" y2="22"/><line key="g" x1="14" y1="20" x2="14" y2="22"/><line key="h" x1="21" y1="20" x2="21" y2="22"/><line key="i" x1="28" y1="20" x2="28" y2="22"/><line key="j" x1="3" y1="28" x2="33" y2="28"/></>,
+  /* Ventilación y Extracción */
+  <><circle key="a" cx="18" cy="18" r="8"/><circle key="b" cx="18" cy="18" r="2.5"/><path key="c" d="M18 4v5M18 27v5M4 18h5M27 18h5"/><path key="d" d="M8.5 8.5l3.5 3.5M24 24l3.5 3.5M27.5 8.5L24 12M12 24l-3.5 3.5"/></>,
+  /* Mantenimiento Preventivo */
+  <><path key="a" d="M6 28 C8 22 14 18 18 18 C22 18 24 14 22 10"/><path key="b" d="M22 10 L26 14 M22 10 L18 14"/><circle key="c" cx="28" cy="10" r="3"/><path key="d" d="M10 32 L14 26 L18 29 L24 20"/></>,
+  /* Proyectos Llave en Mano */
+  <><rect key="a" x="5" y="5" width="18" height="26" rx=".5"/><line key="b" x1="9" y1="12" x2="19" y2="12"/><line key="c" x1="9" y1="17" x2="19" y2="17"/><line key="d" x1="9" y1="22" x2="15" y2="22"/><circle key="e" cx="26" cy="26" r="6"/><path key="f" d="M23 26 L25 28 L29 23"/></>,
+  /* Análisis Operacional VRV/VRF */
+  <><path key="a" d="M4 32 L12 20 L20 25 L28 10 L34 14"/><circle key="b" cx="12" cy="20" r="2" fill="currentColor" stroke="none"/><circle key="c" cx="20" cy="25" r="2" fill="currentColor" stroke="none"/><circle key="d" cx="28" cy="10" r="2" fill="currentColor" stroke="none"/><line key="e" x1="4" y1="32" x2="34" y2="32"/></>,
+  /* Eficiencia Energética HVAC */
+  <><path key="a" d="M18 4 L21 13 L30 13 L23 19 L26 28 L18 22 L10 28 L13 19 L6 13 L15 13 Z"/></>,
+  /* Asesoría de Ingeniería */
+  <><rect key="a" x="3" y="4" width="30" height="22" rx=".5"/><line key="b" x1="10" y1="4" x2="10" y2="26"/><line key="c" x1="18" y1="4" x2="18" y2="26"/><line key="d" x1="3" y1="12" x2="33" y2="12"/><line key="e" x1="3" y1="20" x2="33" y2="20"/><line key="f" x1="8" y1="30" x2="28" y2="30"/><line key="g" x1="18" y1="26" x2="18" y2="30"/></>,
+]
 
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getSiteContent()
@@ -204,95 +224,15 @@ export default async function Home() {
         <div className="sec-eyebrow">{c.servicios.eyebrow}</div>
         <div className="sec-title">{c.servicios.titulo}</div>
         <div className="svc-grid">
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <rect x="2" y="8" width="14" height="9" rx=".5"/><rect x="20" y="8" width="14" height="9" rx=".5"/>
-              <line x1="2" y1="12" x2="16" y2="12"/><line x1="20" y1="12" x2="34" y2="12"/>
-              <line x1="9" y1="17" x2="9" y2="22"/><line x1="27" y1="17" x2="27" y2="22"/>
-              <rect x="5" y="22" width="8" height="8" rx=".5"/><rect x="23" y="22" width="8" height="8" rx=".5"/>
-              <line x1="13" y1="26" x2="23" y2="26"/>
-            </svg>
-            <h3>Climatización Comercial / VRF</h3>
-            <p>Sistemas multi-split, VRF y fan-coils para oficinas, hoteles, locales y centros comerciales.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <rect x="3" y="6" width="30" height="22" rx=".5"/>
-              <line x1="3" y1="14" x2="33" y2="14"/>
-              <line x1="10" y1="6" x2="10" y2="14"/><line x1="18" y1="6" x2="18" y2="14"/><line x1="26" y1="6" x2="26" y2="14"/>
-              <line x1="7" y1="20" x2="7" y2="22"/><line x1="14" y1="20" x2="14" y2="22"/><line x1="21" y1="20" x2="21" y2="22"/><line x1="28" y1="20" x2="28" y2="22"/>
-              <line x1="3" y1="28" x2="33" y2="28"/>
-            </svg>
-            <h3>Refrigeración Comercial</h3>
-            <p>Vitrinas, góndolas y equipos de frío para supermercados, carnicerías y gastronomía.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <circle cx="18" cy="18" r="8"/><circle cx="18" cy="18" r="2.5"/>
-              <path d="M18 4v5M18 27v5M4 18h5M27 18h5"/>
-              <path d="M8.5 8.5l3.5 3.5M24 24l3.5 3.5M27.5 8.5L24 12M12 24l-3.5 3.5"/>
-            </svg>
-            <h3>Ventilación y Extracción</h3>
-            <p>Sistemas VMC, extractores industriales y renovación de aire para ambientes exigentes.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <path d="M6 28 C8 22 14 18 18 18 C22 18 24 14 22 10"/>
-              <path d="M22 10 L26 14 M22 10 L18 14"/>
-              <circle cx="28" cy="10" r="3"/>
-              <path d="M10 32 L14 26 L18 29 L24 20"/>
-            </svg>
-            <h3>Mantenimiento Preventivo</h3>
-            <p>Planes de mantenimiento periódico, diagnóstico y garantía de rendimiento para toda la instalación.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <rect x="5" y="5" width="18" height="26" rx=".5"/>
-              <line x1="9" y1="12" x2="19" y2="12"/><line x1="9" y1="17" x2="19" y2="17"/><line x1="9" y1="22" x2="15" y2="22"/>
-              <circle cx="26" cy="26" r="6"/>
-              <path d="M23 26 L25 28 L29 23"/>
-            </svg>
-            <h3>Proyectos Llave en Mano</h3>
-            <p>Diseño, suministro, instalación y puesta en marcha. Un solo interlocutor de inicio a fin.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <path d="M4 32 L12 20 L20 25 L28 10 L34 14"/>
-              <circle cx="12" cy="20" r="2" fill="currentColor" stroke="none"/>
-              <circle cx="20" cy="25" r="2" fill="currentColor" stroke="none"/>
-              <circle cx="28" cy="10" r="2" fill="currentColor" stroke="none"/>
-              <line x1="4" y1="32" x2="34" y2="32"/>
-            </svg>
-            <h3>Análisis Operacional VRV/VRF</h3>
-            <p>Auditoría de sistemas instalados, lectura de datos y optimización del rendimiento real.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <path d="M18 4 L21 13 L30 13 L23 19 L26 28 L18 22 L10 28 L13 19 L6 13 L15 13 Z"/>
-            </svg>
-            <h3>Eficiencia Energética HVAC</h3>
-            <p>Diagnóstico de consumo, selección de equipos A+++ y certificación de eficiencia energética.</p>
-          </div>
-
-          <div className="svc">
-            <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-              <rect x="3" y="4" width="30" height="22" rx=".5"/>
-              <line x1="10" y1="4" x2="10" y2="26"/><line x1="18" y1="4" x2="18" y2="26"/>
-              <line x1="3" y1="12" x2="33" y2="12"/><line x1="3" y1="20" x2="33" y2="20"/>
-              <line x1="8" y1="30" x2="28" y2="30"/>
-              <line x1="18" y1="26" x2="18" y2="30"/>
-            </svg>
-            <h3>Asesoría de Ingeniería</h3>
-            <p>Ingeniería de detalle, especificaciones técnicas y soporte para arquitectos y constructoras.</p>
-          </div>
-
+          {c.servicios.items.map((item, i) => (
+            <div className="svc" key={i}>
+              <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                {SVC_ICONS[i]}
+              </svg>
+              <h3>{item.titulo}</h3>
+              <p>{item.descripcion}</p>
+            </div>
+          ))}
         </div>
       </section>
 

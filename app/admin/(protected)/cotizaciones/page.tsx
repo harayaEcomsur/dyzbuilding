@@ -65,7 +65,7 @@ export default function Cotizaciones() {
   return (
     <>
       <style>{`
-        .cot-wrap { padding: 32px 40px; max-width: 1100px; display: flex; flex-direction: column; gap: 32px; }
+        .cot-wrap { padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; }
 
         /* Nueva cotización card */
         .cot-nueva {

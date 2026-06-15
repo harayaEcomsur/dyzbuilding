@@ -158,12 +158,26 @@ export default function ContenidoPage() {
         {/* Especialidades */}
         <div>
           <SectionTitle>Especialidades</SectionTitle>
-          <div className="cn-info" style={{ marginBottom: 16 }}>
-            Encabezado de la sección de servicios. Los nombres y descripciones de cada especialidad se editan directamente en el código.
-          </div>
-          <div className="cn-fields">
+          <div className="cn-fields" style={{ marginBottom: 16 }}>
             <Field cfg={cfg} path="servicios.eyebrow" label="Texto pequeño (eyebrow)" set={set} />
             <Field cfg={cfg} path="servicios.titulo" label="Título de sección" set={set} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {cfg.servicios.items.map((item, i) => (
+              <div key={i} style={{ border: '1px solid var(--border)', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 2 }}>
+                  Especialidad {i + 1}
+                </div>
+                <div className="cn-field">
+                  <label>Nombre</label>
+                  <input value={item.titulo} onChange={e => set(`servicios.items.${i}.titulo`, e.target.value)} />
+                </div>
+                <div className="cn-field">
+                  <label>Descripción</label>
+                  <textarea style={{ minHeight: 52 }} value={item.descripcion} onChange={e => set(`servicios.items.${i}.descripcion`, e.target.value)} />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

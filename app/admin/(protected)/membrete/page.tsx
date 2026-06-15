@@ -49,7 +49,7 @@ export default function MembretesHistorial() {
   return (
     <>
       <style>{`
-        .mb-wrap { padding: 32px 40px; max-width: 1000px; display: flex; flex-direction: column; gap: 32px; }
+        .mb-wrap { padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; }
         .mb-nueva {
           display: flex; align-items: center; justify-content: space-between;
           padding: 24px 28px; border: 1px solid var(--border);

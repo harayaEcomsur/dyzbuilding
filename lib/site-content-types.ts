@@ -21,6 +21,7 @@ export interface SiteContent {
   servicios: {
     eyebrow: string
     titulo: string
+    items: Array<{ titulo: string; descripcion: string }>
   }
   seo: {
     titulo: string
@@ -52,6 +53,16 @@ export const defaultContent: SiteContent = {
   servicios: {
     eyebrow: 'Especialidades técnicas',
     titulo: 'Lo que hacemos',
+    items: [
+      { titulo: 'Climatización Comercial / VRF', descripcion: 'Sistemas multi-split, VRF y fan-coils para oficinas, hoteles, locales y centros comerciales.' },
+      { titulo: 'Refrigeración Comercial', descripcion: 'Vitrinas, góndolas y equipos de frío para supermercados, carnicerías y gastronomía.' },
+      { titulo: 'Ventilación y Extracción', descripcion: 'Sistemas VMC, extractores industriales y renovación de aire para ambientes exigentes.' },
+      { titulo: 'Mantenimiento Preventivo', descripcion: 'Planes de mantenimiento periódico, diagnóstico y garantía de rendimiento para toda la instalación.' },
+      { titulo: 'Proyectos Llave en Mano', descripcion: 'Diseño, suministro, instalación y puesta en marcha. Un solo interlocutor de inicio a fin.' },
+      { titulo: 'Análisis Operacional VRV/VRF', descripcion: 'Auditoría de sistemas instalados, lectura de datos y optimización del rendimiento real.' },
+      { titulo: 'Eficiencia Energética HVAC', descripcion: 'Diagnóstico de consumo, selección de equipos A+++ y certificación de eficiencia energética.' },
+      { titulo: 'Asesoría de Ingeniería', descripcion: 'Ingeniería de detalle, especificaciones técnicas y soporte para arquitectos y constructoras.' },
+    ],
   },
   seo: {
     titulo: 'Climatización Comercial y Sistemas VRF en Chile | D&Z Building',
