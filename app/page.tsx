@@ -25,6 +25,13 @@ const SVC_ICONS: React.ReactNode[] = [
   <><rect key="a" x="3" y="4" width="30" height="22" rx=".5"/><line key="b" x1="10" y1="4" x2="10" y2="26"/><line key="c" x1="18" y1="4" x2="18" y2="26"/><line key="d" x1="3" y1="12" x2="33" y2="12"/><line key="e" x1="3" y1="20" x2="33" y2="20"/><line key="f" x1="8" y1="30" x2="28" y2="30"/><line key="g" x1="18" y1="26" x2="18" y2="30"/></>,
 ]
 
+const BRANDS = [
+  { name: 'LG', src: '/brands/lg.png', width: 63, height: 34 },
+  { name: 'Samsung', src: '/brands/samsung.png', width: 1024, height: 272 },
+  { name: 'Gree', src: '/brands/gree.png', width: 120, height: 24 },
+  { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
+] as const
+
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getSiteContent()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
@@ -221,9 +228,16 @@ export default async function Home() {
       <div className="brands">
         <span className="brands-label">Marcas oficiales</span>
         <div className="brands-list">
-          <span className="brand-name">LG</span>
-          <span className="brand-name">Samsung</span>
-          <span className="brand-name">Gree</span>
+          {BRANDS.map(brand => (
+            <div key={brand.name} className="brand-logo">
+              <Image
+                src={brand.src}
+                alt={brand.name}
+                width={brand.width}
+                height={brand.height}
+              />
+            </div>
+          ))}
         </div>
       </div>
 

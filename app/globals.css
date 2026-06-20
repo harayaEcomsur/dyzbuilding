@@ -39,8 +39,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .brands{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 52px;display:flex;align-items:center;gap:52px;flex-wrap:wrap;}
 .brands-label{font-family:'Josefin Sans',sans-serif;font-size:10.5px;letter-spacing:.36em;text-transform:uppercase;color:var(--dim);white-space:nowrap;flex-shrink:0;}
 .brands-list{display:flex;gap:44px;align-items:center;flex-wrap:wrap;}
-.brand-name{font-family:'Josefin Sans',sans-serif;font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--border);font-weight:300;transition:color .3s;}
-.brand-name:hover{color:var(--dim);}
+.brand-logo{display:flex;align-items:center;height:24px;opacity:.4;transition:opacity .3s;}
+.brand-logo:hover{opacity:.7;}
+.brand-logo img{height:24px;width:auto;max-width:none;object-fit:contain;display:block;}
 
 /* SECTIONS */
 .sec{padding:96px 52px;}

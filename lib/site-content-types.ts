@@ -86,5 +86,20 @@ export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
 }
 
 export function normalizeSiteContent(data?: Partial<SiteContent> | null): SiteContent {
-  return deepMerge(defaultContent, data ?? {})
+  const merged = deepMerge(defaultContent, data ?? {})
+  const servicios = merged.servicios ?? defaultContent.servicios
+
+  return {
+    ...merged,
+    servicios: {
+      eyebrow: servicios.eyebrow ?? defaultContent.servicios.eyebrow,
+      titulo: servicios.titulo ?? defaultContent.servicios.titulo,
+      items: Array.isArray(servicios.items) && servicios.items.length > 0
+        ? servicios.items.map((item, i) => ({
+            titulo: item?.titulo ?? defaultContent.servicios.items[i]?.titulo ?? '',
+            descripcion: item?.descripcion ?? defaultContent.servicios.items[i]?.descripcion ?? '',
+          }))
+        : defaultContent.servicios.items,
+    },
+  }
 }

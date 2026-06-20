@@ -21,10 +21,11 @@ export async function PUT(req: NextRequest) {
   if (!session?.role) return unauth()
 
   const data = await req.json()
+  const normalized = normalizeSiteContent(data as Partial<SiteContent>)
 
   await sql`
     INSERT INTO site_content (key, data, updated_at)
-    VALUES ('default', ${JSON.stringify(data)}, NOW())
+    VALUES ('default', ${JSON.stringify(normalized)}, NOW())
     ON CONFLICT (key) DO UPDATE SET
       data       = EXCLUDED.data,
       updated_at = NOW()

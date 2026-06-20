@@ -51,7 +51,7 @@ export default function ContenidoPage() {
       const res = await fetch('/api/site-content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cfg),
+        body: JSON.stringify(normalizeSiteContent(cfg)),
       })
       if (!res.ok) throw new Error()
       setSaveStatus('saved')
