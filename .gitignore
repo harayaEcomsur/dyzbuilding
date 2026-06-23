@@ -44,3 +44,5 @@ AGENTS.md
 CLAUDE.md
 *.Identifier
 scripts/schema.sql
+.agents/
+skills-lock.json

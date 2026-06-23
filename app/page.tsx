@@ -42,7 +42,6 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: c.seo.keywords,
     alternates: {
       canonical: '/',
-      languages: { 'es-CL': '/' },
     },
     openGraph: {
       title: c.seo.titulo,
@@ -51,11 +50,13 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: 'es_CL',
       url: '/',
       siteName: c.empresa.nombre,
+      images: [{ url: '/og.png', width: 1200, height: 630, alt: c.empresa.nombre }],
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: c.seo.titulo,
       description: c.seo.descripcion,
+      images: ['/og.png'],
     },
     robots: {
       index: true,
@@ -164,7 +165,6 @@ export default async function Home() {
         },
         foundingDate: '2006',
         numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 10 },
-        sameAs: [],
       },
       {
         '@type': 'WebSite',
@@ -174,11 +174,6 @@ export default async function Home() {
         description: c.seo.descripcion,
         publisher: { '@id': `${siteUrl}/#business` },
         inLanguage: 'es-CL',
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: { '@type': 'EntryPoint', urlTemplate: `${siteUrl}/#contacto` },
-          'query-input': 'required name=search_term_string',
-        },
       },
     ],
   }
@@ -244,7 +239,7 @@ export default async function Home() {
       {/* ESPECIALIDADES */}
       <section className="sec" id="servicios">
         <div className="sec-eyebrow">{c.servicios.eyebrow}</div>
-        <div className="sec-title">{c.servicios.titulo}</div>
+        <h2 className="sec-title">{c.servicios.titulo}</h2>
         <div className="svc-grid">
           {c.servicios.items.map((item, i) => (
             <div className="svc" key={i}>
@@ -263,11 +258,11 @@ export default async function Home() {
         <div className="nosotros-wrap">
           <div className="nt">
             <div className="sec-eyebrow">Quiénes somos</div>
-            <div className="sec-title">
+            <h2 className="sec-title">
               {c.nosotros.titulo.split('\n').map((line, i, arr) => (
                 <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
               ))}
-            </div>
+            </h2>
             <p>{c.nosotros.p1}</p>
             <p>{c.nosotros.p2}</p>
           </div>
@@ -283,7 +278,7 @@ export default async function Home() {
       {/* CONTACTO */}
       <section className="sec" id="contacto">
         <div className="sec-eyebrow">Hablemos</div>
-        <div className="sec-title">Solicitar Cotización</div>
+        <h2 className="sec-title">Solicitar Cotización</h2>
         <div className="contact-grid">
           <div className="ci-block">
             <h4>Contacto directo</h4>

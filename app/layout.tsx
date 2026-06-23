@@ -16,12 +16,11 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: { default: 'D&Z Building', template: '%s | D&Z Building' },
-  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-      <html lang="es" className={`${josefinSans.variable} ${outfit.variable}`} data-scroll-behavior="smooth">
+      <html lang="es-CL" className={`${josefinSans.variable} ${outfit.variable}`} data-scroll-behavior="smooth">
       <body style={{ fontFamily: 'var(--font-outfit), sans-serif' }}>
         {children}
       </body>
