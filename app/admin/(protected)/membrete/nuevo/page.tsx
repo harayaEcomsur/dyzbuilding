@@ -138,13 +138,6 @@ export default function NuevoMembrete() {
   return (
     <>
       <style>{`
-        @media print {
-          * { visibility: hidden !important; }
-          #mb-print, #mb-print * { visibility: visible !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          #mb-print { position: fixed !important; inset: 0 !important; background: #fff !important; }
-          #mb-print .mb-page { box-shadow: none !important; zoom: 1 !important; margin: 0 !important; }
-          @page { size: A4; margin: 0; }
-        }
         .mb-layout { display: flex; height: 100%; overflow: hidden; }
         .mb-form {
           width: 850px; flex-shrink: 0; overflow-y: auto;

@@ -224,16 +224,6 @@ export default function NuevaCotizacion() {
   return (
     <>
       <style>{`
-        @media print {
-          * { visibility: hidden !important; }
-          #print-preview, #print-preview * {
-            visibility: visible !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          #print-preview { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; padding: 0 !important; background: #fff !important; }
-          #print-preview .page { box-shadow: none !important; margin: 0 !important; width: 100% !important; zoom: 1 !important; }
-        }
         #print-preview .page { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .cot-layout { display: flex; height: 100%; overflow: hidden; }
         .cot-form {

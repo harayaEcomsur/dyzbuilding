@@ -187,6 +187,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .admin-doc-actions{display:flex;gap:5px;flex-wrap:wrap;}
 .admin-editor-tabs{display:none;}
 
+@media print {
+  html,body{background:#fff !important;}
+  /* Aplanar layout admin */
+  .admin-shell{display:block !important;background:#fff !important;overflow:visible !important;height:auto !important;}
+  .admin-main{display:block !important;height:auto !important;padding:0 !important;}
+  /* Ocultar chrome */
+  .admin-sidebar,.admin-mobile-header,.admin-overlay{display:none !important;}
+  /* Ocultar paneles de formulario y tabs */
+  .cot-form,.mb-form,.it-form,.admin-editor-tabs{display:none !important;}
+  /* Aplanar contenedores de editor */
+  .cot-layout,.mb-layout,.it-layout{display:block !important;}
+  /* Mostrar área de impresión */
+  #print-preview,#mb-print,#it-print{display:block !important;background:#fff !important;padding:0 !important;overflow:visible !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  #print-preview *,#mb-print *,#it-print *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  /* Resetear escala del documento */
+  #print-preview .page,#mb-print .mb-page,#it-print .it-page{box-shadow:none !important;margin:0 !important;width:100% !important;max-width:none !important;zoom:1 !important;}
+}
+
 @media(max-width:900px){
   .admin-shell{flex-direction:column;}
   .admin-mobile-header{

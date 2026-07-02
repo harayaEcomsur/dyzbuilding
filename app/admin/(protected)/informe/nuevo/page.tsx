@@ -22,7 +22,7 @@ let nextRowId = 4
 function makeDefaultData(): InformeData {
   return {
     meta: {
-      codigo: `IT-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 900) + 100)}`,
+      codigo: `IT-${new Date().getFullYear()}-000`,
       fecha: '',
       cliente: '',
       tecnico: '',
@@ -52,15 +52,26 @@ export default function NuevoInforme() {
   const editingIdRef = useRef<string | null>(null)
   const estadoRef = useRef<'borrador' | 'emitido'>('borrador')
   const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const printingRef = useRef(false)
 
   const set = useCallback((patch: Partial<InformeData>) => setData(d => ({ ...d, ...patch })), [])
   const setMeta = useCallback((patch: Partial<InformeData['meta']>) =>
     setData(d => ({ ...d, meta: { ...d.meta, ...patch } })), [])
 
+  // Código aleatorio solo client-side para evitar mismatch de hidratación
+  useEffect(() => {
+    const num = String(Math.floor(Math.random() * 900) + 100)
+    setData(d => d.meta.codigo.endsWith('-000')
+      ? { ...d, meta: { ...d.meta, codigo: `IT-${new Date().getFullYear()}-${num}` } }
+      : d
+    )
+  }, [])
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const id = params.get('id')
     const shouldPrint = params.get('print') === '1'
+    let printTimer: ReturnType<typeof setTimeout> | undefined
     if (id) {
       apiFetchRecord(id).then(record => {
         if (record) {
@@ -72,12 +83,13 @@ export default function NuevoInforme() {
         setInitialized(true)
         if (shouldPrint) {
           window.history.replaceState({}, '', `/admin/informe/nuevo?id=${id}`)
-          setTimeout(() => window.print(), 600)
+          printTimer = setTimeout(() => window.print(), 600)
         }
       }).catch(() => setInitialized(true))
     } else {
       setInitialized(true)
     }
+    return () => clearTimeout(printTimer)
   }, [])
 
   useEffect(() => {
@@ -127,8 +139,11 @@ export default function NuevoInforme() {
   }
 
   async function handlePrint() {
+    if (printingRef.current) return
+    printingRef.current = true
     await commitToServer('emitido')
     window.print()
+    printingRef.current = false
   }
 
   function addRow() {
@@ -171,13 +186,7 @@ export default function NuevoInforme() {
   return (
     <>
       <style>{`
-        @media print {
-          * { visibility: hidden !important; }
-          #it-print, #it-print * { visibility: visible !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          #it-print { position: fixed !important; inset: 0 !important; background: #fff !important; }
-          #it-print .it-page { box-shadow: none !important; zoom: 1 !important; margin: 0 !important; }
-          @page { size: A4; margin: 0; }
-        }
+        #it-print .it-page { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         .it-layout { display: flex; height: 100%; overflow: hidden; }
         .it-form {
           width: 850px; flex-shrink: 0; overflow-y: auto;
@@ -338,9 +347,9 @@ export default function NuevoInforme() {
 
         <div ref={previewRef} id="it-print" className={`it-preview${mobileTab === 'form' ? ' admin-mobile-hidden' : ''}`}>
           <div className="it-page" style={{
-            width: 794, minHeight: 1123, background: '#fff',
+            width: 794, background: '#fff',
             fontFamily: 'Arial, Helvetica, sans-serif', color: '#1a1a1a',
-            position: 'relative', boxShadow: '0 4px 28px rgba(0,0,0,0.35)',
+            boxShadow: '0 4px 28px rgba(0,0,0,0.35)',
             zoom: scale, margin: '0 auto',
             WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact',
           } as React.CSSProperties}>
@@ -362,7 +371,7 @@ export default function NuevoInforme() {
               ))}
             </div>
 
-            <div style={{ padding: '28px 40px', paddingBottom: 80 }}>
+            <div style={{ padding: '28px 40px 32px' }}>
               <Section num="01" title="Objeto del informe">
                 <p style={{ fontSize: 11, lineHeight: 1.7, color: '#444', margin: 0 }}>{data.objeto}</p>
               </Section>
@@ -426,7 +435,7 @@ export default function NuevoInforme() {
               </div>
             </div>
 
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+            <div>
               <div style={{ background: '#C8A84B', height: 2 }} />
               <div style={{ background: '#0c0c0c', padding: '10px 40px', display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: '#888', fontSize: 8 }}>D&Z Building SpA</span>
