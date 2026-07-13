@@ -3,6 +3,7 @@ export type OrdenEstado = 'borrador' | 'emitida'
 export interface OrdenItem {
   id: number
   descripcion: string
+  sku?: string
   cantidad: number
   unidad: string
   precioUnitario: string
@@ -15,6 +16,7 @@ export interface OrdenCompraData {
     moneda: 'CLP' | 'USD' | 'UF'
     lugarEntrega: string
     plazoEntrega: string
+    fechaEntrega?: string
     formaPago: string
   }
   proveedor: {

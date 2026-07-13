@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { OrdenCompraData, OrdenItem, makeId, calcTotal } from '@/lib/ordenes-store'
 import { apiFetchRecord, apiCreateRecord, apiUpdateRecord } from '@/lib/ordenes-api'
+import { siteConfig } from '@/lib/site-config'
+import { validateOrdenCompra } from '@/lib/ordenes-compliance'
 
 const MONEDAS: Record<string, { sym: string; label: string }> = {
   CLP: { sym: '$', label: 'CLP — Pesos Chilenos' },
@@ -46,6 +48,7 @@ function makeDefaultData(): OrdenCompraData {
       moneda: 'CLP',
       lugarEntrega: '',
       plazoEntrega: '',
+      fechaEntrega: '',
       formaPago: '50% anticipo, 50% contra entrega',
     },
     proveedor: {
@@ -184,6 +187,8 @@ export default function NuevaOrden() {
   const subtotal = data.items.reduce((s, i) => s + calcItemSubtotal(i), 0)
   const iva = data.incluirIva ? subtotal * 0.19 : 0
   const total = subtotal + iva
+  const compliance = validateOrdenCompra(data)
+  const showSku = data.items.some(i => i.sku?.trim())
 
   // ── Document styles ──
   const docStyle: React.CSSProperties = {
@@ -223,12 +228,34 @@ export default function NuevaOrden() {
                 Guardar borrador
               </button>
               <button className="btn-primary" onClick={async () => {
+                const check = validateOrdenCompra(data)
+                if (!check.ok) {
+                  alert(`Faltan datos obligatorios para emitir la OC:\n\n• ${check.missing.join('\n• ')}`)
+                  return
+                }
                 await commitToServer('emitida')
                 window.print()
               }}>
                 Descargar PDF
               </button>
             </div>
+          </div>
+
+          {/* Cumplimiento Buk */}
+          <div className="editor-section" style={{ borderColor: compliance.ok ? 'rgba(200,168,75,0.35)' : 'rgba(220,80,80,0.4)' }}>
+            <div className="editor-section-title">Requisitos OC (Buk)</div>
+            {compliance.ok ? (
+              <p style={{ fontSize: 13, color: 'var(--accent)', margin: 0 }}>Documento cumple los elementos obligatorios.</p>
+            ) : (
+              <ul style={{ margin: '0 0 8px', paddingLeft: 18, fontSize: 13, color: '#e88' }}>
+                {compliance.missing.map(m => <li key={m}>{m}</li>)}
+              </ul>
+            )}
+            {compliance.warnings.length > 0 && (
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--dim)' }}>
+                {compliance.warnings.map(w => <li key={w}>{w}</li>)}
+              </ul>
+            )}
           </div>
 
           {/* Meta */}
@@ -269,6 +296,7 @@ export default function NuevaOrden() {
             <div className="editor-row">
               <label>Lugar de entrega<input value={data.meta.lugarEntrega} onChange={e => set({ meta: { ...data.meta, lugarEntrega: e.target.value } })} /></label>
               <label>Plazo de entrega<input value={data.meta.plazoEntrega} placeholder="Ej: 15 días hábiles" onChange={e => set({ meta: { ...data.meta, plazoEntrega: e.target.value } })} /></label>
+              <label>Fecha entrega esperada<input type="date" value={data.meta.fechaEntrega ?? ''} onChange={e => set({ meta: { ...data.meta, fechaEntrega: e.target.value } })} /></label>
             </div>
             <label>Forma de pago<input value={data.meta.formaPago} onChange={e => set({ meta: { ...data.meta, formaPago: e.target.value } })} /></label>
           </div>
@@ -280,7 +308,7 @@ export default function NuevaOrden() {
               <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 540 }}>
                 <thead>
                   <tr>
-                    {['Descripción', 'Cant.', 'Unidad', 'Precio unit.', ''].map(h => (
+                    {['Descripción', 'SKU / Ref.', 'Cant.', 'Unidad', 'Precio unit.', ''].map(h => (
                       <th key={h} style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)', fontWeight: 400, paddingBottom: 8, textAlign: 'left', borderBottom: '1px solid var(--border)' }}>{h}</th>
                     ))}
                   </tr>
@@ -290,6 +318,9 @@ export default function NuevaOrden() {
                     <tr key={item.id}>
                       <td style={{ paddingTop: 8, paddingRight: 8 }}>
                         <input value={item.descripcion} onChange={e => updateItem(item.id, { descripcion: e.target.value })} style={{ width: '100%' }} placeholder="Descripción del ítem" />
+                      </td>
+                      <td style={{ paddingTop: 8, paddingRight: 8, width: 90 }}>
+                        <input value={item.sku ?? ''} onChange={e => updateItem(item.id, { sku: e.target.value })} style={{ width: '100%' }} placeholder="Opcional" />
                       </td>
                       <td style={{ paddingTop: 8, paddingRight: 8, width: 70 }}>
                         <input type="number" value={item.cantidad} min={0} onChange={e => updateItem(item.id, { cantidad: parseFloat(e.target.value) || 0 })} style={{ width: '100%' }} />
@@ -373,10 +404,11 @@ export default function NuevaOrden() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, margin: '0 40px', borderBottom: '1px solid #e8e8e8' }}>
               <div style={{ padding: '16px 20px 16px 0', borderRight: '1px solid #e8e8e8', ...docStyle }}>
                 <div style={labelStyle}>Solicitado por</div>
-                <div style={{ fontWeight: 700, fontSize: 11 }}>D&Z Building SpA</div>
-                <div style={{ color: '#555', fontSize: 9, marginTop: 2 }}>RUT 76.XXX.XXX-X</div>
-                <div style={{ color: '#555', fontSize: 9 }}>Santiago, Chile</div>
-                <div style={{ color: '#555', fontSize: 9 }}>contacto@dyzbuilding.cl</div>
+                <div style={{ fontWeight: 700, fontSize: 11 }}>{siteConfig.empresa.nombre} SpA</div>
+                <div style={{ color: '#555', fontSize: 9, marginTop: 2 }}>RUT {siteConfig.empresa.rut}</div>
+                <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.direccion}</div>
+                <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.email}</div>
+                {siteConfig.empresa.telefono && <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.telefono}</div>}
               </div>
               <div style={{ padding: '16px 0 16px 20px', ...docStyle }}>
                 <div style={labelStyle}>Proveedor</div>
@@ -386,17 +418,19 @@ export default function NuevaOrden() {
                 {data.proveedor.telefono && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.telefono}</div>}
                 {data.proveedor.email && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.email}</div>}
                 {data.proveedor.direccion && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.direccion}</div>}
+                {!data.proveedor.direccion && data.proveedor.ciudad && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.ciudad}</div>}
               </div>
             </div>
 
             {/* Conditions bar */}
-            <div style={{ margin: '0 40px', padding: '10px 0', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 0, borderBottom: '1px solid #e8e8e8', background: '#fafafa' }}>
+            <div style={{ margin: '0 40px', padding: '10px 0', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 0, borderBottom: '1px solid #e8e8e8', background: '#fafafa' }}>
               {[
                 { label: 'Moneda', value: MONEDAS[data.meta.moneda]?.label || data.meta.moneda },
                 { label: 'Lugar de entrega', value: data.meta.lugarEntrega || '—' },
                 { label: 'Plazo de entrega', value: data.meta.plazoEntrega || '—' },
-              ].map(({ label, value }) => (
-                <div key={label} style={{ padding: '4px 12px', borderRight: '1px solid #e8e8e8', ...docStyle }}>
+                { label: 'Fecha entrega esperada', value: data.meta.fechaEntrega ? fmtDateLong(data.meta.fechaEntrega) : '—' },
+              ].map(({ label, value }, i, arr) => (
+                <div key={label} style={{ padding: '4px 12px', borderRight: i < arr.length - 1 ? '1px solid #e8e8e8' : undefined, ...docStyle }}>
                   <div style={labelStyle}>{label}</div>
                   <div style={{ fontSize: 9.5, color: '#333' }}>{value}</div>
                 </div>
@@ -416,6 +450,7 @@ export default function NuevaOrden() {
                   <tr style={{ background: '#1a1a1a' }}>
                     <th style={{ padding: '7px 10px', textAlign: 'left', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', fontWeight: 600 }}>N°</th>
                     <th style={{ padding: '7px 10px', textAlign: 'left', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', fontWeight: 600 }}>Descripción</th>
+                    {showSku && <th style={{ padding: '7px 10px', textAlign: 'left', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', fontWeight: 600, width: 72 }}>SKU</th>}
                     <th style={{ padding: '7px 10px', textAlign: 'center', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', fontWeight: 600, width: 50 }}>Cant.</th>
                     <th style={{ padding: '7px 10px', textAlign: 'center', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', fontWeight: 600, width: 50 }}>Und.</th>
                     <th style={{ padding: '7px 10px', textAlign: 'right', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', fontWeight: 600, width: 90 }}>P. Unit.</th>
@@ -427,6 +462,7 @@ export default function NuevaOrden() {
                     <tr key={item.id} style={{ background: idx % 2 === 0 ? '#fff' : '#f9f9f9' }}>
                       <td style={{ padding: '6px 10px', fontSize: 9, color: '#888', borderBottom: '1px solid #eee' }}>{idx + 1}</td>
                       <td style={{ padding: '6px 10px', fontSize: 10, borderBottom: '1px solid #eee' }}>{item.descripcion}</td>
+                      {showSku && <td style={{ padding: '6px 10px', fontSize: 9, color: '#888', borderBottom: '1px solid #eee' }}>{item.sku || '—'}</td>}
                       <td style={{ padding: '6px 10px', textAlign: 'center', fontSize: 10, borderBottom: '1px solid #eee' }}>{item.cantidad}</td>
                       <td style={{ padding: '6px 10px', textAlign: 'center', fontSize: 10, borderBottom: '1px solid #eee', color: '#888' }}>{item.unidad}</td>
                       <td style={{ padding: '6px 10px', textAlign: 'right', fontSize: 10, borderBottom: '1px solid #eee' }}>{formatNum(parseFloat(String(item.precioUnitario).replace(/[^\d.]/g, '')) || 0, sym)}</td>
@@ -434,7 +470,7 @@ export default function NuevaOrden() {
                     </tr>
                   ))}
                   {data.items.filter(i => i.descripcion || i.precioUnitario).length === 0 && (
-                    <tr><td colSpan={6} style={{ padding: '16px 10px', color: '#bbb', fontSize: 9, textAlign: 'center' }}>Sin ítems</td></tr>
+                    <tr><td colSpan={showSku ? 7 : 6} style={{ padding: '16px 10px', color: '#bbb', fontSize: 9, textAlign: 'center' }}>Sin ítems</td></tr>
                   )}
                 </tbody>
               </table>
@@ -472,19 +508,20 @@ export default function NuevaOrden() {
 
             {/* Firma */}
             <div style={{ margin: '32px 40px 40px', paddingTop: 16, borderTop: '1px solid #e8e8e8' }}>
+              <div style={{ ...labelStyle, marginBottom: 8 }}>Autorizado por</div>
               <div style={{ width: 240, ...docStyle }}>
                 <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 8, marginTop: 40 }}>
                   <div style={{ fontSize: 10, fontWeight: 600 }}>{data.firmante.nombre || 'Nombre del firmante'}</div>
                   <div style={{ fontSize: 9, color: '#555' }}>{data.firmante.cargo || 'Cargo'}</div>
                   {data.firmante.rut && <div style={{ fontSize: 9, color: '#888' }}>RUT {data.firmante.rut}</div>}
-                  <div style={{ fontSize: 9, color: '#555', marginTop: 2 }}>D&Z Building SpA</div>
+                  <div style={{ fontSize: 9, color: '#555', marginTop: 2 }}>{siteConfig.empresa.nombre} SpA</div>
                 </div>
               </div>
             </div>
 
             {/* Footer */}
             <div style={{ borderTop: '1px solid #e8e8e8', padding: '10px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: 8, color: '#bbb' }}>D&Z Building SpA · contacto@dyzbuilding.cl · www.dyzbuilding.cl</div>
+              <div style={{ fontSize: 8, color: '#bbb' }}>{siteConfig.empresa.nombre} SpA · {siteConfig.empresa.email} · {siteConfig.empresa.web}</div>
               <div style={{ fontSize: 8, color: '#bbb' }}>{data.meta.numero}</div>
             </div>
           </div>

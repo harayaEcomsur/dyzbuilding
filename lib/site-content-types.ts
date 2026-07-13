@@ -38,7 +38,7 @@ export const defaultContent: SiteContent = {
     web: 'www.dyzbuilding.cl',
     direccion: 'Santiago, Chile',
     horario: 'Lunes a Viernes 8:30–18:00',
-    rut: '76.XXX.XXX-X',
+    rut: '78.353.685-4',
   },
   hero: {
     eyebrow: '20 años · Climatización · Refrigeración · Todo Chile',

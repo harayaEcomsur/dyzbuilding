@@ -8,6 +8,7 @@ import {
   makeId, TIPOS_CONTRATO, ContratoTipo, getDefaultClausulas,
 } from '@/lib/contratos-store'
 import { apiFetchRecord, apiCreateRecord, apiUpdateRecord } from '@/lib/contratos-api'
+import { siteConfig } from '@/lib/site-config'
 
 function getTodayStr() {
   const d = new Date()
@@ -22,14 +23,14 @@ function fmtDateLong(iso: string) {
 }
 
 const defaultMandante: Parte = {
-  nombre: 'D&Z Building SpA',
-  rut: '76.XXX.XXX-X',
+  nombre: `${siteConfig.empresa.nombre} SpA`,
+  rut: siteConfig.empresa.rut,
   tipo: 'empresa',
   representante: '',
   cargoRep: 'Gerente General',
-  direccion: 'Santiago, Chile',
+  direccion: siteConfig.empresa.direccion,
   ciudad: 'Santiago',
-  email: 'contacto@dyzbuilding.cl',
+  email: siteConfig.empresa.email,
 }
 
 function makeDefaultData(): ContratoData {
