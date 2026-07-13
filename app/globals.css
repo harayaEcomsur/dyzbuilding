@@ -57,6 +57,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .svc h3{font-size:15px;font-weight:400;letter-spacing:.04em;margin-bottom:8px;line-height:1.35;}
 .svc p{font-size:14px;color:var(--dim);line-height:1.7;font-weight:300;}
 
+/* FAQ — extractable para AI search */
+.faq-list{display:flex;flex-direction:column;gap:1px;background:var(--border);max-width:900px;}
+.faq-item{background:var(--bg2);padding:28px 32px;}
+.faq-item h3{font-family:'Josefin Sans',sans-serif;font-size:15px;font-weight:400;letter-spacing:.03em;margin-bottom:10px;line-height:1.4;}
+.faq-item p{font-size:14px;color:var(--dim);line-height:1.75;font-weight:300;}
+.f-updated{color:rgba(255,255,255,.25);}
+
 /* NOSOTROS */
 .nosotros-wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
 .nt p{font-size:16px;color:var(--dim);line-height:1.84;margin-bottom:12px;font-weight:300;}

@@ -194,6 +194,35 @@ export default function ContenidoPage() {
           </div>
         </div>
 
+        {/* FAQ — AI SEO */}
+        <div>
+          <SectionTitle>Preguntas frecuentes (AI SEO)</SectionTitle>
+          <div className="cn-info" style={{ marginBottom: 16 }}>
+            Estas preguntas aparecen en el sitio público y alimentan el schema <strong style={{ color: 'var(--text)' }}>FAQPage</strong> para Google y motores de IA (ChatGPT, Perplexity). Redacta respuestas directas de 40–80 palabras.
+          </div>
+          <div className="cn-fields" style={{ marginBottom: 16 }}>
+            <Field cfg={cfg} path="faq.eyebrow" label="Texto pequeño (eyebrow)" set={set} />
+            <Field cfg={cfg} path="faq.titulo" label="Título de sección" set={set} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {cfg.faq.items.map((item, i) => (
+              <div key={i} style={{ border: '1px solid var(--border)', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 2 }}>
+                  Pregunta {i + 1}
+                </div>
+                <div className="cn-field">
+                  <label>Pregunta</label>
+                  <input value={item.pregunta} onChange={e => set(`faq.items.${i}.pregunta`, e.target.value)} />
+                </div>
+                <div className="cn-field">
+                  <label>Respuesta</label>
+                  <textarea style={{ minHeight: 72 }} value={item.respuesta} onChange={e => set(`faq.items.${i}.respuesta`, e.target.value)} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Logo */}
         <div>
           <SectionTitle>Logo</SectionTitle>

@@ -16,6 +16,6 @@ export const getSiteContent = unstable_cache(
       return defaultContent
     }
   },
-  ['site-content', 'v3'],
+  ['site-content', 'v4'],
   { tags: ['site-content'], revalidate: false },
 )

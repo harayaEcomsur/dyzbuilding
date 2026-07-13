@@ -82,7 +82,13 @@ export default async function Home() {
         telephone: c.empresa.telefono,
         email: c.empresa.email,
         logo: `${siteUrl}/logo.png`,
-        image: `${siteUrl}/logo.png`,
+        image: `${siteUrl}/og.png`,
+        taxID: c.empresa.rut,
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: -33.4489,
+          longitude: -70.6693,
+        },
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Santiago',
@@ -175,6 +181,20 @@ export default async function Home() {
         publisher: { '@id': `${siteUrl}/#business` },
         inLanguage: 'es-CL',
       },
+      {
+        '@type': 'FAQPage',
+        '@id': `${siteUrl}/#faq`,
+        url: `${siteUrl}/#faq`,
+        inLanguage: 'es-CL',
+        mainEntity: c.faq.items.map(item => ({
+          '@type': 'Question',
+          name: item.pregunta,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.respuesta,
+          },
+        })),
+      },
     ],
   }
 
@@ -198,11 +218,13 @@ export default async function Home() {
         <ul className="nav-links">
           <li><a href="#servicios">Especialidades</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#faq">Preguntas</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
         <a className="nav-cta" href="#contacto">Solicitar Cotización</a>
       </nav>
 
+      <main>
       {/* HERO */}
       <section id="inicio" className="hero">
         <HeroCanvas />
@@ -275,6 +297,20 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="sec" id="faq">
+        <div className="sec-eyebrow">{c.faq.eyebrow}</div>
+        <h2 className="sec-title">{c.faq.titulo}</h2>
+        <div className="faq-list">
+          {c.faq.items.map((item, i) => (
+            <article className="faq-item" key={i}>
+              <h3>{item.pregunta}</h3>
+              <p>{item.respuesta}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       {/* CONTACTO */}
       <section className="sec" id="contacto">
         <div className="sec-eyebrow">Hablemos</div>
@@ -306,6 +342,7 @@ export default async function Home() {
           <ContactForm />
         </div>
       </section>
+      </main>
 
       <footer>
         <div className="f-logo">
@@ -314,9 +351,13 @@ export default async function Home() {
         <ul className="f-links">
           <li><a href="#servicios">Especialidades</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#faq">Preguntas</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
-        <div className="f-copy">© {new Date().getFullYear()} {c.empresa.nombre}. Todos los derechos reservados.</div>
+        <div className="f-copy">
+          © {new Date().getFullYear()} {c.empresa.nombre}. Todos los derechos reservados.
+          <span className="f-updated"> · Actualizado julio 2026</span>
+        </div>
       </footer>
     </>
   )
