@@ -38,6 +38,22 @@ const groups: { label: string; items: NavItem[] }[] = [
           { label: 'Historial', href: '/admin/informe' },
         ],
       },
+      {
+        label: 'Orden de Compra',
+        href: '/admin/ordenes',
+        children: [
+          { label: 'Nueva Orden', href: '/admin/ordenes/nueva' },
+          { label: 'Historial', href: '/admin/ordenes' },
+        ],
+      },
+      {
+        label: 'Contratos',
+        href: '/admin/contratos',
+        children: [
+          { label: 'Nuevo Contrato', href: '/admin/contratos/nuevo' },
+          { label: 'Historial', href: '/admin/contratos' },
+        ],
+      },
     ],
   },
   {
