@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-      <html lang="es-CL" className={`${josefinSans.variable} ${outfit.variable}`} data-scroll-behavior="smooth">
+    <html lang="es-CL" className={`${josefinSans.variable} ${outfit.variable}`} data-scroll-behavior="smooth">
       <body style={{ fontFamily: 'var(--font-outfit), sans-serif' }}>
         {children}
       </body>

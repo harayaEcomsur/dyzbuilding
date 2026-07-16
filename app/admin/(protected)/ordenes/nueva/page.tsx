@@ -34,9 +34,9 @@ function getTodayStr() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
-function fmtDateLong(iso: string) {
+function fmtDateLong(iso: string, locale = 'es-CL') {
   try {
-    return new Date(iso + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })
+    return new Date(iso + 'T12:00:00').toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
   } catch { return iso }
 }
 
@@ -190,6 +190,39 @@ export default function NuevaOrden() {
   const compliance = validateOrdenCompra(data)
   const showSku = data.items.some(i => i.sku?.trim())
 
+  const isEN = data.lang === 'en'
+  const ocT = isEN ? {
+    title: 'Purchase Order',
+    requestedBy: 'Requested by',
+    supplier: 'Supplier',
+    contact: 'Contact',
+    currencyLabel: 'Currency',
+    deliveryPlace: 'Delivery location',
+    deliveryTime: 'Lead time',
+    deliveryDate: 'Expected delivery date',
+    payment: 'Payment terms',
+    subtotal: 'Subtotal',
+    vat: 'VAT (19%)',
+    total: 'TOTAL',
+    notes: 'Notes',
+    authorizedBy: 'Authorized by',
+  } : {
+    title: 'Orden de Compra',
+    requestedBy: 'Solicitado por',
+    supplier: 'Proveedor',
+    contact: 'Contacto',
+    currencyLabel: 'Moneda',
+    deliveryPlace: 'Lugar de entrega',
+    deliveryTime: 'Plazo de entrega',
+    deliveryDate: 'Fecha entrega esperada',
+    payment: 'Forma de pago',
+    subtotal: 'Subtotal',
+    vat: 'IVA (19%)',
+    total: 'TOTAL',
+    notes: 'Notas',
+    authorizedBy: 'Autorizado por',
+  }
+
   // ── Document styles ──
   const docStyle: React.CSSProperties = {
     fontFamily: 'Arial, Helvetica, sans-serif',
@@ -224,6 +257,14 @@ export default function NuevaOrden() {
               {saveStatus === 'error' && <span className="status-error">Error al guardar</span>}
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                className="btn-secondary"
+                onClick={() => set({ lang: data.lang === 'en' ? 'es' : 'en' })}
+                title={data.lang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+                style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.22em' }}
+              >
+                {data.lang === 'en' ? '🇨🇱 ES' : '🇬🇧 EN'}
+              </button>
               <button className="btn-secondary" onClick={() => void commitToServer('borrador')}>
                 Guardar borrador
               </button>
@@ -391,9 +432,9 @@ export default function NuevaOrden() {
                 <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ height: 38, width: 'auto', objectFit: 'contain', display: 'block' }} />
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '0.08em', color: '#1a1a1a', textTransform: 'uppercase' }}>Orden de Compra</div>
+                <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '0.08em', color: '#1a1a1a', textTransform: 'uppercase' }}>{ocT.title}</div>
                 <div style={{ fontSize: 13, color: '#C8A84B', fontWeight: 600, marginTop: 4, letterSpacing: '0.04em' }}>{data.meta.numero || 'OC-YYYY-NNN'}</div>
-                <div style={{ fontSize: 10, color: '#888', marginTop: 6 }}>{data.meta.fecha ? fmtDateLong(data.meta.fecha) : '—'}</div>
+                <div style={{ fontSize: 10, color: '#888', marginTop: 6 }}>{data.meta.fecha ? fmtDateLong(data.meta.fecha, isEN ? 'en-US' : 'es-CL') : '—'}</div>
               </div>
             </div>
 
@@ -403,7 +444,7 @@ export default function NuevaOrden() {
             {/* Parties */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, margin: '0 40px', borderBottom: '1px solid #e8e8e8' }}>
               <div style={{ padding: '16px 20px 16px 0', borderRight: '1px solid #e8e8e8', ...docStyle }}>
-                <div style={labelStyle}>Solicitado por</div>
+                <div style={labelStyle}>{ocT.requestedBy}</div>
                 <div style={{ fontWeight: 700, fontSize: 11 }}>{siteConfig.empresa.nombre} SpA</div>
                 <div style={{ color: '#555', fontSize: 9, marginTop: 2 }}>RUT {siteConfig.empresa.rut}</div>
                 <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.direccion}</div>
@@ -411,10 +452,10 @@ export default function NuevaOrden() {
                 {siteConfig.empresa.telefono && <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.telefono}</div>}
               </div>
               <div style={{ padding: '16px 0 16px 20px', ...docStyle }}>
-                <div style={labelStyle}>Proveedor</div>
-                <div style={{ fontWeight: 700, fontSize: 11 }}>{data.proveedor.empresa || 'Empresa del Proveedor'}</div>
+                <div style={labelStyle}>{ocT.supplier}</div>
+                <div style={{ fontWeight: 700, fontSize: 11 }}>{data.proveedor.empresa || (isEN ? 'Supplier Company' : 'Empresa del Proveedor')}</div>
                 {data.proveedor.rut && <div style={{ color: '#555', fontSize: 9, marginTop: 2 }}>RUT {data.proveedor.rut}</div>}
-                {data.proveedor.nombre && <div style={{ color: '#555', fontSize: 9 }}>Contacto: {data.proveedor.nombre}</div>}
+                {data.proveedor.nombre && <div style={{ color: '#555', fontSize: 9 }}>{ocT.contact}: {data.proveedor.nombre}</div>}
                 {data.proveedor.telefono && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.telefono}</div>}
                 {data.proveedor.email && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.email}</div>}
                 {data.proveedor.direccion && <div style={{ color: '#555', fontSize: 9 }}>{data.proveedor.direccion}</div>}
@@ -425,10 +466,10 @@ export default function NuevaOrden() {
             {/* Conditions bar */}
             <div style={{ margin: '0 40px', padding: '10px 0', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 0, borderBottom: '1px solid #e8e8e8', background: '#fafafa' }}>
               {[
-                { label: 'Moneda', value: MONEDAS[data.meta.moneda]?.label || data.meta.moneda },
-                { label: 'Lugar de entrega', value: data.meta.lugarEntrega || '—' },
-                { label: 'Plazo de entrega', value: data.meta.plazoEntrega || '—' },
-                { label: 'Fecha entrega esperada', value: data.meta.fechaEntrega ? fmtDateLong(data.meta.fechaEntrega) : '—' },
+                { label: ocT.currencyLabel, value: MONEDAS[data.meta.moneda]?.label || data.meta.moneda },
+                { label: ocT.deliveryPlace, value: data.meta.lugarEntrega || '—' },
+                { label: ocT.deliveryTime, value: data.meta.plazoEntrega || '—' },
+                { label: ocT.deliveryDate, value: data.meta.fechaEntrega ? fmtDateLong(data.meta.fechaEntrega, isEN ? 'en-US' : 'es-CL') : '—' },
               ].map(({ label, value }, i, arr) => (
                 <div key={label} style={{ padding: '4px 12px', borderRight: i < arr.length - 1 ? '1px solid #e8e8e8' : undefined, ...docStyle }}>
                   <div style={labelStyle}>{label}</div>
@@ -438,7 +479,7 @@ export default function NuevaOrden() {
             </div>
             <div style={{ margin: '0 40px', padding: '8px 0 12px', borderBottom: '1px solid #e8e8e8' }}>
               <div style={{ padding: '0 12px', ...docStyle }}>
-                <div style={labelStyle}>Forma de pago</div>
+                <div style={labelStyle}>{ocT.payment}</div>
                 <div style={{ fontSize: 9.5, color: '#333' }}>{data.meta.formaPago || '—'}</div>
               </div>
             </div>
@@ -480,17 +521,17 @@ export default function NuevaOrden() {
                 <table style={{ fontSize: 10, ...docStyle }}>
                   <tbody>
                     <tr>
-                      <td style={{ padding: '4px 16px 4px 0', color: '#888', textAlign: 'right', minWidth: 120 }}>Subtotal</td>
+                      <td style={{ padding: '4px 16px 4px 0', color: '#888', textAlign: 'right', minWidth: 120 }}>{ocT.subtotal}</td>
                       <td style={{ padding: '4px 0', textAlign: 'right', minWidth: 110 }}>{formatNum(subtotal, sym)}</td>
                     </tr>
                     {data.incluirIva && (
                       <tr>
-                        <td style={{ padding: '4px 16px 4px 0', color: '#888', textAlign: 'right' }}>IVA (19%)</td>
+                        <td style={{ padding: '4px 16px 4px 0', color: '#888', textAlign: 'right' }}>{ocT.vat}</td>
                         <td style={{ padding: '4px 0', textAlign: 'right' }}>{formatNum(iva, sym)}</td>
                       </tr>
                     )}
                     <tr style={{ borderTop: '2px solid #1a1a1a' }}>
-                      <td style={{ padding: '8px 16px 8px 0', fontWeight: 700, fontSize: 12, textAlign: 'right' }}>TOTAL</td>
+                      <td style={{ padding: '8px 16px 8px 0', fontWeight: 700, fontSize: 12, textAlign: 'right' }}>{ocT.total}</td>
                       <td style={{ padding: '8px 0', fontWeight: 700, fontSize: 12, textAlign: 'right', color: '#C8A84B' }}>{formatNum(total, sym)}</td>
                     </tr>
                   </tbody>
@@ -501,14 +542,14 @@ export default function NuevaOrden() {
             {/* Notas */}
             {data.notas && (
               <div style={{ margin: '16px 40px 0', padding: '12px', background: '#f9f9f9', borderLeft: '3px solid #C8A84B', ...docStyle }}>
-                <div style={{ ...labelStyle, marginBottom: 6 }}>Notas</div>
+                <div style={{ ...labelStyle, marginBottom: 6 }}>{ocT.notes}</div>
                 <div style={{ fontSize: 9, color: '#555', whiteSpace: 'pre-line' }}>{data.notas}</div>
               </div>
             )}
 
             {/* Firma */}
             <div style={{ margin: '32px 40px 40px', paddingTop: 16, borderTop: '1px solid #e8e8e8' }}>
-              <div style={{ ...labelStyle, marginBottom: 8 }}>Autorizado por</div>
+              <div style={{ ...labelStyle, marginBottom: 8 }}>{ocT.authorizedBy}</div>
               <div style={{ width: 240, ...docStyle }}>
                 <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 8, marginTop: 40 }}>
                   <div style={{ fontSize: 10, fontWeight: 600 }}>{data.firmante.nombre || 'Nombre del firmante'}</div>

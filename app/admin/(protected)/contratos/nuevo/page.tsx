@@ -16,10 +16,17 @@ function getTodayStr() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
-function fmtDateLong(iso: string) {
+function fmtDateLong(iso: string, locale = 'es-CL') {
   try {
-    return new Date(iso + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })
+    return new Date(iso + 'T12:00:00').toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
   } catch { return iso }
+}
+
+const TIPOS_CONTRATO_EN: Record<ContratoTipo, string> = {
+  prestacion_servicios: 'Services Agreement',
+  compraventa: 'Purchase and Sale Agreement',
+  confidencialidad: 'Non-Disclosure Agreement',
+  otro: 'Agreement',
 }
 
 const defaultMandante: Parte = {
@@ -220,6 +227,27 @@ export default function NuevoContrato() {
     return `${label}: ${p.nombre || '[Nombre]'}, RUT ${p.rut || '[RUT]'}${p.direccion ? ', domiciliado en ' + p.direccion : ''}`
   }
 
+  const isEN = data.lang === 'en'
+  const ctrT = isEN ? {
+    party1Label: 'THE PRINCIPAL',
+    party2Label: 'THE CONTRACTOR',
+    representedBy: 'represented by',
+    actingAs: 'acting as',
+    withAddress: 'with address at',
+    idLabel: 'ID No.',
+    agreePreamble: 'THE PARTIES HEREBY AGREE',
+    agreeText: 'to the following:',
+  } : {
+    party1Label: 'EL MANDANTE',
+    party2Label: 'EL CONTRATISTA',
+    representedBy: 'representada por',
+    actingAs: 'en calidad de',
+    withAddress: 'con domicilio en',
+    idLabel: 'RUT',
+    agreePreamble: 'SE HA CONVENIDO',
+    agreeText: 'el siguiente contrato:',
+  }
+
   const docTextStyle: React.CSSProperties = {
     fontFamily: 'Times New Roman, Times, serif',
     fontSize: 10.5,
@@ -247,6 +275,14 @@ export default function NuevoContrato() {
               {saveStatus === 'error' && <span className="status-error">Error al guardar</span>}
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                className="btn-secondary"
+                onClick={() => set({ lang: data.lang === 'en' ? 'es' : 'en' })}
+                title={data.lang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+                style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.22em' }}
+              >
+                {data.lang === 'en' ? '🇨🇱 ES' : '🇬🇧 EN'}
+              </button>
               <button className="btn-secondary" onClick={() => void commitToServer('borrador')}>
                 Guardar borrador
               </button>
@@ -417,7 +453,7 @@ export default function NuevoContrato() {
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 15, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1a1a1a' }}>
-                  Contrato de {TIPOS_CONTRATO[data.meta.tipo]}
+                  {isEN ? TIPOS_CONTRATO_EN[data.meta.tipo] : `Contrato de ${TIPOS_CONTRATO[data.meta.tipo]}`}
                 </div>
                 <div style={{ fontFamily: 'Arial, sans-serif', fontSize: 11, color: '#C8A84B', fontWeight: 600, marginTop: 4, letterSpacing: '0.04em' }}>
                   {data.meta.numero || 'CTR-YYYY-NNN'}
@@ -431,32 +467,35 @@ export default function NuevoContrato() {
             {/* Intro */}
             <div style={{ padding: '20px 50px 0', ...docTextStyle }}>
               <p style={{ marginBottom: 16 }}>
-                En <strong>{data.meta.ciudad || '[ciudad]'}</strong>, a {data.meta.fecha ? fmtDateLong(data.meta.fecha) : '[fecha]'},
-                entre:
+                {isEN ? (
+                  <>In the city of <strong>{data.meta.ciudad || '[city]'}</strong>, on {data.meta.fecha ? fmtDateLong(data.meta.fecha, 'en-US') : '[date]'}, between:</>
+                ) : (
+                  <>En <strong>{data.meta.ciudad || '[ciudad]'}</strong>, a {data.meta.fecha ? fmtDateLong(data.meta.fecha) : '[fecha]'}, entre:</>
+                )}
               </p>
 
               <p style={{ marginBottom: 10 }}>
-                <strong>EL MANDANTE:</strong>{' '}
-                {data.partes.mandante.nombre || '[Nombre mandante]'}, RUT {data.partes.mandante.rut || '[RUT]'}
+                <strong>{ctrT.party1Label}:</strong>{' '}
+                {data.partes.mandante.nombre || (isEN ? '[Name]' : '[Nombre mandante]')}, {ctrT.idLabel} {data.partes.mandante.rut || '[RUT]'}
                 {data.partes.mandante.tipo === 'empresa' && data.partes.mandante.representante && (
-                  <>, representada por {data.partes.mandante.representante}{data.partes.mandante.cargoRep && `, en calidad de ${data.partes.mandante.cargoRep}`}</>
+                  <>, {ctrT.representedBy} {data.partes.mandante.representante}{data.partes.mandante.cargoRep && `, ${ctrT.actingAs} ${data.partes.mandante.cargoRep}`}</>
                 )}
-                {data.partes.mandante.direccion && <>, con domicilio en {data.partes.mandante.direccion}</>}
-                {'; y'}
+                {data.partes.mandante.direccion && <>, {ctrT.withAddress} {data.partes.mandante.direccion}</>}
+                {isEN ? '; and' : '; y'}
               </p>
 
               <p style={{ marginBottom: 16 }}>
-                <strong>EL CONTRATISTA:</strong>{' '}
-                {data.partes.contratista.nombre || '[Nombre contratista]'}, RUT {data.partes.contratista.rut || '[RUT]'}
+                <strong>{ctrT.party2Label}:</strong>{' '}
+                {data.partes.contratista.nombre || (isEN ? '[Name]' : '[Nombre contratista]')}, {ctrT.idLabel} {data.partes.contratista.rut || '[RUT]'}
                 {data.partes.contratista.tipo === 'empresa' && data.partes.contratista.representante && (
-                  <>, representada por {data.partes.contratista.representante}{data.partes.contratista.cargoRep && `, en calidad de ${data.partes.contratista.cargoRep}`}</>
+                  <>, {ctrT.representedBy} {data.partes.contratista.representante}{data.partes.contratista.cargoRep && `, ${ctrT.actingAs} ${data.partes.contratista.cargoRep}`}</>
                 )}
-                {data.partes.contratista.direccion && <>, con domicilio en {data.partes.contratista.direccion}</>}
+                {data.partes.contratista.direccion && <>, {ctrT.withAddress} {data.partes.contratista.direccion}</>}
                 {'.'}
               </p>
 
               <p style={{ marginBottom: 20 }}>
-                <strong>SE HA CONVENIDO</strong> el siguiente contrato:
+                <strong>{ctrT.agreePreamble}</strong> {ctrT.agreeText}
               </p>
             </div>
 
@@ -485,9 +524,15 @@ export default function NuevoContrato() {
 
             {/* Signature block */}
             <div style={{ padding: '20px 50px 40px' }}>
-              <p style={{ ...docTextStyle, marginBottom: 24 }}>
-                En conformidad con todo lo expuesto, las partes suscriben el presente instrumento en {Math.max(data.firmantes.length, 1)} ejemplar{data.firmantes.length > 1 ? 'es' : ''} del mismo tenor y fecha, en la ciudad indicada.
-              </p>
+              {isEN ? (
+                <p style={{ ...docTextStyle, marginBottom: 24 }}>
+                  In witness whereof, the parties have signed this agreement in {Math.max(data.firmantes.length, 1)} counterpart{data.firmantes.length !== 1 ? 's' : ''} of the same tenor and date.
+                </p>
+              ) : (
+                <p style={{ ...docTextStyle, marginBottom: 24 }}>
+                  En conformidad con todo lo expuesto, las partes suscriben el presente instrumento en {Math.max(data.firmantes.length, 1)} ejemplar{data.firmantes.length > 1 ? 'es' : ''} del mismo tenor y fecha, en la ciudad indicada.
+                </p>
+              )}
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32 }}>
                 {data.firmantes.map(f => (

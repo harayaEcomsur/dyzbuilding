@@ -227,7 +227,15 @@ export default function NuevoMembrete() {
             </div>
           ))}
 
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button
+              onClick={() => set({ lang: data.lang === 'en' ? 'es' : 'en' })}
+              className="btn-outline"
+              title={data.lang === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+              style={{ padding: '13px 18px', fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.22em' }}
+            >
+              {data.lang === 'en' ? '🇨🇱 ES' : '🇬🇧 EN'}
+            </button>
             <button onClick={() => void commitToServer('borrador')} className="btn-outline" style={{ flex: 1, textAlign: 'center', padding: '13px' }}>
               Guardar borrador
             </button>

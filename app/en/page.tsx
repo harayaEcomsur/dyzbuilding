@@ -7,22 +7,24 @@ import HeroCanvas from '@/components/HeroCanvas'
 import LangSwitcher from '@/components/LangSwitcher'
 import { getSiteContent } from '@/lib/site-content'
 
+// Mirror any structural changes in this file to app/page.tsx (and vice versa)
+
 const SVC_ICONS: React.ReactNode[] = [
-  /* Climatización Comercial / VRF */
+  /* Commercial HVAC / VRF */
   <><rect key="a" x="2" y="8" width="14" height="9" rx=".5"/><rect key="b" x="20" y="8" width="14" height="9" rx=".5"/><line key="c" x1="2" y1="12" x2="16" y2="12"/><line key="d" x1="20" y1="12" x2="34" y2="12"/><line key="e" x1="9" y1="17" x2="9" y2="22"/><line key="f" x1="27" y1="17" x2="27" y2="22"/><rect key="g" x="5" y="22" width="8" height="8" rx=".5"/><rect key="h" x="23" y="22" width="8" height="8" rx=".5"/><line key="i" x1="13" y1="26" x2="23" y2="26"/></>,
-  /* Refrigeración Comercial */
+  /* Commercial Refrigeration */
   <><rect key="a" x="3" y="6" width="30" height="22" rx=".5"/><line key="b" x1="3" y1="14" x2="33" y2="14"/><line key="c" x1="10" y1="6" x2="10" y2="14"/><line key="d" x1="18" y1="6" x2="18" y2="14"/><line key="e" x1="26" y1="6" x2="26" y2="14"/><line key="f" x1="7" y1="20" x2="7" y2="22"/><line key="g" x1="14" y1="20" x2="14" y2="22"/><line key="h" x1="21" y1="20" x2="21" y2="22"/><line key="i" x1="28" y1="20" x2="28" y2="22"/><line key="j" x1="3" y1="28" x2="33" y2="28"/></>,
-  /* Ventilación y Extracción */
+  /* Ventilation & Extraction */
   <><circle key="a" cx="18" cy="18" r="8"/><circle key="b" cx="18" cy="18" r="2.5"/><path key="c" d="M18 4v5M18 27v5M4 18h5M27 18h5"/><path key="d" d="M8.5 8.5l3.5 3.5M24 24l3.5 3.5M27.5 8.5L24 12M12 24l-3.5 3.5"/></>,
-  /* Mantenimiento Preventivo */
+  /* Preventive Maintenance */
   <><path key="a" d="M6 28 C8 22 14 18 18 18 C22 18 24 14 22 10"/><path key="b" d="M22 10 L26 14 M22 10 L18 14"/><circle key="c" cx="28" cy="10" r="3"/><path key="d" d="M10 32 L14 26 L18 29 L24 20"/></>,
-  /* Proyectos Llave en Mano */
+  /* Turnkey Project */
   <><rect key="a" x="5" y="5" width="18" height="26" rx=".5"/><line key="b" x1="9" y1="12" x2="19" y2="12"/><line key="c" x1="9" y1="17" x2="19" y2="17"/><line key="d" x1="9" y1="22" x2="15" y2="22"/><circle key="e" cx="26" cy="26" r="6"/><path key="f" d="M23 26 L25 28 L29 23"/></>,
-  /* Análisis Operacional VRV/VRF */
+  /* VRV/VRF Operational Analysis */
   <><path key="a" d="M4 32 L12 20 L20 25 L28 10 L34 14"/><circle key="b" cx="12" cy="20" r="2" fill="currentColor" stroke="none"/><circle key="c" cx="20" cy="25" r="2" fill="currentColor" stroke="none"/><circle key="d" cx="28" cy="10" r="2" fill="currentColor" stroke="none"/><line key="e" x1="4" y1="32" x2="34" y2="32"/></>,
-  /* Eficiencia Energética HVAC */
+  /* HVAC Energy Efficiency */
   <><path key="a" d="M18 4 L21 13 L30 13 L23 19 L26 28 L18 22 L10 28 L13 19 L6 13 L15 13 Z"/></>,
-  /* Asesoría de Ingeniería */
+  /* Engineering Consultancy */
   <><rect key="a" x="3" y="4" width="30" height="22" rx=".5"/><line key="b" x1="10" y1="4" x2="10" y2="26"/><line key="c" x1="18" y1="4" x2="18" y2="26"/><line key="d" x1="3" y1="12" x2="33" y2="12"/><line key="e" x1="3" y1="20" x2="33" y2="20"/><line key="f" x1="8" y1="30" x2="28" y2="30"/><line key="g" x1="18" y1="26" x2="18" y2="30"/></>,
 ]
 
@@ -33,38 +35,27 @@ const BRANDS = [
   { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
 ] as const
 
-const UI = {
-  es: {
-    navServicios: 'Especialidades', navNosotros: 'Nosotros', navFaq: 'Preguntas', navContacto: 'Contacto',
-    navCta: 'Solicitar Cotización', marcasLabel: 'Marcas oficiales', quienesSomos: 'Quiénes somos',
-    heroBtn1: 'Nuestras especialidades', heroBtn2: 'Solicitar cotización',
-    statsAnios: 'años de experiencia', statsCobertura: 'Cobertura nacional',
-    statsMarcas: 'Marcas oficiales', statsSoporte: 'Soporte técnico',
-    contactoEyebrow: 'Hablemos', contactoTitulo: 'Solicitar Cotización',
-    contactoDirecto: 'Contacto directo', ubicacion: 'Ubicación', telefono: 'Teléfono', email: 'Email',
-  },
-  en: {
-    navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact',
-    navCta: 'Request a Quote', marcasLabel: 'Official brands', quienesSomos: 'Who we are',
-    heroBtn1: 'Our specialties', heroBtn2: 'Request a quote',
-    statsAnios: 'years of experience', statsCobertura: 'Nationwide coverage',
-    statsMarcas: 'Official brands', statsSoporte: 'Technical support',
-    contactoEyebrow: "Let's talk", contactoTitulo: 'Request a Quote',
-    contactoDirecto: 'Direct contact', ubicacion: 'Location', telefono: 'Phone', email: 'Email',
-  },
+const t = {
+  navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact',
+  navCta: 'Request a Quote', marcasLabel: 'Official brands', quienesSomos: 'Who we are',
+  heroBtn1: 'Our specialties', heroBtn2: 'Request a quote',
+  statsAnios: 'years of experience', statsCobertura: 'Nationwide coverage',
+  statsMarcas: 'Official brands', statsSoporte: 'Technical support',
+  contactoEyebrow: "Let's talk", contactoTitulo: 'Request a Quote',
+  contactoDirecto: 'Direct contact', ubicacion: 'Location', telefono: 'Phone', email: 'Email',
 }
 
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getSiteContent()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
-  const seo = c.seo
+  const seo = c.en.seo
   return {
     metadataBase: new URL(siteUrl),
     title: seo.titulo,
     description: seo.descripcion,
     keywords: seo.keywords,
     alternates: {
-      canonical: '/',
+      canonical: '/en/',
       languages: {
         'es': '/',
         'en': '/en/',
@@ -75,8 +66,8 @@ export async function generateMetadata(): Promise<Metadata> {
       title: seo.titulo,
       description: seo.descripcion,
       type: 'website',
-      locale: 'es_CL',
-      url: '/',
+      locale: 'en_US',
+      url: '/en/',
       siteName: c.empresa.nombre,
       images: [{ url: '/og.png', width: 1200, height: 630, alt: c.empresa.nombre }],
     },
@@ -94,13 +85,12 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Home() {
+export default async function HomeEN() {
   const c = await getSiteContent()
-  const t = UI.es
-  const hero = c.hero
-  const nosotros = c.nosotros
-  const servicios = c.servicios
-  const faq = c.faq
+  const hero = c.en.hero
+  const nosotros = c.en.nosotros
+  const servicios = c.en.servicios
+  const faq = c.en.faq
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
 
   const jsonLd = {
@@ -110,7 +100,7 @@ export default async function Home() {
         '@type': 'LocalBusiness',
         '@id': `${siteUrl}/#business`,
         name: c.empresa.nombre,
-        description: c.seo.descripcion,
+        description: c.en.seo.descripcion,
         url: siteUrl,
         telephone: c.empresa.telefono,
         email: c.empresa.email,
@@ -125,7 +115,7 @@ export default async function Home() {
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Santiago',
-          addressRegion: 'Región Metropolitana',
+          addressRegion: 'Metropolitan Region',
           addressCountry: 'CL',
         },
         areaServed: { '@type': 'Country', name: 'Chile' },
@@ -139,9 +129,9 @@ export default async function Home() {
         ],
         priceRange: '$$',
         knowsAbout: [
-          'Climatización comercial', 'Sistemas VRF', 'Sistemas VRV',
-          'Refrigeración comercial', 'HVAC', 'Eficiencia energética',
-          'Proyectos llave en mano', 'Mantención preventiva',
+          'Commercial HVAC', 'VRF Systems', 'VRV Systems',
+          'Commercial Refrigeration', 'HVAC', 'Energy Efficiency',
+          'Turnkey Projects', 'Preventive Maintenance',
         ],
         brand: [
           { '@type': 'Brand', name: 'LG' },
@@ -150,54 +140,54 @@ export default async function Home() {
         ],
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
-          name: 'Servicios de Climatización y Refrigeración',
+          name: 'HVAC and Refrigeration Services',
           itemListElement: [
             {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Climatización Comercial VRF/VRV',
-                description: 'Diseño, suministro e instalación de sistemas VRF/VRV para oficinas, hoteles, locales y centros comerciales.',
+                name: 'Commercial HVAC VRF/VRV',
+                description: 'Design, supply and installation of VRF/VRV systems for offices, hotels, retail and shopping centers.',
               },
             },
             {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Refrigeración Comercial',
-                description: 'Vitrinas, cámaras frigoríficas y equipos de frío para supermercados, gastronomía e industria alimentaria.',
+                name: 'Commercial Refrigeration',
+                description: 'Display cases, cold rooms and refrigeration equipment for supermarkets, foodservice and food industry.',
               },
             },
             {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Proyectos Llave en Mano HVAC',
-                description: 'Ingeniería, suministro, instalación y puesta en marcha de sistemas de climatización completos.',
+                name: 'Turnkey HVAC Projects',
+                description: 'Engineering, supply, installation and commissioning of complete HVAC systems.',
               },
             },
             {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Mantención Preventiva de Climatización',
-                description: 'Planes de mantención periódica para sistemas VRF, aire acondicionado y refrigeración comercial en empresas.',
+                name: 'Preventive HVAC Maintenance',
+                description: 'Periodic maintenance plans for VRF systems, air conditioning and commercial refrigeration.',
               },
             },
             {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Eficiencia Energética HVAC',
-                description: 'Diagnóstico de consumo, auditoría energética y optimización de sistemas de climatización.',
+                name: 'HVAC Energy Efficiency',
+                description: 'Consumption diagnostics, energy audits and HVAC system optimization.',
               },
             },
             {
               '@type': 'Offer',
               itemOffered: {
                 '@type': 'Service',
-                name: 'Ventilación y Extracción Industrial',
-                description: 'Sistemas VMC, extractores y renovación de aire para espacios industriales y comerciales.',
+                name: 'Industrial Ventilation & Extraction',
+                description: 'HRV systems, exhaust fans and air renewal for industrial and commercial spaces.',
               },
             },
           ],
@@ -210,15 +200,15 @@ export default async function Home() {
         '@id': `${siteUrl}/#website`,
         url: siteUrl,
         name: c.empresa.nombre,
-        description: c.seo.descripcion,
+        description: c.en.seo.descripcion,
         publisher: { '@id': `${siteUrl}/#business` },
-        inLanguage: 'es-CL',
+        inLanguage: 'en',
       },
       {
         '@type': 'FAQPage',
-        '@id': `${siteUrl}/#faq`,
-        url: `${siteUrl}/#faq`,
-        inLanguage: 'es-CL',
+        '@id': `${siteUrl}/en/#faq`,
+        url: `${siteUrl}/en/#faq`,
+        inLanguage: 'en',
         mainEntity: faq.items.map(item => ({
           '@type': 'Question',
           name: item.pregunta,
@@ -255,7 +245,7 @@ export default async function Home() {
           <li><a href="#contacto">{t.navContacto}</a></li>
         </ul>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <LangSwitcher lang="es" />
+          <LangSwitcher lang="en" />
           <a className="nav-cta" href="#contacto">{t.navCta}</a>
         </div>
       </nav>
@@ -277,7 +267,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* MARCAS */}
+      {/* BRANDS */}
       <div className="brands">
         <span className="brands-label">{t.marcasLabel}</span>
         <div className="brands-list">
@@ -294,7 +284,7 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* ESPECIALIDADES */}
+      {/* SPECIALTIES */}
       <section className="sec" id="servicios">
         <div className="sec-eyebrow">{servicios.eyebrow}</div>
         <h2 className="sec-title">{servicios.titulo}</h2>
@@ -311,7 +301,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* NOSOTROS */}
+      {/* ABOUT */}
       <section className="sec" id="nosotros">
         <div className="nosotros-wrap">
           <div className="nt">
@@ -347,7 +337,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CONTACTO */}
+      {/* CONTACT */}
       <section className="sec" id="contacto">
         <div className="sec-eyebrow">{t.contactoEyebrow}</div>
         <h2 className="sec-title">{t.contactoTitulo}</h2>
@@ -375,7 +365,7 @@ export default async function Home() {
               <div className="ci-txt"><strong>{t.email}</strong>{c.empresa.email}</div>
             </div>
           </div>
-          <ContactForm lang="es" />
+          <ContactForm lang="en" />
         </div>
       </section>
       </main>
@@ -391,8 +381,8 @@ export default async function Home() {
           <li><a href="#contacto">{t.navContacto}</a></li>
         </ul>
         <div className="f-copy">
-          © {new Date().getFullYear()} {c.empresa.nombre}. Todos los derechos reservados.
-          <span className="f-updated"> · Actualizado julio 2026</span>
+          © {new Date().getFullYear()} {c.empresa.nombre}. All rights reserved.
+          <span className="f-updated"> · Updated July 2026</span>
         </div>
       </footer>
     </>

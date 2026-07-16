@@ -5,6 +5,7 @@ export interface MembreteData {
   asunto: string
   cuerpo: string
   firmante: string
+  lang?: 'es' | 'en'
 }
 
 export interface MembreteRecord {

@@ -1,3 +1,11 @@
+export interface SiteContentEN {
+  hero: { eyebrow: string; titulo: string; subtitulo: string }
+  nosotros: { titulo: string; p1: string; p2: string }
+  servicios: { eyebrow: string; titulo: string; items: Array<{ titulo: string; descripcion: string }> }
+  seo: { titulo: string; descripcion: string; keywords: string }
+  faq: { eyebrow: string; titulo: string; items: Array<{ pregunta: string; respuesta: string }> }
+}
+
 export interface SiteContent {
   empresa: {
     nombre: string
@@ -33,6 +41,53 @@ export interface SiteContent {
     titulo: string
     items: Array<{ pregunta: string; respuesta: string }>
   }
+  en: SiteContentEN
+}
+
+export const defaultEN: SiteContentEN = {
+  hero: {
+    eyebrow: '20 Years · HVAC · Refrigeration · All Chile',
+    titulo: '20 years leading climate engineering in Chile',
+    subtitulo: 'Experts in VRF/VRV systems, commercial refrigeration, HVAC energy efficiency, and turnkey projects for industry and commerce.',
+  },
+  nosotros: {
+    titulo: 'Two decades of\nclimate excellence',
+    p1: 'D&Z Building is a Chilean company specialized in commercial HVAC and industrial refrigeration with over 20 years of experience. We design, install, and maintain VRF/VRV systems for offices, hotels, and retail across Chile, as an authorized distributor of LG, Samsung, and Gree.',
+    p2: 'We work with the leading brands in the sector — LG, Samsung, and Gree — offering comprehensive solutions for residential, commercial, and industrial projects throughout Chile.',
+  },
+  servicios: {
+    eyebrow: 'Technical expertise',
+    titulo: 'What we do',
+    items: [
+      { titulo: 'Commercial HVAC / VRF', descripcion: 'Multi-split, VRF, and fan-coil systems for offices, hotels, retail, and shopping centers.' },
+      { titulo: 'Commercial Refrigeration', descripcion: 'Display cases, gondolas, and cold equipment for supermarkets, butchers, and food service.' },
+      { titulo: 'Ventilation & Extraction', descripcion: 'HRV systems, industrial extractors, and air renewal for demanding environments.' },
+      { titulo: 'Preventive Maintenance', descripcion: 'Periodic maintenance plans, diagnostics, and performance guarantees for all installations.' },
+      { titulo: 'Turnkey Projects', descripcion: 'Design, supply, installation, and commissioning. One point of contact from start to finish.' },
+      { titulo: 'VRV/VRF Operational Analysis', descripcion: 'Audit of installed systems, data reading, and real performance optimization.' },
+      { titulo: 'HVAC Energy Efficiency', descripcion: 'Consumption diagnostics, A+++ equipment selection, and energy efficiency certification.' },
+      { titulo: 'Engineering Consultancy', descripcion: 'Detailed engineering, technical specifications, and support for architects and contractors.' },
+    ],
+  },
+  seo: {
+    titulo: 'Commercial HVAC and VRF Systems in Chile | D&Z Building',
+    descripcion: 'Leading company in commercial HVAC, VRF/VRV systems, and industrial refrigeration in Chile. 20+ years of experience. Authorized distributors of LG, Samsung, and Gree. Free quotation.',
+    keywords: 'commercial HVAC Chile, VRF system Chile, VRV system Chile, HVAC company Santiago Chile, commercial refrigeration company, VRF installation Chile, HVAC maintenance companies, turnkey HVAC project, energy efficiency HVAC, industrial HVAC Chile, LG VRF distributor Chile, commercial air conditioning company',
+  },
+  faq: {
+    eyebrow: 'Frequently asked questions',
+    titulo: 'Commercial HVAC and VRF systems in Chile',
+    items: [
+      { pregunta: 'What is D&Z Building?', respuesta: 'D&Z Building is a Chilean company specialized in commercial HVAC, VRF/VRV systems, and industrial refrigeration. With over 20 years of experience, we offer design, installation, maintenance, and turnkey projects for companies throughout Chile.' },
+      { pregunta: 'What is a VRF or VRV system?', respuesta: 'VRF (Variable Refrigerant Flow) and VRV (Variable Refrigerant Volume) are multi-zone HVAC systems that allow temperature control across multiple areas with a single outdoor unit. Ideal for commercial buildings, hotels, and offices due to their energy efficiency and flexibility.' },
+      { pregunta: 'What areas of Chile does D&Z Building serve?', respuesta: 'D&Z Building has nationwide coverage in Chile, based in Santiago. We handle HVAC and commercial refrigeration projects in the Metropolitan Region and throughout the country.' },
+      { pregunta: 'Which HVAC brands does D&Z Building distribute?', respuesta: 'D&Z Building is an authorized distributor of LG, Samsung, and Gree in Chile. These brands lead the VRF/VRV systems and commercial HVAC market.' },
+      { pregunta: 'Do you offer preventive maintenance for VRF systems?', respuesta: 'Yes. D&Z Building offers preventive maintenance plans for VRF, VRV, commercial air conditioning, and industrial refrigeration systems, including diagnostics, cleaning, and performance optimization.' },
+      { pregunta: 'How much does a VRF system cost in Chile?', respuesta: 'The cost of a VRF system depends on building size, number of zones, equipment brand, and installation complexity. D&Z Building provides free personalized quotations after evaluating your project.' },
+      { pregunta: 'What is the difference between VRF and traditional split air conditioning?', respuesta: 'A traditional split system conditions one or a few areas with independent units. A VRF system connects multiple zones to a single outdoor unit, offering better energy efficiency and individual zone control — ideal for medium and large commercial buildings.' },
+      { pregunta: 'How do I request a commercial HVAC quotation?', respuesta: 'You can request a free quotation by filling out the contact form at dyzbuilding.cl, emailing contacto@dyzbuilding.cl, or calling the phone number listed on the website. Our team responds during business hours, Monday through Friday.' },
+    ],
+  },
 }
 
 export const defaultContent: SiteContent = {
@@ -112,6 +167,7 @@ export const defaultContent: SiteContent = {
       },
     ],
   },
+  en: defaultEN,
 }
 
 export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
@@ -126,6 +182,48 @@ export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
     }
   }
   return result
+}
+
+function normalizeEN(en?: Partial<SiteContentEN> | null): SiteContentEN {
+  const svcs = en?.servicios
+  const faqEN = en?.faq
+  return {
+    hero: {
+      eyebrow: en?.hero?.eyebrow ?? defaultEN.hero.eyebrow,
+      titulo: en?.hero?.titulo ?? defaultEN.hero.titulo,
+      subtitulo: en?.hero?.subtitulo ?? defaultEN.hero.subtitulo,
+    },
+    nosotros: {
+      titulo: en?.nosotros?.titulo ?? defaultEN.nosotros.titulo,
+      p1: en?.nosotros?.p1 ?? defaultEN.nosotros.p1,
+      p2: en?.nosotros?.p2 ?? defaultEN.nosotros.p2,
+    },
+    servicios: {
+      eyebrow: svcs?.eyebrow ?? defaultEN.servicios.eyebrow,
+      titulo: svcs?.titulo ?? defaultEN.servicios.titulo,
+      items: Array.isArray(svcs?.items) && svcs.items.length > 0
+        ? svcs.items.map((item, i) => ({
+            titulo: item?.titulo ?? defaultEN.servicios.items[i]?.titulo ?? '',
+            descripcion: item?.descripcion ?? defaultEN.servicios.items[i]?.descripcion ?? '',
+          }))
+        : defaultEN.servicios.items,
+    },
+    seo: {
+      titulo: en?.seo?.titulo ?? defaultEN.seo.titulo,
+      descripcion: en?.seo?.descripcion ?? defaultEN.seo.descripcion,
+      keywords: en?.seo?.keywords ?? defaultEN.seo.keywords,
+    },
+    faq: {
+      eyebrow: faqEN?.eyebrow ?? defaultEN.faq.eyebrow,
+      titulo: faqEN?.titulo ?? defaultEN.faq.titulo,
+      items: Array.isArray(faqEN?.items) && faqEN.items.length > 0
+        ? faqEN.items.map((item, i) => ({
+            pregunta: item?.pregunta ?? defaultEN.faq.items[i]?.pregunta ?? '',
+            respuesta: item?.respuesta ?? defaultEN.faq.items[i]?.respuesta ?? '',
+          }))
+        : defaultEN.faq.items,
+    },
+  }
 }
 
 export function normalizeSiteContent(data?: Partial<SiteContent> | null): SiteContent {
@@ -155,5 +253,6 @@ export function normalizeSiteContent(data?: Partial<SiteContent> | null): SiteCo
           }))
         : defaultContent.faq.items,
     },
+    en: normalizeEN((data as Record<string, unknown>)?.en as Partial<SiteContentEN> | undefined),
   }
 }

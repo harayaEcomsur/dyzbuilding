@@ -172,6 +172,30 @@ export default function NuevoInforme() {
     return () => obs.disconnect()
   }, [])
 
+  const isEN = data.lang === 'en'
+  const STATUS_LABELS_EN: Record<StatusKey, string> = { optimo: 'Optimal', regular: 'Regular', requiere: 'Requires intervention' }
+  const itT = isEN ? {
+    header: 'Technical Report',
+    meta: [['Client', data.meta.cliente], ['Technician', data.meta.tecnico], ['Date', data.meta.fecha], ['Project', data.meta.proyecto]],
+    s01: 'Report Subject', s02: 'Inspected Equipment', s03: 'Recommendations', s04: 'Observations', s05: 'Conclusions',
+    tableHeaders: ['#', 'Equipment', 'Brand', 'Model', 'Status'],
+    allOptimal: 'All equipment is in optimal condition.',
+    statusLabels: STATUS_LABELS_EN,
+    noteLabel: 'Note',
+    regularRec: 'Schedule preventive maintenance.',
+    reqRec: 'Requires immediate intervention.',
+  } : {
+    header: 'Informe Técnico',
+    meta: [['Cliente', data.meta.cliente], ['Técnico', data.meta.tecnico], ['Fecha', data.meta.fecha], ['Proyecto', data.meta.proyecto]],
+    s01: 'Objeto del informe', s02: 'Equipos inspeccionados', s03: 'Recomendaciones', s04: 'Observaciones', s05: 'Conclusiones',
+    tableHeaders: ['#', 'Equipo', 'Marca', 'Modelo', 'Estado'],
+    allOptimal: 'Todos los equipos se encuentran en estado óptimo.',
+    statusLabels: STATUS_LABELS,
+    noteLabel: 'Nota',
+    regularRec: 'Programar mantención preventiva.',
+    reqRec: 'Requiere intervención inmediata.',
+  }
+
   const saveLabel =
     saveStatus === 'saving' ? 'Guardando…'
     : saveStatus === 'saved' ? 'Guardado'
@@ -335,7 +359,15 @@ export default function NuevoInforme() {
             <textarea style={{ minHeight: 56, resize: 'vertical' }} value={data.nota} onChange={e => set({ nota: e.target.value })} />
           </div>
 
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button
+              onClick={() => set({ lang: isEN ? 'es' : 'en' })}
+              className="btn-outline"
+              title={isEN ? 'Cambiar a Español' : 'Switch to English'}
+              style={{ padding: '13px 18px', fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.22em' }}
+            >
+              {isEN ? '🇨🇱 ES' : '🇬🇧 EN'}
+            </button>
             <button onClick={() => void commitToServer('borrador')} className="btn-outline" style={{ flex: 1, textAlign: 'center', padding: '13px' }}>
               Guardar borrador
             </button>
@@ -356,14 +388,14 @@ export default function NuevoInforme() {
             <div style={{ background: '#0c0c0c', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ height: 38, width: 'auto', objectFit: 'contain', display: 'block' }} />
               <div style={{ textAlign: 'right' }}>
-                <div style={{ color: '#C8A84B', fontSize: 7, letterSpacing: '0.3em', textTransform: 'uppercase' }}>Informe Técnico</div>
+                <div style={{ color: '#C8A84B', fontSize: 7, letterSpacing: '0.3em', textTransform: 'uppercase' }}>{itT.header}</div>
                 <div style={{ color: '#555', fontSize: 9, marginTop: 3, fontFamily: 'Courier New, monospace' }}>{data.meta.codigo}</div>
               </div>
             </div>
             <div style={{ background: '#C8A84B', height: 3 }} />
 
             <div style={{ background: '#f9f9f9', borderBottom: '1px solid #e8e8e8', padding: '12px 40px', display: 'flex', gap: 36, flexWrap: 'wrap' }}>
-              {[['Cliente', data.meta.cliente], ['Técnico', data.meta.tecnico], ['Fecha', data.meta.fecha], ['Proyecto', data.meta.proyecto]].map(([lbl, val]) => (
+              {itT.meta.map(([lbl, val]) => (
                 <div key={lbl}>
                   <div style={{ fontSize: 7, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#aaa', marginBottom: 2 }}>{lbl}</div>
                   <div style={{ fontSize: 11, color: '#333', fontWeight: 600 }}>{val || '—'}</div>
@@ -372,15 +404,15 @@ export default function NuevoInforme() {
             </div>
 
             <div style={{ padding: '28px 40px 32px' }}>
-              <Section num="01" title="Objeto del informe">
+              <Section num="01" title={itT.s01}>
                 <p style={{ fontSize: 11, lineHeight: 1.7, color: '#444', margin: 0 }}>{data.objeto}</p>
               </Section>
 
-              <Section num="02" title="Equipos inspeccionados">
+              <Section num="02" title={itT.s02}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 10 }}>
                   <thead>
                     <tr style={{ background: '#f2f2f2' }}>
-                      {['#', 'Equipo', 'Marca', 'Modelo', 'Estado'].map(h => (
+                      {itT.tableHeaders.map(h => (
                         <th key={h} style={{ padding: '7px 10px', textAlign: 'left', fontSize: 7, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888', borderBottom: '2px solid #ddd' }}>{h}</th>
                       ))}
                     </tr>
@@ -394,7 +426,7 @@ export default function NuevoInforme() {
                         <td style={{ padding: '7px 10px', color: '#555', fontFamily: 'Courier New, monospace', fontSize: 9 }}>{r.modelo}</td>
                         <td style={{ padding: '6px 10px' }}>
                           <span style={{ background: STATUS_COLORS[r.status].bg, color: STATUS_COLORS[r.status].text, padding: '2px 8px', borderRadius: 2, fontSize: 9, fontWeight: 700 }}>
-                            {STATUS_LABELS[r.status]}
+                            {itT.statusLabels[r.status]}
                           </span>
                         </td>
                       </tr>
@@ -403,14 +435,14 @@ export default function NuevoInforme() {
                 </table>
               </Section>
 
-              <Section num="03" title="Recomendaciones">
+              <Section num="03" title={itT.s03}>
                 {data.rows.filter(r => r.status !== 'optimo').length === 0 ? (
-                  <p style={{ fontSize: 11, color: '#155724', background: '#d4edda', padding: '10px 14px', margin: 0 }}>Todos los equipos se encuentran en estado óptimo.</p>
+                  <p style={{ fontSize: 11, color: '#155724', background: '#d4edda', padding: '10px 14px', margin: 0 }}>{itT.allOptimal}</p>
                 ) : (
                   <ul style={{ paddingLeft: 18, margin: 0 }}>
                     {data.rows.filter(r => r.status !== 'optimo').map(r => (
                       <li key={r.id} style={{ fontSize: 11, color: '#444', marginBottom: 4, lineHeight: 1.5 }}>
-                        <strong>{r.equipo}</strong> ({r.marca} {r.modelo}): {r.status === 'regular' ? 'Programar mantención preventiva.' : 'Requiere intervención inmediata.'}
+                        <strong>{r.equipo}</strong> ({r.marca} {r.modelo}): {r.status === 'regular' ? itT.regularRec : itT.reqRec}
                       </li>
                     ))}
                   </ul>
@@ -418,19 +450,19 @@ export default function NuevoInforme() {
               </Section>
 
               {data.observaciones && (
-                <Section num="04" title="Observaciones">
+                <Section num="04" title={itT.s04}>
                   <p style={{ fontSize: 11, lineHeight: 1.7, color: '#444', margin: 0, whiteSpace: 'pre-wrap' }}>{data.observaciones}</p>
                 </Section>
               )}
 
               {data.conclusiones && (
-                <Section num="05" title="Conclusiones">
+                <Section num="05" title={itT.s05}>
                   <p style={{ fontSize: 11, lineHeight: 1.7, color: '#444', margin: 0, whiteSpace: 'pre-wrap' }}>{data.conclusiones}</p>
                 </Section>
               )}
 
               <div style={{ background: '#fffbf0', border: '1px solid #C8A84B', padding: '12px 16px' }}>
-                <p style={{ fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B6920', marginBottom: 4, fontWeight: 700 }}>Nota</p>
+                <p style={{ fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9B6920', marginBottom: 4, fontWeight: 700 }}>{itT.noteLabel}</p>
                 <p style={{ fontSize: 10, color: '#666', margin: 0, lineHeight: 1.5 }}>{data.nota}</p>
               </div>
             </div>

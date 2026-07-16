@@ -21,6 +21,7 @@ export interface QuotationData {
   items: LineItem[]
   incluirIva: boolean
   notas: string
+  lang?: 'es' | 'en'
 }
 
 export interface CotizacionRecord {

@@ -204,9 +204,27 @@ export default function NuevaCotizacion() {
   const iva = data.incluirIva ? subtotalAll * 0.19 : 0
   const total = subtotalAll + iva
 
+  const isEN = data.lang === 'en'
+  const docT = isEN ? {
+    title: 'Quotation', num: 'No.', date: 'Date:', validity: 'Valid for:', validityUnit: 'days',
+    client: 'Client', supplier: 'Issued by', currency: 'Currency:', rut: 'ID No.:',
+    conditions: 'Terms & Conditions', subtotal: 'Subtotal', vat: 'VAT (19%)',
+    total: 'Total', footer: 'D&Z Building · Chile',
+    tableHeaders: ['#', 'Description', 'Qty.', 'Unit Price', 'Total'],
+    signClient: 'Client', signSupplier: 'D&Z Building',
+  } : {
+    title: 'Cotización', num: 'N°', date: 'Fecha:', validity: 'Validez:', validityUnit: 'días corridos',
+    client: 'Cliente', supplier: 'Proveedor', currency: 'Moneda:', rut: 'RUT:',
+    conditions: 'Condiciones', subtotal: 'Subtotal', vat: 'IVA (19%)',
+    total: 'Total', footer: 'D&Z Building · Chile',
+    tableHeaders: ['#', 'Descripción', 'Cant.', 'P. Unitario', 'Total'],
+    signClient: 'Cliente', signSupplier: 'D&Z Building',
+  }
+
   const fechaDisplay = (() => {
     try {
-      return new Date(data.fecha + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })
+      const locale = isEN ? 'en-US' : 'es-CL'
+      return new Date(data.fecha + 'T12:00:00').toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
     } catch { return data.fecha }
   })()
 
@@ -382,7 +400,15 @@ export default function NuevaCotizacion() {
           </section>
 
           {/* Acciones */}
-          <section style={{ display: 'flex', gap: 10, paddingBottom: 8 }}>
+          <section style={{ display: 'flex', gap: 10, paddingBottom: 8, flexWrap: 'wrap' }}>
+            <button
+              onClick={() => set({ lang: isEN ? 'es' : 'en' })}
+              className="btn-outline"
+              title={isEN ? 'Cambiar a Español' : 'Switch to English'}
+              style={{ padding: '13px 18px', fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.22em' }}
+            >
+              {isEN ? '🇨🇱 ES' : '🇬🇧 EN'}
+            </button>
             <button onClick={handleGuardar} className="btn-outline" style={{ flex: 1, textAlign: 'center', padding: '13px' }}>
               Guardar borrador
             </button>
@@ -407,11 +433,11 @@ export default function NuevaCotizacion() {
                 <Image src="/logo.png" alt="D&Z Building" width={650} height={300} style={{ height: 38, width: 'auto', objectFit: 'contain', display: 'block' }} />
               </div>
               <div style={{ textAlign: 'right', paddingTop: 2 }}>
-                <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 30, fontWeight: 200, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0c0c0c', lineHeight: 1, marginBottom: 12 }}>Cotización</div>
+                <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 30, fontWeight: 200, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#0c0c0c', lineHeight: 1, marginBottom: 12 }}>{docT.title}</div>
                 <div style={{ fontSize: 13.5, color: '#666', lineHeight: 1.9 }}>
-                  <strong style={{ display: 'block', color: '#1a1a1a', fontWeight: 500, fontSize: 15 }}>N° {data.numero}</strong>
-                  Fecha: {fechaDisplay}<br />
-                  Validez: {data.validez} días corridos
+                  <strong style={{ display: 'block', color: '#1a1a1a', fontWeight: 500, fontSize: 15 }}>{docT.num} {data.numero}</strong>
+                  {docT.date} {fechaDisplay}<br />
+                  {docT.validity} {data.validez} {docT.validityUnit}
                 </div>
               </div>
             </div>
@@ -420,17 +446,17 @@ export default function NuevaCotizacion() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 28 }}>
               <div>
-                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>Cliente</h4>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>{docT.client}</h4>
                 <p style={{ fontSize: 14, lineHeight: 1.78, color: '#666' }}>
                   {data.clienteNombre && <strong style={{ display: 'block', fontSize: 15.5, color: '#1a1a1a', fontWeight: 500, marginBottom: 1 }}>{data.clienteNombre}</strong>}
-                  {data.clienteEmpresa || '[Empresa / Razón social]'}<br />
-                  {data.clienteDireccion || '[Dirección]'}<br />
-                  {data.clienteRut && <>RUT: {data.clienteRut}<br /></>}
-                  {data.clienteEmail || '[email@cliente.cl]'} · {data.clienteTelefono || '[Teléfono]'}
+                  {data.clienteEmpresa || (isEN ? '[Company name]' : '[Empresa / Razón social]')}<br />
+                  {data.clienteDireccion || (isEN ? '[Address]' : '[Dirección]')}<br />
+                  {data.clienteRut && <>{docT.rut} {data.clienteRut}<br /></>}
+                  {data.clienteEmail || (isEN ? '[email@company.com]' : '[email@cliente.cl]')} · {data.clienteTelefono || (isEN ? '[Phone]' : '[Teléfono]')}
                 </p>
               </div>
               <div>
-                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>Proveedor</h4>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>{docT.supplier}</h4>
                 <p style={{ fontSize: 14, lineHeight: 1.78, color: '#666' }}>
                   <strong style={{ display: 'block', fontSize: 15.5, color: '#1a1a1a', fontWeight: 500, marginBottom: 1 }}>D&Z Building</strong>
                   Chile<br />
@@ -440,7 +466,7 @@ export default function NuevaCotizacion() {
             </div>
 
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
-              <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#666' }}>Moneda:</span>
+              <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#666' }}>{docT.currency}</span>
               <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 13, letterSpacing: '0.1em', background: 'rgba(200,168,75,0.1)', color: '#C8A84B', border: '1px solid rgba(200,168,75,0.25)', padding: '3px 10px' }}>
                 {MONEDAS[data.moneda]?.label}
               </div>
@@ -449,7 +475,7 @@ export default function NuevaCotizacion() {
             <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: 24 }}>
               <thead>
                 <tr style={{ background: '#0c0c0c', color: '#fff' }}>
-                  {['#', 'Descripción', 'Cant.', 'P. Unitario', 'Total'].map((h, i) => (
+                  {docT.tableHeaders.map((h, i) => (
                     <th key={h} style={{
                       fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.26em',
                       textTransform: 'uppercase', fontWeight: 400, padding: '10px 11px',
@@ -481,15 +507,15 @@ export default function NuevaCotizacion() {
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 28 }}>
               <div style={{ width: 256 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', fontSize: 14, borderBottom: '1px solid #e2e2e2' }}>
-                  <span style={{ color: '#666' }}>Subtotal</span><span>{formatNum(String(subtotalAll), sym)}</span>
+                  <span style={{ color: '#666' }}>{docT.subtotal}</span><span>{formatNum(String(subtotalAll), sym)}</span>
                 </div>
                 {data.incluirIva && (
                   <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', fontSize: 14, borderBottom: '1px solid #e2e2e2' }}>
-                    <span style={{ color: '#666' }}>IVA (19%)</span><span>{formatNum(String(iva), sym)}</span>
+                    <span style={{ color: '#666' }}>{docT.vat}</span><span>{formatNum(String(iva), sym)}</span>
                   </div>
                 )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0 7px', borderBottom: '2px solid #0c0c0c', borderTop: '2px solid #0c0c0c', marginTop: 4 }}>
-                  <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 11.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#1a1a1a' }}>Total</span>
+                  <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 11.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#1a1a1a' }}>{docT.total}</span>
                   <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 21, fontWeight: 200, color: '#C8A84B' }}>{formatNum(String(total), sym)}</span>
                 </div>
               </div>
@@ -497,7 +523,7 @@ export default function NuevaCotizacion() {
 
             {data.notas && (
               <div style={{ background: '#f5f5f5', padding: '16px 20px', marginBottom: 32 }}>
-                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10, fontWeight: 400 }}>Condiciones</h4>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10, fontWeight: 400 }}>{docT.conditions}</h4>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
                   {data.notas.split('\n').filter(Boolean).map((line, i) => (
                     <li key={i} style={{ fontSize: 13, color: '#666', paddingLeft: 13, position: 'relative', lineHeight: 1.55 }}>
@@ -509,7 +535,7 @@ export default function NuevaCotizacion() {
             )}
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 44, marginBottom: 56 }}>
-              {['Cliente', 'D&Z Building'].map(label => (
+              {[docT.signClient, docT.signSupplier].map(label => (
                 <div key={label} style={{ textAlign: 'center' }}>
                   <div style={{ height: 52 }} />
                   <div style={{ height: 1, background: '#1a1a1a', marginBottom: 7 }} />

@@ -21,6 +21,7 @@ export interface InformeData {
   observaciones: string
   conclusiones: string
   nota: string
+  lang?: 'es' | 'en'
 }
 
 export interface InformeRecord {

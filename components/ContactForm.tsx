@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-const SERVICES = [
+const SERVICES_ES = [
   'Climatización Comercial / VRF',
   'Refrigeración Comercial',
   'Ventilación y Extracción',
@@ -13,7 +13,47 @@ const SERVICES = [
   'Asesoría de Ingeniería',
 ]
 
-export default function ContactForm() {
+const SERVICES_EN = [
+  'Commercial HVAC / VRF',
+  'Commercial Refrigeration',
+  'Ventilation & Extraction',
+  'Preventive Maintenance',
+  'Turnkey Project',
+  'VRV/VRF Operational Analysis',
+  'HVAC Energy Efficiency',
+  'Engineering Consultancy',
+]
+
+const CF = {
+  es: {
+    tabContacto: 'Contacto', tabCotizacion: 'Solicitar Cotización',
+    nombre: 'Nombre y empresa', email: 'Email', telefono: 'Teléfono',
+    mensaje: 'Mensaje', msgPlaceholder: '¿En qué podemos ayudarte?',
+    nombrePlaceholder: 'Nombre — Empresa S.A.',
+    especialidad: 'Especialidad requerida', descripcion: 'Descripción del proyecto',
+    descPlaceholder: 'Describa brevemente su necesidad...',
+    seleccionar: 'Seleccionar...',
+    enviando: 'Enviando...', enviarMsg: 'Enviar mensaje', enviarSol: 'Enviar solicitud',
+    enviado: 'MENSAJE ENVIADO', gracias: 'Gracias por contactarnos. Te responderemos a la brevedad.',
+    otroMensaje: 'Enviar otro mensaje',
+  },
+  en: {
+    tabContacto: 'Contact', tabCotizacion: 'Request a Quote',
+    nombre: 'Name and company', email: 'Email', telefono: 'Phone',
+    mensaje: 'Message', msgPlaceholder: 'How can we help you?',
+    nombrePlaceholder: 'Name — Company Inc.',
+    especialidad: 'Service required', descripcion: 'Project description',
+    descPlaceholder: 'Briefly describe your needs...',
+    seleccionar: 'Select...',
+    enviando: 'Sending...', enviarMsg: 'Send message', enviarSol: 'Send request',
+    enviado: 'MESSAGE SENT', gracias: 'Thank you for contacting us. We will get back to you shortly.',
+    otroMensaje: 'Send another message',
+  },
+}
+
+export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
+  const tx = CF[lang]
+  const SERVICES = lang === 'en' ? SERVICES_EN : SERVICES_ES
   const [tab, setTab] = useState<'contacto' | 'cotizacion'>('contacto')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -60,6 +100,13 @@ export default function ContactForm() {
         throw new Error(data.error ?? 'Error')
       }
       setStatus('success')
+      const w = window as unknown as { gtag?: (...args: unknown[]) => void }
+      if (typeof w.gtag === 'function') {
+        w.gtag('event', tab === 'cotizacion' ? 'quote_requested' : 'contact_submitted', {
+          form_lang: lang,
+          service_type: tab === 'cotizacion' ? cotData.tipo_servicio : undefined,
+        })
+      }
     } catch (err) {
       setStatus('error')
       setErrorMsg(err instanceof Error ? err.message : 'Error al enviar')
@@ -70,10 +117,10 @@ export default function ContactForm() {
     return (
       <div style={{ padding: '48px 0', textAlign: 'center' }}>
         <p style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 12 }}>
-          MENSAJE ENVIADO
+          {tx.enviado}
         </p>
         <p style={{ fontSize: 13, color: 'var(--dim)', fontWeight: 300, marginBottom: 28 }}>
-          Gracias por contactarnos. Te responderemos a la brevedad.
+          {tx.gracias}
         </p>
         <button
           type="button"
@@ -99,7 +146,7 @@ export default function ContactForm() {
             e.currentTarget.style.color = 'var(--dim)'
           }}
         >
-          Enviar otro mensaje
+          {tx.otroMensaje}
         </button>
       </div>
     )
@@ -129,7 +176,7 @@ export default function ContactForm() {
               transition: 'color 0.2s',
             }}
           >
-            {t === 'contacto' ? 'Contacto' : 'Solicitar Cotización'}
+            {t === 'contacto' ? tx.tabContacto : tx.tabCotizacion}
           </button>
         ))}
       </div>
@@ -137,16 +184,16 @@ export default function ContactForm() {
       {tab === 'contacto' ? (
         <>
           <div className="fg">
-            <label>Nombre y empresa</label>
+            <label>{tx.nombre}</label>
             <input
               type="text" required
-              placeholder="Nombre — Empresa S.A."
+              placeholder={tx.nombrePlaceholder}
               value={contactData.nombre}
               onChange={e => setContactData(p => ({ ...p, nombre: e.target.value }))}
             />
           </div>
           <div className="fg">
-            <label>Email</label>
+            <label>{tx.email}</label>
             <input
               type="email" required
               placeholder="tu@email.com"
@@ -155,7 +202,7 @@ export default function ContactForm() {
             />
           </div>
           <div className="fg">
-            <label>Teléfono</label>
+            <label>{tx.telefono}</label>
             <input
               type="tel"
               placeholder="+56 9 xxxx xxxx"
@@ -164,10 +211,10 @@ export default function ContactForm() {
             />
           </div>
           <div className="fg">
-            <label>Mensaje</label>
+            <label>{tx.mensaje}</label>
             <textarea
               required
-              placeholder="¿En qué podemos ayudarte?"
+              placeholder={tx.msgPlaceholder}
               value={contactData.mensaje}
               onChange={e => setContactData(p => ({ ...p, mensaje: e.target.value }))}
             />
@@ -176,10 +223,10 @@ export default function ContactForm() {
       ) : (
         <>
           <div className="fg">
-            <label>Nombre y empresa</label>
+            <label>{tx.nombre}</label>
             <input
               type="text" required
-              placeholder="Nombre — Empresa S.A."
+              placeholder={tx.nombrePlaceholder}
               value={`${cotData.nombre}${cotData.empresa ? ` — ${cotData.empresa}` : ''}`}
               onChange={e => {
                 const parts = e.target.value.split(' — ')
@@ -188,7 +235,7 @@ export default function ContactForm() {
             />
           </div>
           <div className="fg">
-            <label>Email</label>
+            <label>{tx.email}</label>
             <input
               type="email" required
               placeholder="tu@email.com"
@@ -197,20 +244,20 @@ export default function ContactForm() {
             />
           </div>
           <div className="fg">
-            <label>Especialidad requerida</label>
+            <label>{tx.especialidad}</label>
             <select
               value={cotData.tipo_servicio}
               onChange={e => setCotData(p => ({ ...p, tipo_servicio: e.target.value }))}
             >
-              <option value="">Seleccionar...</option>
+              <option value="">{tx.seleccionar}</option>
               {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
           <div className="fg">
-            <label>Descripción del proyecto</label>
+            <label>{tx.descripcion}</label>
             <textarea
               required
-              placeholder="Describa brevemente su necesidad..."
+              placeholder={tx.descPlaceholder}
               value={cotData.descripcion}
               onChange={e => setCotData(p => ({ ...p, descripcion: e.target.value }))}
             />
@@ -228,7 +275,7 @@ export default function ContactForm() {
         disabled={status === 'loading'}
         style={{ width: '100%', opacity: status === 'loading' ? 0.6 : 1 }}
       >
-        {status === 'loading' ? 'Enviando...' : tab === 'cotizacion' ? 'Enviar solicitud' : 'Enviar mensaje'}
+        {status === 'loading' ? tx.enviando : tab === 'cotizacion' ? tx.enviarSol : tx.enviarMsg}
       </button>
     </form>
   )

@@ -39,6 +39,7 @@ export interface ContratoData {
   }
   clausulas: Clausula[]
   firmantes: Firmante[]
+  lang?: 'es' | 'en'
 }
 
 export interface ContratoRecord {

@@ -223,6 +223,108 @@ export default function ContenidoPage() {
           </div>
         </div>
 
+        {/* English Version */}
+        <div>
+          <SectionTitle>Versión en Inglés — English Version</SectionTitle>
+          <div className="cn-info" style={{ marginBottom: 20 }}>
+            El switch <strong style={{ color: 'var(--text)' }}>ES / EN</strong> en el sitio público muestra este contenido a visitantes en inglés. Los campos vacíos caen al texto por defecto en inglés.
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {/* EN SEO */}
+            <div>
+              <div className="cn-section-title" style={{ marginBottom: 12 }}>
+                <span style={{ fontSize: 9, color: 'var(--dim)' }}>SEO en inglés</span><hr />
+              </div>
+              <div className="cn-fields">
+                <CharField cfg={cfg} path="en.seo.titulo" label="Title (meta title EN)" set={set} optimal={[50, 60]} hint="50–60 chars. Include main keyword at the start." />
+                <CharField cfg={cfg} path="en.seo.descripcion" label="Description (meta description EN)" set={set} optimal={[140, 160]} multiline hint="140–160 chars. Include keywords + call to action." />
+                <Field cfg={cfg} path="en.seo.keywords" label="Keywords (comma-separated)" set={set} />
+              </div>
+            </div>
+
+            {/* EN Hero */}
+            <div>
+              <div className="cn-section-title" style={{ marginBottom: 12 }}>
+                <span style={{ fontSize: 9, color: 'var(--dim)' }}>Hero en inglés</span><hr />
+              </div>
+              <div className="cn-fields">
+                <Field cfg={cfg} path="en.hero.eyebrow" label="Eyebrow text" set={set} />
+                <Field cfg={cfg} path="en.hero.titulo" label="Main title" set={set} multiline />
+                <Field cfg={cfg} path="en.hero.subtitulo" label="Subtitle" set={set} multiline />
+              </div>
+            </div>
+
+            {/* EN Nosotros */}
+            <div>
+              <div className="cn-section-title" style={{ marginBottom: 12 }}>
+                <span style={{ fontSize: 9, color: 'var(--dim)' }}>About section en inglés</span><hr />
+              </div>
+              <div className="cn-fields">
+                <Field cfg={cfg} path="en.nosotros.titulo" label="Section title" set={set} multiline />
+                <Field cfg={cfg} path="en.nosotros.p1" label="Paragraph 1" set={set} multiline />
+                <Field cfg={cfg} path="en.nosotros.p2" label="Paragraph 2" set={set} multiline />
+              </div>
+            </div>
+
+            {/* EN Servicios */}
+            <div>
+              <div className="cn-section-title" style={{ marginBottom: 12 }}>
+                <span style={{ fontSize: 9, color: 'var(--dim)' }}>Specialties en inglés</span><hr />
+              </div>
+              <div className="cn-fields" style={{ marginBottom: 12 }}>
+                <Field cfg={cfg} path="en.servicios.eyebrow" label="Eyebrow text" set={set} />
+                <Field cfg={cfg} path="en.servicios.titulo" label="Section title" set={set} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {(cfg.en?.servicios?.items ?? []).map((item, i) => (
+                  <div key={i} style={{ border: '1px solid var(--border)', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 2 }}>
+                      Specialty {i + 1}
+                    </div>
+                    <div className="cn-field">
+                      <label>Name</label>
+                      <input value={item.titulo} onChange={e => set(`en.servicios.items.${i}.titulo`, e.target.value)} />
+                    </div>
+                    <div className="cn-field">
+                      <label>Description</label>
+                      <textarea style={{ minHeight: 52 }} value={item.descripcion} onChange={e => set(`en.servicios.items.${i}.descripcion`, e.target.value)} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* EN FAQ */}
+            <div>
+              <div className="cn-section-title" style={{ marginBottom: 12 }}>
+                <span style={{ fontSize: 9, color: 'var(--dim)' }}>FAQ en inglés</span><hr />
+              </div>
+              <div className="cn-fields" style={{ marginBottom: 12 }}>
+                <Field cfg={cfg} path="en.faq.eyebrow" label="Eyebrow text" set={set} />
+                <Field cfg={cfg} path="en.faq.titulo" label="Section title" set={set} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {(cfg.en?.faq?.items ?? []).map((item, i) => (
+                  <div key={i} style={{ border: '1px solid var(--border)', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 2 }}>
+                      Question {i + 1}
+                    </div>
+                    <div className="cn-field">
+                      <label>Question</label>
+                      <input value={item.pregunta} onChange={e => set(`en.faq.items.${i}.pregunta`, e.target.value)} />
+                    </div>
+                    <div className="cn-field">
+                      <label>Answer</label>
+                      <textarea style={{ minHeight: 72 }} value={item.respuesta} onChange={e => set(`en.faq.items.${i}.respuesta`, e.target.value)} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Logo */}
         <div>
           <SectionTitle>Logo</SectionTitle>

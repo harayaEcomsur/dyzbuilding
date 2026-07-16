@@ -36,6 +36,7 @@ export interface OrdenCompraData {
     cargo: string
     rut: string
   }
+  lang?: 'es' | 'en'
 }
 
 export interface OrdenCompraRecord {
