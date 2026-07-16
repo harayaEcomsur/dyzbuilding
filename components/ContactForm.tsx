@@ -55,6 +55,7 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const tx = CF[lang]
   const SERVICES = lang === 'en' ? SERVICES_EN : SERVICES_ES
   const [tab, setTab] = useState<'contacto' | 'cotizacion'>('contacto')
+  const [tabKey, setTabKey] = useState(0)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -115,7 +116,7 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
   if (status === 'success') {
     return (
-      <div style={{ padding: '48px 0', textAlign: 'center' }}>
+      <div className="form-success" style={{ padding: '48px 0', textAlign: 'center' }}>
         <p style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 12 }}>
           {tx.enviado}
         </p>
@@ -162,7 +163,7 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             type="button"
             role="tab"
             aria-selected={tab === t}
-            onClick={() => { setTab(t); setStatus('idle') }}
+            onClick={() => { setTab(t); setTabKey(k => k + 1); setStatus('idle') }}
             style={{
               fontFamily: 'Josefin Sans, sans-serif',
               fontSize: 8.5,
@@ -183,6 +184,7 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         ))}
       </div>
 
+      <div key={tabKey} style={{ animation: 'fadeUp .18s ease-out both' }}>
       {tab === 'contacto' ? (
         <>
           <div className="fg">
@@ -274,6 +276,7 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           </div>
         </>
       )}
+      </div>
 
       {status === 'error' && (
         <p style={{ color: '#e55', fontSize: 12, marginBottom: 14 }}>{errorMsg}</p>

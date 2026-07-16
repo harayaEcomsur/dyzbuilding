@@ -5,6 +5,10 @@ import Script from 'next/script'
 import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
 import LangSwitcher from '@/components/LangSwitcher'
+import MobileMenu from '@/components/MobileMenu'
+import RevealSection from '@/components/RevealSection'
+import CountUp from '@/components/CountUp'
+import FaqAccordion from '@/components/FaqAccordion'
 import { getSiteContent } from '@/lib/site-content'
 
 const SVC_ICONS: React.ReactNode[] = [
@@ -257,6 +261,12 @@ export default async function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <LangSwitcher lang="es" />
           <a className="nav-cta" href="#contacto">{t.navCta}</a>
+          <MobileMenu links={[
+            { label: t.navServicios, href: '#servicios' },
+            { label: t.navNosotros, href: '#nosotros' },
+            { label: t.navFaq,      href: '#faq' },
+            { label: t.navContacto, href: '#contacto' },
+          ]} />
         </div>
       </nav>
 
@@ -295,7 +305,7 @@ export default async function Home() {
       </div>
 
       {/* ESPECIALIDADES */}
-      <section className="sec" id="servicios">
+      <RevealSection className="sec" id="servicios">
         <div className="sec-eyebrow">{servicios.eyebrow}</div>
         <h2 className="sec-title">{servicios.titulo}</h2>
         <div className="svc-grid">
@@ -309,10 +319,10 @@ export default async function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </RevealSection>
 
       {/* NOSOTROS */}
-      <section className="sec" id="nosotros">
+      <RevealSection className="sec" id="nosotros">
         <div className="nosotros-wrap">
           <div className="nt">
             <div className="sec-eyebrow">{t.quienesSomos}</div>
@@ -325,30 +335,23 @@ export default async function Home() {
             <p>{nosotros.p2}</p>
           </div>
           <div className="stats">
-            <div className="stat"><div className="stat-n">20</div><div className="stat-l">{t.statsAnios}</div></div>
+            <div className="stat"><div className="stat-n"><CountUp to={20} /></div><div className="stat-l">{t.statsAnios}</div></div>
             <div className="stat"><div className="stat-n">CL</div><div className="stat-l">{t.statsCobertura}</div></div>
-            <div className="stat"><div className="stat-n">3</div><div className="stat-l">{t.statsMarcas}</div></div>
+            <div className="stat"><div className="stat-n"><CountUp to={3} /></div><div className="stat-l">{t.statsMarcas}</div></div>
             <div className="stat"><div className="stat-n">24/7</div><div className="stat-l">{t.statsSoporte}</div></div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       {/* FAQ */}
-      <section className="sec" id="faq">
+      <RevealSection className="sec" id="faq">
         <div className="sec-eyebrow">{faq.eyebrow}</div>
         <h2 className="sec-title">{faq.titulo}</h2>
-        <div className="faq-list">
-          {faq.items.map((item, i) => (
-            <article className="faq-item" key={i}>
-              <h3>{item.pregunta}</h3>
-              <p>{item.respuesta}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <FaqAccordion items={faq.items} />
+      </RevealSection>
 
       {/* CONTACTO */}
-      <section className="sec" id="contacto">
+      <RevealSection className="sec" id="contacto">
         <div className="sec-eyebrow">{t.contactoEyebrow}</div>
         <h2 className="sec-title">{t.contactoTitulo}</h2>
         <div className="contact-grid">
@@ -377,10 +380,14 @@ export default async function Home() {
           </div>
           <ContactForm lang="es" />
         </div>
-      </section>
+      </RevealSection>
       </main>
 
       <footer>
+        <div className="f-cta">
+          <p className="f-cta-txt">¿Listo para cotizar tu proyecto? <em>Respondemos en menos de 24 h.</em></p>
+          <a className="nav-cta" href="#contacto">{t.navCta}</a>
+        </div>
         <div className="f-logo">
           <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} style={{ height: 32, width: 'auto' }} />
         </div>
@@ -392,7 +399,6 @@ export default async function Home() {
         </ul>
         <div className="f-copy">
           © {new Date().getFullYear()} {c.empresa.nombre}. Todos los derechos reservados.
-          <span className="f-updated"> · Actualizado julio 2026</span>
         </div>
       </footer>
     </>
