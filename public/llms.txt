@@ -1,34 +1,42 @@
 # D&Z Building
 
-> Empresa chilena de climatización comercial, sistemas VRF/VRV y refrigeración industrial con más de 20 años de experiencia.
+> Chilean company specializing in commercial HVAC, VRF/VRV systems, and industrial refrigeration with over 20 years of experience. / Empresa chilena de climatización comercial, sistemas VRF/VRV y refrigeración industrial con más de 20 años de experiencia.
 
-D&Z Building diseña, suministra, instala y mantiene sistemas HVAC para oficinas, hoteles, retail e industria en Chile. Es distribuidor oficial de LG, Samsung y Gree.
+D&Z Building designs, supplies, installs and maintains HVAC systems for offices, hotels, retail and industry across Chile. Official distributor of LG, Samsung and Gree. / D&Z Building diseña, suministra, instala y mantiene sistemas HVAC para oficinas, hoteles, retail e industria en Chile. Distribuidor oficial de LG, Samsung y Gree.
 
-## Servicios principales
+## Languages / Idiomas
 
-- Climatización comercial VRF/VRV
-- Refrigeración comercial (vitrinas, cámaras frigoríficas)
-- Ventilación y extracción industrial
-- Mantenimiento preventivo de climatización
-- Proyectos llave en mano HVAC
-- Análisis operacional y eficiencia energética
-- Asesoría de ingeniería
+- Spanish (default): https://www.dyzbuilding.cl/
+- English: https://www.dyzbuilding.cl/en/
 
-## Datos de contacto
+## Services / Servicios
 
-- Sitio: https://www.dyzbuilding.cl
+- Commercial HVAC VRF/VRV systems / Climatización comercial VRF/VRV
+- Commercial refrigeration (display cases, cold rooms) / Refrigeración comercial (vitrinas, cámaras frigoríficas)
+- Industrial ventilation and extraction / Ventilación y extracción industrial
+- Preventive HVAC maintenance / Mantenimiento preventivo de climatización
+- Turnkey HVAC projects / Proyectos llave en mano HVAC
+- Energy efficiency analysis / Análisis operacional y eficiencia energética
+- Engineering consulting / Asesoría de ingeniería
+
+## Contact / Contacto
+
+- Site: https://www.dyzbuilding.cl
+- English site: https://www.dyzbuilding.cl/en/
 - Email: contacto@dyzbuilding.cl
-- Ubicación: Santiago, Chile
-- Cobertura: Nacional (Chile)
-- Horario: Lunes a viernes 8:30–18:00
+- Location: Santiago, Chile
+- Coverage: National (Chile) / Cobertura: Nacional (Chile)
+- Hours: Monday–Friday 8:30–18:00 / Lunes a viernes 8:30–18:00
 - RUT: 78.353.685-4
 
-## Páginas clave
+## Key Pages / Páginas clave
 
-- [Inicio / servicios](https://www.dyzbuilding.cl/)
-- [Preguntas frecuentes](https://www.dyzbuilding.cl/#faq)
-- [Solicitar cotización](https://www.dyzbuilding.cl/#contacto)
+- [Home / Inicio](https://www.dyzbuilding.cl/)
+- [English home](https://www.dyzbuilding.cl/en/)
+- [FAQ (ES)](https://www.dyzbuilding.cl/#faq)
+- [FAQ (EN)](https://www.dyzbuilding.cl/en/#faq)
+- [Request a quote / Solicitar cotización](https://www.dyzbuilding.cl/#contacto)
 
-## Cotización
+## Pricing / Cotización
 
-Los proyectos se cotizan a medida según superficie, zonas, marca y complejidad. Cotización gratuita vía formulario web o email.
+Projects are quoted on a per-case basis based on area, zones, brand, and complexity. Free quote via web form or email. / Los proyectos se cotizan a medida según superficie, zonas, marca y complejidad. Cotización gratuita vía formulario web o email.
