@@ -525,11 +525,12 @@ footer{border-top:1px solid var(--border);padding:32px 52px;display:flex;align-i
 }
 .tab-item:hover,.tab-active{color:var(--text);}
 .tab-accent:hover,.tab-accent.tab-active{color:var(--accent);}
+.tab-item:active{opacity:.55;transition:opacity 80ms ease-out;}
 .tab-icon{display:flex;align-items:center;justify-content:center;}
 .tab-icon svg{width:20px;height:20px;}
 .tab-lbl{
-  font-family:'Josefin Sans',sans-serif;font-size:7.5px;
-  letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;
+  font-family:'Josefin Sans',sans-serif;font-size:9.5px;
+  letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
 }
 
 /* ── FORM SUCCESS ANIMATION ──────────────────────────── */
@@ -551,6 +552,7 @@ footer{border-top:1px solid var(--border);padding:32px 52px;display:flex;align-i
 @media(max-width:640px){
   .tab-bar{display:flex;}
   .mob-btn{display:none!important;}
+  body{overscroll-behavior:contain;}
   .f-cta{padding:18px 0;flex-direction:column;align-items:flex-start;gap:14px;}
   .faq-q{padding:18px 20px;}
   .faq-a-inner p{padding:0 20px 18px;}
