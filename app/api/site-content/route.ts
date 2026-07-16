@@ -3,6 +3,7 @@ import { revalidateTag } from 'next/cache'
 import { sql } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { normalizeSiteContent, type SiteContent } from '@/lib/site-content-types'
+import { translateContentToEN } from '@/lib/deepl'
 
 function unauth() {
   return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
@@ -22,6 +23,13 @@ export async function PUT(req: NextRequest) {
 
   const data = await req.json()
   const normalized = normalizeSiteContent(data as Partial<SiteContent>)
+
+  // Auto-translate to English; if DeepL fails, keep existing EN content
+  try {
+    normalized.en = await translateContentToEN(normalized)
+  } catch (err) {
+    console.error('[site-content] DeepL translation failed:', err)
+  }
 
   await sql`
     INSERT INTO site_content (key, data, updated_at)

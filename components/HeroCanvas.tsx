@@ -127,7 +127,9 @@ export default function HeroCanvas() {
 
     resize()
     spawn()
-    start()
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      start()
+    }
 
     return () => {
       stop()

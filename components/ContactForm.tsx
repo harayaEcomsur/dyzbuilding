@@ -155,11 +155,13 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <form onSubmit={handleSubmit}>
       {/* Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: 24 }}>
+      <div role="tablist" style={{ display: 'flex', borderBottom: '1px solid var(--border)', marginBottom: 24 }}>
         {(['contacto', 'cotizacion'] as const).map(t => (
           <button
             key={t}
             type="button"
+            role="tab"
+            aria-selected={tab === t}
             onClick={() => { setTab(t); setStatus('idle') }}
             style={{
               fontFamily: 'Josefin Sans, sans-serif',
@@ -184,8 +186,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
       {tab === 'contacto' ? (
         <>
           <div className="fg">
-            <label>{tx.nombre}</label>
+            <label htmlFor="cf-nombre">{tx.nombre}</label>
             <input
+              id="cf-nombre"
               type="text" required
               placeholder={tx.nombrePlaceholder}
               value={contactData.nombre}
@@ -193,8 +196,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             />
           </div>
           <div className="fg">
-            <label>{tx.email}</label>
+            <label htmlFor="cf-email">{tx.email}</label>
             <input
+              id="cf-email"
               type="email" required
               placeholder="tu@email.com"
               value={contactData.email}
@@ -202,8 +206,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             />
           </div>
           <div className="fg">
-            <label>{tx.telefono}</label>
+            <label htmlFor="cf-telefono">{tx.telefono}</label>
             <input
+              id="cf-telefono"
               type="tel"
               placeholder="+56 9 xxxx xxxx"
               value={contactData.telefono}
@@ -211,8 +216,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             />
           </div>
           <div className="fg">
-            <label>{tx.mensaje}</label>
+            <label htmlFor="cf-mensaje">{tx.mensaje}</label>
             <textarea
+              id="cf-mensaje"
               required
               placeholder={tx.msgPlaceholder}
               value={contactData.mensaje}
@@ -223,8 +229,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
       ) : (
         <>
           <div className="fg">
-            <label>{tx.nombre}</label>
+            <label htmlFor="cot-nombre">{tx.nombre}</label>
             <input
+              id="cot-nombre"
               type="text" required
               placeholder={tx.nombrePlaceholder}
               value={`${cotData.nombre}${cotData.empresa ? ` — ${cotData.empresa}` : ''}`}
@@ -235,8 +242,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             />
           </div>
           <div className="fg">
-            <label>{tx.email}</label>
+            <label htmlFor="cot-email">{tx.email}</label>
             <input
+              id="cot-email"
               type="email" required
               placeholder="tu@email.com"
               value={cotData.email}
@@ -244,8 +252,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             />
           </div>
           <div className="fg">
-            <label>{tx.especialidad}</label>
+            <label htmlFor="cot-especialidad">{tx.especialidad}</label>
             <select
+              id="cot-especialidad"
               value={cotData.tipo_servicio}
               onChange={e => setCotData(p => ({ ...p, tipo_servicio: e.target.value }))}
             >
@@ -254,8 +263,9 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             </select>
           </div>
           <div className="fg">
-            <label>{tx.descripcion}</label>
+            <label htmlFor="cot-descripcion">{tx.descripcion}</label>
             <textarea
+              id="cot-descripcion"
               required
               placeholder={tx.descPlaceholder}
               value={cotData.descripcion}
