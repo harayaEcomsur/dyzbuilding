@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 interface Link { label: string; href: string }
 
-export default function MobileMenu({ links }: { links: Link[] }) {
+export default function MobileMenu({ links, cta }: { links: Link[]; cta?: { label: string; href: string } }) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -30,7 +30,12 @@ export default function MobileMenu({ links }: { links: Link[] }) {
         aria-hidden="true"
       />
 
-      <div className={`mob-drawer${open ? ' open' : ''}`} aria-hidden={!open}>
+      <div className={`mob-drawer${open ? ' open' : ''}`} role="dialog" aria-modal="true" aria-hidden={!open}>
+        <button className="mob-close" onClick={close} aria-label="Cerrar menú">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
         <ul>
           {links.map(({ label, href }) => (
             <li key={href}>
@@ -38,6 +43,9 @@ export default function MobileMenu({ links }: { links: Link[] }) {
             </li>
           ))}
         </ul>
+        {cta && (
+          <a className="mob-cta" href={cta.href} onClick={close}>{cta.label}</a>
+        )}
       </div>
     </>
   )

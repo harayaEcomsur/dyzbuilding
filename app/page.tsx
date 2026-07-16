@@ -261,12 +261,15 @@ export default async function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <LangSwitcher lang="es" />
           <a className="nav-cta" href="#contacto">{t.navCta}</a>
-          <MobileMenu links={[
-            { label: t.navServicios, href: '#servicios' },
-            { label: t.navNosotros, href: '#nosotros' },
-            { label: t.navFaq,      href: '#faq' },
-            { label: t.navContacto, href: '#contacto' },
-          ]} />
+          <MobileMenu
+            links={[
+              { label: t.navServicios, href: '#servicios' },
+              { label: t.navNosotros, href: '#nosotros' },
+              { label: t.navFaq,      href: '#faq' },
+              { label: t.navContacto, href: '#contacto' },
+            ]}
+            cta={{ label: t.navCta, href: '#contacto' }}
+          />
         </div>
       </nav>
 
