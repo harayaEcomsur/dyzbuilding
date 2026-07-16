@@ -6,6 +6,7 @@ import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
 import LangSwitcher from '@/components/LangSwitcher'
 import MobileMenu from '@/components/MobileMenu'
+import BottomTabBar from '@/components/BottomTabBar'
 import RevealSection from '@/components/RevealSection'
 import CountUp from '@/components/CountUp'
 import FaqAccordion from '@/components/FaqAccordion'
@@ -39,7 +40,16 @@ const BRANDS = [
   { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
 ] as const
 
+const TAB_ICONS_EN = {
+  inicio: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5L12 3l9 7.5V20h-6v-5.5H9V20H3z"/></svg>,
+  servicios: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="3" width="7.5" height="7.5" rx=".5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx=".5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx=".5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx=".5"/></svg>,
+  nosotros: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>,
+  faq: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M10 9.8c0-1.2 1-2 2-2s2 .9 2 2c0 1.1-1 1.7-1.7 2.5-.3.4-.3.7-.3 1"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>,
+  contacto: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2" y="5" width="20" height="14" rx="1.5"/><path d="M2 7l10 7 10-7"/></svg>,
+}
+
 const t = {
+  navInicio: 'Home',
   navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact',
   navCta: 'Request a Quote', marcasLabel: 'Official brands', quienesSomos: 'Who we are',
   heroBtn1: 'Our specialties', heroBtn2: 'Request a quote',
@@ -394,6 +404,14 @@ export default async function HomeEN() {
           © {new Date().getFullYear()} {c.empresa.nombre}. All rights reserved.
         </div>
       </footer>
+
+      <BottomTabBar tabs={[
+        { label: t.navInicio,    href: '#inicio',    icon: TAB_ICONS_EN.inicio },
+        { label: t.navServicios, href: '#servicios', icon: TAB_ICONS_EN.servicios },
+        { label: t.navNosotros,  href: '#nosotros',  icon: TAB_ICONS_EN.nosotros },
+        { label: t.navFaq,       href: '#faq',       icon: TAB_ICONS_EN.faq },
+        { label: t.navContacto,  href: '#contacto',  icon: TAB_ICONS_EN.contacto, accent: true },
+      ]} />
     </>
   )
 }
