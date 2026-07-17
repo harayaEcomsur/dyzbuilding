@@ -1,9 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { gtagEvent } from '@/lib/gtag'
 
 interface Tab { label: string; href: string; icon: React.ReactNode; accent?: boolean }
 
-export default function BottomTabBar({ tabs }: { tabs: Tab[] }) {
+export default function BottomTabBar({ tabs, lang = 'es' }: { tabs: Tab[]; lang?: string }) {
   const [active, setActive] = useState('')
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function BottomTabBar({ tabs }: { tabs: Tab[] }) {
           <a
             key={t.href}
             href={t.href}
+            onClick={() => gtagEvent('tab_bar_nav', { section: id, label: t.label, lang })}
             className={`tab-item${active === id ? ' tab-active' : ''}${t.accent ? ' tab-accent' : ''}`}
             aria-current={active === id ? 'page' : undefined}
           >

@@ -10,6 +10,7 @@ import BottomTabBar from '@/components/BottomTabBar'
 import RevealSection from '@/components/RevealSection'
 import CountUp from '@/components/CountUp'
 import FaqAccordion from '@/components/FaqAccordion'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { getSiteContent } from '@/lib/site-content'
 
 const SVC_ICONS: React.ReactNode[] = [
@@ -271,8 +272,9 @@ export default async function Home() {
         </ul>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <LangSwitcher lang="es" />
-          <a className="nav-cta" href="#contacto">{t.navCta}</a>
+          <a className="nav-cta" href="#contacto" data-ga-event="cta_clicked" data-ga-location="nav" data-ga-label={t.navCta} data-ga-lang="es">{t.navCta}</a>
           <MobileMenu
+            lang="es"
             links={[
               { label: t.navServicios, href: '#servicios' },
               { label: t.navNosotros, href: '#nosotros' },
@@ -295,8 +297,8 @@ export default async function Home() {
           <h1>{hero.titulo}</h1>
           <p>{hero.subtitulo}</p>
           <div className="actions">
-            <a className="btn-p" href="#servicios">{t.heroBtn1}</a>
-            <a className="btn-o" href="#contacto">{t.heroBtn2}</a>
+            <a className="btn-p" href="#servicios" data-ga-event="cta_clicked" data-ga-location="hero_primary" data-ga-label={t.heroBtn1} data-ga-lang="es">{t.heroBtn1}</a>
+            <a className="btn-o" href="#contacto" data-ga-event="cta_clicked" data-ga-location="hero_secondary" data-ga-label={t.heroBtn2} data-ga-lang="es">{t.heroBtn2}</a>
           </div>
         </div>
       </section>
@@ -361,7 +363,7 @@ export default async function Home() {
       <RevealSection className="sec" id="faq">
         <div className="sec-eyebrow">{faq.eyebrow}</div>
         <h2 className="sec-title">{faq.titulo}</h2>
-        <FaqAccordion items={faq.items} />
+        <FaqAccordion items={faq.items} lang="es" />
       </RevealSection>
 
       {/* CONTACTO */}
@@ -400,7 +402,7 @@ export default async function Home() {
       <footer>
         <div className="f-cta">
           <p className="f-cta-txt">¿Listo para cotizar tu proyecto? <em>Respondemos en menos de 24 h.</em></p>
-          <a className="nav-cta" href="#contacto">{t.navCta}</a>
+          <a className="nav-cta" href="#contacto" data-ga-event="cta_clicked" data-ga-location="footer" data-ga-label={t.navCta} data-ga-lang="es">{t.navCta}</a>
         </div>
         <div className="f-logo">
           <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} style={{ height: 32, width: 'auto' }} />
@@ -416,13 +418,14 @@ export default async function Home() {
         </div>
       </footer>
 
-      <BottomTabBar tabs={[
+      <BottomTabBar lang="es" tabs={[
         { label: t.navInicio,    href: '#inicio',    icon: TAB_ICONS.inicio },
         { label: t.navServicios, href: '#servicios', icon: TAB_ICONS.servicios },
         { label: t.navNosotros,  href: '#nosotros',  icon: TAB_ICONS.nosotros },
         { label: t.navFaq,       href: '#faq',       icon: TAB_ICONS.faq },
         { label: t.navContacto,  href: '#contacto',  icon: TAB_ICONS.contacto, accent: true },
       ]} />
+      <AnalyticsTracker />
     </>
   )
 }

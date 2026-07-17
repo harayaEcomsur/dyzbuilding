@@ -1,10 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { gtagEvent } from '@/lib/gtag'
 
 interface Link { label: string; href: string }
 
-export default function MobileMenu({ links, cta }: { links: Link[]; cta?: { label: string; href: string } }) {
+export default function MobileMenu({ links, cta, lang = 'es' }: { links: Link[]; cta?: { label: string; href: string }; lang?: string }) {
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -16,6 +17,12 @@ export default function MobileMenu({ links, cta }: { links: Link[]; cta?: { labe
   }, [open])
 
   const close = () => setOpen(false)
+
+  function toggle() {
+    const next = !open
+    setOpen(next)
+    gtagEvent(next ? 'mobile_menu_opened' : 'mobile_menu_closed', { lang })
+  }
 
   const overlay = (
     <>
@@ -55,7 +62,7 @@ export default function MobileMenu({ links, cta }: { links: Link[]; cta?: { labe
         className="mob-btn"
         aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
         aria-expanded={open}
-        onClick={() => setOpen(o => !o)}
+        onClick={toggle}
       >
         <span className={`mob-icon${open ? ' open' : ''}`} />
       </button>

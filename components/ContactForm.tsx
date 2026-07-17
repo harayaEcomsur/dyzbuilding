@@ -75,6 +75,14 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
     })
   }
 
+  function switchTab(t: 'contacto' | 'cotizacion') {
+    setTab(t)
+    setTabKey(k => k + 1)
+    setStatus('idle')
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void }
+    if (typeof w.gtag === 'function') w.gtag('event', 'form_tab_switched', { tab: t, lang })
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('loading')
@@ -109,8 +117,11 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         })
       }
     } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Error al enviar'
       setStatus('error')
-      setErrorMsg(err instanceof Error ? err.message : 'Error al enviar')
+      setErrorMsg(msg)
+      const w = window as unknown as { gtag?: (...args: unknown[]) => void }
+      if (typeof w.gtag === 'function') w.gtag('event', 'contact_error', { form_type: tab, error: msg, lang })
     }
   }
 
@@ -163,7 +174,7 @@ export default function ContactForm({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             type="button"
             role="tab"
             aria-selected={tab === t}
-            onClick={() => { setTab(t); setTabKey(k => k + 1); setStatus('idle') }}
+            onClick={() => switchTab(t)}
             style={{
               fontFamily: 'Josefin Sans, sans-serif',
               fontSize: 8.5,
