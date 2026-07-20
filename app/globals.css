@@ -562,6 +562,34 @@ footer{border-top:1px solid var(--border);padding:32px 52px;display:flex;align-i
   footer{padding-bottom:calc(28px + 56px + env(safe-area-inset-bottom,0px));}
 }
 
+/* ── WHATSAPP BUTTON ─────────────────────────────────── */
+.wa-btn{
+  position:fixed;bottom:32px;right:32px;z-index:106;
+  display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;border-radius:50%;
+  background:#25D366;color:#fff;box-shadow:0 4px 20px rgba(37,211,102,.35);
+  text-decoration:none;transition:opacity .2s,transform .2s;
+}
+.wa-btn:hover{opacity:.9;transform:scale(1.05);}
+.wa-btn:active{transform:scale(0.96);}
+.wa-btn svg{width:28px;height:28px;}
+@media(max-width:640px){
+  .wa-btn{bottom:calc(56px + env(safe-area-inset-bottom,0px) + 16px);right:20px;width:48px;height:48px;}
+  .wa-btn svg{width:25px;height:25px;}
+}
+
+/* ── SERVICE CARD CTA ────────────────────────────────── */
+.svc-cta{
+  display:inline-block;margin-top:16px;
+  font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--accent);text-decoration:none;opacity:.65;transition:opacity .2s;
+}
+.svc-cta:hover{opacity:1;}
+
+/* ── CONTACT INFO LINKS ──────────────────────────────── */
+.ci-txt a{color:inherit;text-decoration:none;transition:color .2s;}
+.ci-txt a:hover{color:var(--text);}
+
 /* ── REDUCED MOTION ──────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){
   .reveal-start{opacity:1;transform:none;transition:none;}
@@ -569,5 +597,5 @@ footer{border-top:1px solid var(--border);padding:32px 52px;display:flex;align-i
   #servicios.reveal-in .svc,#nosotros.reveal-in .stat{animation:none;opacity:1;}
   .faq-a{transition:none;grid-template-rows:1fr;opacity:1;}
   .form-success{animation:none;}
-  .mob-drawer,.mob-icon,.mob-icon::before,.mob-icon::after,.mob-backdrop,.tab-item{transition:none;}
+  .mob-drawer,.mob-icon,.mob-icon::before,.mob-icon::after,.mob-backdrop,.tab-item,.wa-btn{transition:none;}
 }

@@ -11,6 +11,7 @@ import RevealSection from '@/components/RevealSection'
 import CountUp from '@/components/CountUp'
 import FaqAccordion from '@/components/FaqAccordion'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
+import WhatsAppButton from '@/components/WhatsAppButton'
 import { getSiteContent } from '@/lib/site-content'
 
 // Mirror any structural changes in this file to app/page.tsx (and vice versa)
@@ -286,8 +287,8 @@ export default async function HomeEN() {
           <h1>{hero.titulo}</h1>
           <p>{hero.subtitulo}</p>
           <div className="actions">
-            <a className="btn-p" href="#servicios" data-ga-event="cta_clicked" data-ga-location="hero_primary" data-ga-label={t.heroBtn1} data-ga-lang="en">{t.heroBtn1}</a>
-            <a className="btn-o" href="#contacto" data-ga-event="cta_clicked" data-ga-location="hero_secondary" data-ga-label={t.heroBtn2} data-ga-lang="en">{t.heroBtn2}</a>
+            <a className="btn-p" href="#contacto" data-ga-event="cta_clicked" data-ga-location="hero_primary" data-ga-label={t.heroBtn2} data-ga-lang="en">{t.heroBtn2}</a>
+            <a className="btn-o" href="#servicios" data-ga-event="cta_clicked" data-ga-location="hero_secondary" data-ga-label={t.heroBtn1} data-ga-lang="en">{t.heroBtn1}</a>
           </div>
         </div>
       </section>
@@ -321,6 +322,7 @@ export default async function HomeEN() {
               </svg>
               <h3>{item.titulo}</h3>
               <p>{item.descripcion}</p>
+              <a href="#contacto" className="svc-cta">Get a quote →</a>
             </div>
           ))}
         </div>
@@ -373,14 +375,14 @@ export default async function HomeEN() {
               <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 <path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/>
               </svg>
-              <div className="ci-txt"><strong>{t.telefono}</strong>{c.empresa.telefono}</div>
+              <div className="ci-txt"><strong>{t.telefono}</strong><a href={`tel:${c.empresa.telefono}`}>{c.empresa.telefono}</a></div>
             </div>
             <div className="ci">
               <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 <rect x="1" y="2.5" width="13" height="10" rx="1"/>
                 <path d="M1 3.5l6.5 4.5 6.5-4.5"/>
               </svg>
-              <div className="ci-txt"><strong>{t.email}</strong>{c.empresa.email}</div>
+              <div className="ci-txt"><strong>{t.email}</strong><a href={`mailto:${c.empresa.email}`}>{c.empresa.email}</a></div>
             </div>
           </div>
           <ContactForm lang="en" />
@@ -416,6 +418,7 @@ export default async function HomeEN() {
         { label: t.navFaq,       href: '#faq',       icon: TAB_ICONS_EN.faq },
         { label: t.navContacto,  href: '#contacto',  icon: TAB_ICONS_EN.contacto, accent: true },
       ]} />
+      <WhatsAppButton phone={c.empresa.telefono} lang="en" />
       <AnalyticsTracker />
     </>
   )
