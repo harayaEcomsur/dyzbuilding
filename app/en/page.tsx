@@ -404,6 +404,8 @@ export default async function HomeEN() {
         </ul>
         <div className="f-copy">
           © {new Date().getFullYear()} {c.empresa.nombre}. All rights reserved.
+          {' · '}
+          <a href="https://haraya.dev" target="_blank" rel="noopener" className="f-credit">Site by HarayaDev</a>
         </div>
       </footer>
 

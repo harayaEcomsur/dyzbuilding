@@ -17,6 +17,7 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: { default: 'D&Z Building', template: '%s | D&Z Building' },
+  generator: 'HarayaDev — haraya.dev',
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

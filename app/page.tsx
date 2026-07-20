@@ -415,6 +415,8 @@ export default async function Home() {
         </ul>
         <div className="f-copy">
           © {new Date().getFullYear()} {c.empresa.nombre}. Todos los derechos reservados.
+          {' · '}
+          <a href="https://haraya.dev" target="_blank" rel="noopener" className="f-credit">Sitio por HarayaDev</a>
         </div>
       </footer>
 
