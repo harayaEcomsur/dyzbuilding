@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { OrdenCompraData, OrdenItem, makeId, calcTotal } from '@/lib/ordenes-store'
 import { apiFetchRecord, apiCreateRecord, apiUpdateRecord } from '@/lib/ordenes-api'
+import { apiFetchEmpresa } from '@/lib/site-content-api'
 import { siteConfig } from '@/lib/site-config'
 import { validateOrdenCompra } from '@/lib/ordenes-compliance'
 
@@ -81,6 +82,7 @@ export default function NuevaOrden() {
   const [data, setData] = useState<OrdenCompraData>(makeDefaultData)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [initialized, setInitialized] = useState(false)
+  const [empresa, setEmpresa] = useState(siteConfig.empresa)
 
   const editingIdRef = useRef<string | null>(null)
   const estadoRef = useRef<'borrador' | 'emitida'>('borrador')
@@ -96,6 +98,10 @@ export default function NuevaOrden() {
       ? { ...d, meta: { ...d.meta, numero: `OC-${new Date().getFullYear()}-${num}` } }
       : d
     )
+  }, [])
+
+  useEffect(() => {
+    apiFetchEmpresa().then(e => { if (e) setEmpresa(e) }).catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -187,7 +193,7 @@ export default function NuevaOrden() {
   const subtotal = data.items.reduce((s, i) => s + calcItemSubtotal(i), 0)
   const iva = data.incluirIva ? subtotal * 0.19 : 0
   const total = subtotal + iva
-  const compliance = validateOrdenCompra(data)
+  const compliance = validateOrdenCompra(data, empresa)
   const showSku = data.items.some(i => i.sku?.trim())
 
   const isEN = data.lang === 'en'
@@ -269,7 +275,7 @@ export default function NuevaOrden() {
                 Guardar borrador
               </button>
               <button className="btn-primary" onClick={async () => {
-                const check = validateOrdenCompra(data)
+                const check = validateOrdenCompra(data, empresa)
                 if (!check.ok) {
                   alert(`Faltan datos obligatorios para emitir la OC:\n\n• ${check.missing.join('\n• ')}`)
                   return
@@ -445,11 +451,11 @@ export default function NuevaOrden() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, margin: '0 40px', borderBottom: '1px solid #e8e8e8' }}>
               <div style={{ padding: '16px 20px 16px 0', borderRight: '1px solid #e8e8e8', ...docStyle }}>
                 <div style={labelStyle}>{ocT.requestedBy}</div>
-                <div style={{ fontWeight: 700, fontSize: 11 }}>{siteConfig.empresa.nombre} SpA</div>
-                <div style={{ color: '#555', fontSize: 9, marginTop: 2 }}>RUT {siteConfig.empresa.rut}</div>
-                <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.direccion}</div>
-                <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.email}</div>
-                {siteConfig.empresa.telefono && <div style={{ color: '#555', fontSize: 9 }}>{siteConfig.empresa.telefono}</div>}
+                <div style={{ fontWeight: 700, fontSize: 11 }}>{empresa.nombre} SpA</div>
+                <div style={{ color: '#555', fontSize: 9, marginTop: 2 }}>RUT {empresa.rut}</div>
+                <div style={{ color: '#555', fontSize: 9 }}>{empresa.direccion}</div>
+                <div style={{ color: '#555', fontSize: 9 }}>{empresa.email}</div>
+                {empresa.telefono && <div style={{ color: '#555', fontSize: 9 }}>{empresa.telefono}</div>}
               </div>
               <div style={{ padding: '16px 0 16px 20px', ...docStyle }}>
                 <div style={labelStyle}>{ocT.supplier}</div>
@@ -555,14 +561,14 @@ export default function NuevaOrden() {
                   <div style={{ fontSize: 10, fontWeight: 600 }}>{data.firmante.nombre || 'Nombre del firmante'}</div>
                   <div style={{ fontSize: 9, color: '#555' }}>{data.firmante.cargo || 'Cargo'}</div>
                   {data.firmante.rut && <div style={{ fontSize: 9, color: '#888' }}>RUT {data.firmante.rut}</div>}
-                  <div style={{ fontSize: 9, color: '#555', marginTop: 2 }}>{siteConfig.empresa.nombre} SpA</div>
+                  <div style={{ fontSize: 9, color: '#555', marginTop: 2 }}>{empresa.nombre} SpA</div>
                 </div>
               </div>
             </div>
 
             {/* Footer */}
             <div style={{ borderTop: '1px solid #e8e8e8', padding: '10px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ fontSize: 8, color: '#bbb' }}>{siteConfig.empresa.nombre} SpA · {siteConfig.empresa.email} · {siteConfig.empresa.web}</div>
+              <div style={{ fontSize: 8, color: '#bbb' }}>{empresa.nombre} SpA · {empresa.email} · {empresa.web}</div>
               <div style={{ fontSize: 8, color: '#bbb' }}>{data.meta.numero}</div>
             </div>
           </div>

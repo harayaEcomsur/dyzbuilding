@@ -8,6 +8,7 @@ import {
   makeId, TIPOS_CONTRATO, ContratoTipo, getDefaultClausulas,
 } from '@/lib/contratos-store'
 import { apiFetchRecord, apiCreateRecord, apiUpdateRecord } from '@/lib/contratos-api'
+import { apiFetchEmpresa } from '@/lib/site-content-api'
 import { siteConfig } from '@/lib/site-config'
 
 function getTodayStr() {
@@ -108,7 +109,23 @@ export default function NuevoContrato() {
         }
       }).catch(() => setInitialized(true))
     } else {
-      setInitialized(true)
+      apiFetchEmpresa().then(empresa => {
+        if (empresa) {
+          setData(d => ({
+            ...d,
+            partes: {
+              ...d.partes,
+              mandante: {
+                ...d.partes.mandante,
+                nombre: `${empresa.nombre} SpA`,
+                rut: empresa.rut,
+                direccion: empresa.direccion,
+                email: empresa.email,
+              },
+            },
+          }))
+        }
+      }).catch(() => {}).finally(() => setInitialized(true))
     }
   }, [])
 
