@@ -1,8 +1,8 @@
 # D&Z Building
 
-> Chilean company specializing in commercial HVAC, VRF/VRV systems, and industrial refrigeration with over 20 years of experience. / Empresa chilena de climatización comercial, sistemas VRF/VRV y refrigeración industrial con más de 20 años de experiencia.
+> Chilean company specializing in commercial and industrial HVAC, BIM HVAC modeling, VRF/VRV systems, and refrigeration with over 20 years of experience. Official distributor of LG, Samsung and Gree in Chile. / Empresa chilena de climatización comercial e industrial, modelamiento BIM HVAC, sistemas VRF/VRV y refrigeración con más de 20 años de experiencia. Distribuidor oficial de LG, Samsung y Gree en Chile.
 
-D&Z Building designs, supplies, installs and maintains HVAC systems for offices, hotels, retail and industry across Chile. Official distributor of LG, Samsung and Gree. / D&Z Building diseña, suministra, instala y mantiene sistemas HVAC para oficinas, hoteles, retail e industria en Chile. Distribuidor oficial de LG, Samsung y Gree.
+D&Z Building designs, supplies, installs and maintains HVAC systems for offices, hotels, retail, hospitals, mining plants, data centers, cold storage, and agro-industry across Chile. / D&Z Building diseña, suministra, instala y mantiene sistemas HVAC para oficinas, hoteles, retail, clínicas, plantas mineras, data centers, frigoríficos e industria en todo Chile.
 
 ## Languages / Idiomas
 
@@ -11,21 +11,38 @@ D&Z Building designs, supplies, installs and maintains HVAC systems for offices,
 
 ## Services / Servicios
 
-- Commercial HVAC VRF/VRV systems / Climatización comercial VRF/VRV
-- Commercial refrigeration (display cases, cold rooms) / Refrigeración comercial (vitrinas, cámaras frigoríficas)
+- Commercial HVAC VRF/VRV systems (offices, hotels, retail, clinics, mining) / Climatización comercial VRF/VRV (oficinas, hoteles, retail, clínicas, minería)
+- Commercial refrigeration (display cases, cold rooms, cold chain) / Refrigeración comercial (vitrinas, cámaras frigoríficas, cadena de frío)
 - Industrial ventilation and extraction / Ventilación y extracción industrial
-- Preventive HVAC maintenance / Mantenimiento preventivo de climatización
+- Preventive HVAC maintenance plans / Planes de mantenimiento preventivo de climatización
 - Turnkey HVAC projects / Proyectos llave en mano HVAC
-- Energy efficiency analysis / Análisis operacional y eficiencia energética
-- Engineering consulting / Asesoría de ingeniería
+- VRV/VRF operational analysis and optimization / Análisis operacional y optimización VRV/VRF
+- HVAC energy efficiency audits / Auditorías de eficiencia energética HVAC
+- BIM HVAC modeling and engineering consulting / Modelamiento BIM HVAC y asesoría de ingeniería
+
+## Sectors Served / Sectores atendidos
+
+- Offices and corporate buildings / Oficinas y edificios corporativos
+- Hotels and hospitality / Hoteles y apart hoteles
+- Supermarkets and retail / Supermercados y retail
+- Clinics and hospitals / Clínicas y hospitales
+- Mining plants and industrial sites / Plantas mineras y faenas industriales
+- Data centers / Data centers
+- Agro-industry and cold storage / Agroindustria y frigoríficos
+- Shopping malls / Centros comerciales
+
+## International Projects
+
+D&Z Building delivers BIM HVAC models and full technical documentation in English. Remote consultations available for international consultants, developers, and investors working in Chile.
 
 ## Contact / Contacto
 
 - Site: https://www.dyzbuilding.cl
 - English site: https://www.dyzbuilding.cl/en/
 - Email: contacto@dyzbuilding.cl
+- WhatsApp: Available on the site / Disponible en el sitio
 - Location: Santiago, Chile
-- Coverage: National (Chile) / Cobertura: Nacional (Chile)
+- Coverage: National (Chile), all regions / Cobertura: Nacional (Chile), todas las regiones
 - Hours: Monday–Friday 8:30–18:00 / Lunes a viernes 8:30–18:00
 - RUT: 78.353.685-4
 
@@ -39,4 +56,4 @@ D&Z Building designs, supplies, installs and maintains HVAC systems for offices,
 
 ## Pricing / Cotización
 
-Projects are quoted on a per-case basis based on area, zones, brand, and complexity. Free quote via web form or email. / Los proyectos se cotizan a medida según superficie, zonas, marca y complejidad. Cotización gratuita vía formulario web o email.
+Projects are quoted on a per-case basis based on area, zones, brand, and complexity. Free quote via web form, email, or WhatsApp. Response in under 24 hours. / Los proyectos se cotizan a medida según superficie, zonas, marca y complejidad. Cotización gratuita vía formulario web, email o WhatsApp. Respuesta en menos de 24 horas.

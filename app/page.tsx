@@ -33,11 +33,34 @@ const SVC_ICONS: React.ReactNode[] = [
   <><rect key="a" x="3" y="4" width="30" height="22" rx=".5"/><line key="b" x1="10" y1="4" x2="10" y2="26"/><line key="c" x1="18" y1="4" x2="18" y2="26"/><line key="d" x1="3" y1="12" x2="33" y2="12"/><line key="e" x1="3" y1="20" x2="33" y2="20"/><line key="f" x1="8" y1="30" x2="28" y2="30"/><line key="g" x1="18" y1="26" x2="18" y2="30"/></>,
 ]
 
+const SECTOR_ICONS: React.ReactNode[] = [
+  /* Retail — storefront */
+  <><rect key="a" x="3" y="13" width="30" height="19" rx=".5"/><path key="b" d="M3 13 L8 5 L28 5 L33 13"/><line key="c" x1="3" y1="21" x2="33" y2="21"/><rect key="d" x="14" y="24" width="8" height="8"/></>,
+  /* Salud — medical cross */
+  <><rect key="a" x="13" y="3" width="10" height="30" rx=".5"/><rect key="b" x="3" y="13" width="30" height="10" rx=".5"/></>,
+  /* Industria / Minería — factory */
+  <><rect key="a" x="2" y="16" width="32" height="16" rx=".5"/><path key="b" d="M2 16 L10 8 L18 16 L26 8 L34 16"/><rect key="c" x="6" y="22" width="5" height="10"/><rect key="d" x="15" y="22" width="5" height="10"/><rect key="e" x="24" y="22" width="5" height="10"/></>,
+  /* Hotelería — hotel con estrella */
+  <><rect key="a" x="5" y="12" width="26" height="20" rx=".5"/><line key="b" x1="5" y1="20" x2="31" y2="20"/><line key="c" x1="5" y1="26" x2="31" y2="26"/><line key="d" x1="13" y1="12" x2="13" y2="20"/><line key="e" x1="23" y1="12" x2="23" y2="20"/><rect key="f" x="14" y="26" width="8" height="6"/><path key="g" d="M18 3 L19 6.5 L22.5 6.5 L19.8 8.5 L20.8 12 L18 10 L15.2 12 L16.2 8.5 L13.5 6.5 L17 6.5 Z"/></>,
+  /* Data Centers — server rack */
+  <><rect key="a" x="4" y="3" width="28" height="30" rx=".5"/><rect key="b" x="8" y="7" width="14" height="4" rx=".3"/><rect key="c" x="8" y="15" width="14" height="4" rx=".3"/><rect key="d" x="8" y="23" width="14" height="4" rx=".3"/><circle key="e" cx="26" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle key="f" cx="26" cy="17" r="1.5" fill="currentColor" stroke="none"/><circle key="g" cx="26" cy="25" r="1.5" fill="currentColor" stroke="none"/></>,
+  /* Agroindustria — copo de nieve (cadena de frío) */
+  <><line key="a" x1="18" y1="4" x2="18" y2="32"/><line key="b" x1="4" y1="18" x2="32" y2="18"/><line key="c" x1="9" y1="9" x2="27" y2="27"/><line key="d" x1="27" y1="9" x2="9" y2="27"/></>,
+]
+
+const SECTORES_ES = [
+  { nombre: 'Retail y Centros Comerciales', desc: 'Climatización de salas de ventas, supermercados y grandes superficies comerciales.' },
+  { nombre: 'Salud', desc: 'HVAC para clínicas, hospitales, pabellones quirúrgicos y unidades de cuidado intensivo.' },
+  { nombre: 'Industria y Minería', desc: 'Ventilación y refrigeración para plantas de proceso, salas eléctricas y recintos mineros.' },
+  { nombre: 'Hotelería', desc: 'Sistemas VRF para hoteles boutique, apart hoteles y cadenas hoteleras.' },
+  { nombre: 'Data Centers', desc: 'Climatización de precisión para salas de servidores y centros de datos empresariales.' },
+  { nombre: 'Agroindustria', desc: 'Refrigeración industrial para frigoríficos, plantas de packing y cadena de frío.' },
+]
+
 const BRANDS = [
   { name: 'LG', src: '/brands/lg.png', width: 63, height: 34 },
   { name: 'Samsung', src: '/brands/samsung.png', width: 1024, height: 272 },
   { name: 'Gree', src: '/brands/gree.png', width: 120, height: 24 },
-  { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
 ] as const
 
 const TAB_ICONS = {
@@ -52,18 +75,22 @@ const UI = {
   es: {
     navInicio: 'Inicio',
     navServicios: 'Especialidades', navNosotros: 'Nosotros', navFaq: 'Preguntas', navContacto: 'Contacto',
-    navCta: 'Solicitar Cotización', marcasLabel: 'Marcas oficiales', quienesSomos: 'Quiénes somos',
-    heroBtn1: 'Nuestras especialidades', heroBtn2: 'Solicitar cotización',
+    navCta: 'Solicitar Cotización', marcasLabel: 'Distribuidores oficiales', quienesSomos: 'Quiénes somos',
+    whatsapp: 'WhatsApp', horario: 'Horario', horarioValue: 'Lunes a viernes, 8:30 – 18:00',
+    heroBtn1: 'Nuestras especialidades', heroBtn2: 'Solicitar cotización', svcCta: 'Cotizar →',
+    sectorBadge: 'Servicios industriales · Comerciales · Hospitalarios',
     statsAnios: 'años de experiencia', statsCobertura: 'Cobertura nacional',
-    statsMarcas: 'Marcas oficiales', statsSoporte: 'Soporte técnico',
+    statsMarcas: 'Distribuidores oficiales', statsSoporte: 'Soporte técnico',
     contactoEyebrow: 'Hablemos', contactoTitulo: 'Solicitar Cotización',
     contactoDirecto: 'Contacto directo', ubicacion: 'Ubicación', telefono: 'Teléfono', email: 'Email',
   },
   en: {
+    whatsapp: 'WhatsApp', horario: 'Hours', horarioValue: 'Monday – Friday, 8:30 – 18:00',
     navInicio: 'Home',
     navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact',
     navCta: 'Request a Quote', marcasLabel: 'Official brands', quienesSomos: 'Who we are',
-    heroBtn1: 'Our specialties', heroBtn2: 'Request a quote',
+    heroBtn1: 'Our specialties', heroBtn2: 'Request a quote', svcCta: 'Get a quote →',
+    sectorBadge: 'Industrial · Commercial · Healthcare services',
     statsAnios: 'years of experience', statsCobertura: 'Nationwide coverage',
     statsMarcas: 'Official brands', statsSoporte: 'Technical support',
     contactoEyebrow: "Let's talk", contactoTitulo: 'Request a Quote',
@@ -93,6 +120,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seo.descripcion,
       type: 'website',
       locale: 'es_CL',
+      alternateLocale: ['en_US'],
       url: '/',
       siteName: c.empresa.nombre,
       images: [{ url: '/og.png', width: 1200, height: 630, alt: c.empresa.nombre }],
@@ -108,6 +136,12 @@ export async function generateMetadata(): Promise<Metadata> {
       follow: true,
       googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
     },
+    other: {
+      'geo.region': 'CL-RM',
+      'geo.placename': 'Santiago, Chile',
+      'geo.position': '-33.4489;-70.6693',
+      'ICBM': '-33.4489, -70.6693',
+    },
   }
 }
 
@@ -119,12 +153,15 @@ export default async function Home() {
   const servicios = c.servicios
   const faq = c.faq
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
+  const waDigits = c.empresa.telefono.replace(/\D/g, '')
+  const waNumber = waDigits.startsWith('56') ? waDigits : `56${waDigits}`
+  const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hola, me interesa cotizar un proyecto de climatización o refrigeración comercial. ¿Podrían contactarme?')}`
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'LocalBusiness',
+        '@type': 'HVACBusiness',
         '@id': `${siteUrl}/#business`,
         name: c.empresa.nombre,
         description: c.seo.descripcion,
@@ -145,7 +182,13 @@ export default async function Home() {
           addressRegion: 'Región Metropolitana',
           addressCountry: 'CL',
         },
-        areaServed: { '@type': 'Country', name: 'Chile' },
+        areaServed: [
+          { '@type': 'Country', name: 'Chile' },
+          { '@type': 'City', name: 'Santiago', containedInPlace: { '@type': 'AdministrativeArea', name: 'Región Metropolitana' } },
+          { '@type': 'City', name: 'Valparaíso' },
+          { '@type': 'City', name: 'Antofagasta' },
+          { '@type': 'City', name: 'Concepción' },
+        ],
         openingHoursSpecification: [
           {
             '@type': 'OpeningHoursSpecification',
@@ -156,9 +199,14 @@ export default async function Home() {
         ],
         priceRange: '$$',
         knowsAbout: [
-          'Climatización comercial', 'Sistemas VRF', 'Sistemas VRV',
-          'Refrigeración comercial', 'HVAC', 'Eficiencia energética',
-          'Proyectos llave en mano', 'Mantención preventiva',
+          'Climatización comercial Chile', 'Sistemas VRF Chile', 'Sistemas VRV Chile',
+          'Refrigeración comercial industrial', 'HVAC industrial Chile',
+          'Eficiencia energética HVAC', 'Proyectos llave en mano climatización',
+          'Mantención preventiva VRF', 'BIM HVAC', 'Modelamiento BIM HVAC',
+          'Distribuidor LG VRF Chile', 'Distribuidor Samsung HVAC Chile', 'Distribuidor Gree Chile',
+          'Climatización minería Chile', 'HVAC data centers Santiago', 'Refrigeración agroindustrial Chile',
+          'VRF hospitales y clínicas Chile', 'Climatización hoteles Chile', 'Ingeniería BIM HVAC Chile',
+          'Climatización edificios corporativos', 'VRF recuperación de calor', 'Análisis operacional HVAC',
         ],
         brand: [
           { '@type': 'Brand', name: 'LG' },
@@ -174,7 +222,7 @@ export default async function Home() {
               itemOffered: {
                 '@type': 'Service',
                 name: 'Climatización Comercial VRF/VRV',
-                description: 'Diseño, suministro e instalación de sistemas VRF/VRV para oficinas, hoteles, locales y centros comerciales.',
+                description: 'Diseño, suministro e instalación de sistemas VRF/VRV para oficinas, hoteles, centros comerciales, clínicas, plantas mineras y data centers.',
               },
             },
             {
@@ -217,10 +265,41 @@ export default async function Home() {
                 description: 'Sistemas VMC, extractores y renovación de aire para espacios industriales y comerciales.',
               },
             },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Análisis Operacional VRV/VRF',
+                description: 'Diagnóstico de sistemas VRV/VRF en operación: eficiencia real, fallas recurrentes y plan de optimización para instalaciones comerciales e industriales.',
+              },
+            },
+            {
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: 'Asesoría de Ingeniería HVAC',
+                description: 'Consultoría técnica para proyectos de climatización: especificaciones, licitaciones, revisión de diseños y modelamiento BIM HVAC.',
+              },
+            },
           ],
         },
         foundingDate: '2006',
         numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 10 },
+        sameAs: [`https://wa.me/${waNumber}`],
+        contactPoint: [{
+          '@type': 'ContactPoint',
+          contactType: 'customer service',
+          telephone: c.empresa.telefono,
+          email: c.empresa.email,
+          areaServed: 'CL',
+          availableLanguage: ['Spanish', 'English'],
+          hoursAvailable: {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            opens: '08:30',
+            closes: '18:00',
+          },
+        }],
       },
       {
         '@type': 'WebSite',
@@ -230,6 +309,35 @@ export default async function Home() {
         description: c.seo.descripcion,
         publisher: { '@id': `${siteUrl}/#business` },
         inLanguage: 'es-CL',
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${siteUrl}/#webpage`,
+        url: siteUrl,
+        name: c.seo.titulo,
+        description: c.seo.descripcion,
+        isPartOf: { '@id': `${siteUrl}/#website` },
+        about: { '@id': `${siteUrl}/#business` },
+        inLanguage: 'es-CL',
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: `${siteUrl}/og.png`,
+          width: 1200,
+          height: 630,
+        },
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [{
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: `${siteUrl}/`,
+          }],
+        },
+        speakable: {
+          '@type': 'SpeakableSpecification',
+          cssSelector: ['h1', '.sec-title', '.hero-content p'],
+        },
       },
       {
         '@type': 'FAQPage',
@@ -254,13 +362,16 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-1G3JSB5T7X" strategy="afterInteractive" />
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID ?? 'G-1G3JSB5T7X'}`} strategy="afterInteractive" />
       <Script id="gtag-init" strategy="afterInteractive">{`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-1G3JSB5T7X');
+        if (!window.location.pathname.startsWith('/admin')) {
+          gtag('config', '${process.env.NEXT_PUBLIC_GA_ID ?? 'G-1G3JSB5T7X'}');
+        }
       `}</Script>
+      <a href="#inicio" className="skip-link">Saltar al contenido</a>
       <nav>
         <a className="nav-logo" href="#inicio">
           <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} priority style={{ height: 44, width: 'auto' }} />
@@ -271,7 +382,11 @@ export default async function Home() {
           <li><a href="#faq">{t.navFaq}</a></li>
           <li><a href="#contacto">{t.navContacto}</a></li>
         </ul>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <a className="nav-tel" href={`tel:${c.empresa.telefono}`} data-ga-event="phone_clicked" data-ga-location="nav" data-ga-lang="es" aria-label={`Llamar a ${c.empresa.telefono}`}>
+            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/></svg>
+            {c.empresa.telefono}
+          </a>
           <LangSwitcher lang="es" />
           <a className="nav-cta" href="#contacto" data-ga-event="cta_clicked" data-ga-location="nav" data-ga-label={t.navCta} data-ga-lang="es">{t.navCta}</a>
           <MobileMenu
@@ -283,6 +398,7 @@ export default async function Home() {
               { label: t.navContacto, href: '#contacto' },
             ]}
             cta={{ label: t.navCta, href: '#contacto' }}
+            quickContact={{ waUrl, waLabel: 'WhatsApp', phoneUrl: `tel:${c.empresa.telefono}`, phoneLabel: 'Llamar' }}
           />
         </div>
       </nav>
@@ -301,6 +417,7 @@ export default async function Home() {
             <a className="btn-p" href="#contacto" data-ga-event="cta_clicked" data-ga-location="hero_primary" data-ga-label={t.heroBtn2} data-ga-lang="es">{t.heroBtn2}</a>
             <a className="btn-o" href="#servicios" data-ga-event="cta_clicked" data-ga-location="hero_secondary" data-ga-label={t.heroBtn1} data-ga-lang="es">{t.heroBtn1}</a>
           </div>
+          <span className="sector-badge">{t.sectorBadge}</span>
         </div>
       </section>
 
@@ -331,9 +448,42 @@ export default async function Home() {
               <svg className="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 {SVC_ICONS[i]}
               </svg>
-              <h3>{item.titulo}</h3>
+              {i === 0 ? (
+                <h3><a href="/servicios/climatizacion-vrf" style={{ color: 'inherit', textDecoration: 'none' }}>{item.titulo}</a></h3>
+              ) : (
+                <h3>{item.titulo}</h3>
+              )}
               <p>{item.descripcion}</p>
-              <a href="#contacto" className="svc-cta">Cotizar →</a>
+              <a
+                href="#contacto"
+                className="svc-cta"
+                aria-label={`${t.svcCta} — ${item.titulo}`}
+                data-ga-event="cta_clicked"
+                data-ga-location="service_card"
+                data-ga-label={item.titulo}
+                data-ga-lang="es"
+                data-service-idx={i}
+              >{t.svcCta}</a>
+            </div>
+          ))}
+        </div>
+      </RevealSection>
+
+      {/* PROCESO */}
+      <RevealSection className="sec" id="proceso">
+        <div className="sec-eyebrow">Nuestro proceso</div>
+        <h2 className="sec-title">¿Cómo trabajamos?</h2>
+        <div className="proceso-grid">
+          {([
+            { n: '01', titulo: 'Diagnóstico inicial', desc: 'Evaluamos el espacio, necesidades y condiciones del proyecto sin costo ni compromiso.' },
+            { n: '02', titulo: 'Propuesta técnica', desc: 'Cotización detallada con especificaciones de equipos, plazos de ejecución y valor total.' },
+            { n: '03', titulo: 'Diseño e ingeniería', desc: 'Memorias de cálculo, planos y coordinación BIM para la aprobación del proyecto.' },
+            { n: '04', titulo: 'Instalación y puesta en marcha', desc: 'Ejecución con técnicos certificados, pruebas de funcionamiento y entrega documentada.' },
+          ] as const).map(s => (
+            <div className="proceso-step" key={s.n}>
+              <div className="proceso-n">{s.n}</div>
+              <h3>{s.titulo}</h3>
+              <p>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -354,10 +504,92 @@ export default async function Home() {
           </div>
           <div className="stats">
             <div className="stat"><div className="stat-n"><CountUp to={20} /></div><div className="stat-l">{t.statsAnios}</div></div>
-            <div className="stat"><div className="stat-n">CL</div><div className="stat-l">{t.statsCobertura}</div></div>
+            <div className="stat"><div className="stat-n">Chile</div><div className="stat-l">{t.statsCobertura}</div></div>
             <div className="stat"><div className="stat-n"><CountUp to={3} /></div><div className="stat-l">{t.statsMarcas}</div></div>
             <div className="stat"><div className="stat-n">24/7</div><div className="stat-l">{t.statsSoporte}</div></div>
           </div>
+        </div>
+        <div className="ventajas">
+          <div className="ventaja">
+            <span className="ventaja-tag">BIM</span>
+            <h3>Ingeniería BIM integrada</h3>
+            <p>Coordinamos con arquitectos y constructoras mediante modelos BIM HVAC, reduciendo conflictos de instalación y acelerando la aprobación de proyectos.</p>
+          </div>
+          <div className="ventaja">
+            <span className="ventaja-tag">OFICIAL</span>
+            <h3>Distribuidores oficiales LG, Samsung y Gree</h3>
+            <p>Acceso directo a equipos genuinos, precios de distribuidor y soporte técnico postventa certificado por las marcas líderes del mercado.</p>
+          </div>
+          <div className="ventaja">
+            <span className="ventaja-tag">B2B</span>
+            <h3>Solo proyectos comerciales e industriales</h3>
+            <p>20 años sin proyectos residenciales. Toda nuestra capacidad técnica está dedicada al nivel de exigencia de proyectos comerciales, hospitalarios e industriales.</p>
+          </div>
+        </div>
+      </RevealSection>
+
+      {/* SECTORES */}
+      <RevealSection className="sec" id="sectores">
+        <div className="sec-eyebrow">Sectores</div>
+        <h2 className="sec-title">Industrias que atendemos</h2>
+        <div className="sectores-grid">
+          {SECTORES_ES.map((s, i) => (
+            <div className="sector-card" key={i}>
+              <svg className="sector-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
+                {SECTOR_ICONS[i]}
+              </svg>
+              <h3>{s.nombre}</h3>
+              <p>{s.desc}</p>
+              <a
+                href="#contacto"
+                className="sector-cta"
+                aria-label={`Cotizar para ${s.nombre}`}
+                data-ga-event="cta_clicked"
+                data-ga-location="sector_card"
+                data-ga-label={s.nombre}
+                data-ga-lang="es"
+                data-sector-idx={i}
+              >Cotizar →</a>
+            </div>
+          ))}
+        </div>
+      </RevealSection>
+
+      {/* GARANTIAS */}
+      <RevealSection className="sec" id="garantias">
+        <div className="garantia-bar">
+          {([
+            {
+              titulo: 'Equipos con garantía de fábrica',
+              desc: 'Distribuidores oficiales LG, Samsung y Gree. Todos los equipos incluyen garantía directa del fabricante.',
+              icon: <><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></>,
+            },
+            {
+              titulo: 'Garantía de instalación 12 meses',
+              desc: 'Garantizamos toda mano de obra ejecutada por 12 meses. Si algo falla por nuestra instalación, lo resolvemos sin costo.',
+              icon: <><path d="M12 3l1.5 4.5H18l-3.75 2.75 1.5 4.5L12 12l-3.75 2.75 1.5-4.5L6 7.5h4.5z"/></>,
+            },
+            {
+              titulo: 'Técnicos certificados por fabricante',
+              desc: 'Nuestro personal está capacitado y habilitado directamente por LG, Samsung y Gree para instalación y mantención de sistemas VRF.',
+              icon: <><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></>,
+            },
+            {
+              titulo: 'Cotización técnica en 48–72 h',
+              desc: 'Diagnóstico inicial gratuito. Propuesta técnica detallada entregada dentro de 48 a 72 horas hábiles desde la evaluación.',
+              icon: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></>,
+            },
+          ] as const).map((g, i) => (
+            <div className="garantia-bar-item" key={i}>
+              <svg className="garantia-bar-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+                {g.icon}
+              </svg>
+              <div className="garantia-bar-txt">
+                <span className="garantia-bar-titulo">{g.titulo}</span>
+                <span className="garantia-bar-desc">{g.desc}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </RevealSection>
 
@@ -386,28 +618,78 @@ export default async function Home() {
               <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 <path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/>
               </svg>
-              <div className="ci-txt"><strong>{t.telefono}</strong><a href={`tel:${c.empresa.telefono}`}>{c.empresa.telefono}</a></div>
+              <div className="ci-txt"><strong>{t.telefono}</strong><a href={`tel:${c.empresa.telefono}`} data-ga-event="phone_clicked" data-ga-location="contact_block" data-ga-lang="es">{c.empresa.telefono}</a></div>
             </div>
             <div className="ci">
               <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
                 <rect x="1" y="2.5" width="13" height="10" rx="1"/>
                 <path d="M1 3.5l6.5 4.5 6.5-4.5"/>
               </svg>
-              <div className="ci-txt"><strong>{t.email}</strong><a href={`mailto:${c.empresa.email}`}>{c.empresa.email}</a></div>
+              <div className="ci-txt"><strong>{t.email}</strong><a href={`mailto:${c.empresa.email}`} data-ga-event="email_clicked" data-ga-location="contact_block" data-ga-lang="es">{c.empresa.email}</a></div>
+            </div>
+            <div className="ci">
+              <svg className="ci-ico" viewBox="0 0 15 15" fill="currentColor" stroke="none" aria-hidden="true">
+                <path d="M7.5 1.25C4.05 1.25 1.25 4.05 1.25 7.5c0 1.16.32 2.24.87 3.17L1.25 13.75l3.15-.85c.9.5 1.94.79 3.1.79 3.45 0 6.25-2.8 6.25-6.25S10.95 1.25 7.5 1.25zm0 11.25c-1 0-1.94-.28-2.73-.76l-1.9.51.52-1.86A5 5 0 117.5 12.5zm2.77-3.74c-.15-.08-.9-.44-1.04-.49-.14-.05-.24-.08-.34.08-.1.15-.4.49-.48.59-.09.1-.18.11-.33.04-.15-.08-.63-.23-1.2-.74-.44-.4-.74-.89-.83-1.04-.09-.15-.01-.23.07-.3.07-.07.15-.18.23-.27.08-.09.1-.15.15-.25.05-.1.02-.19-.01-.27-.04-.08-.34-.82-.46-1.12-.12-.3-.25-.26-.34-.26-.09 0-.19-.01-.29-.01-.1 0-.26.04-.4.19-.14.15-.53.52-.53 1.27s.54 1.47.62 1.57c.08.1 1.06 1.62 2.57 2.27.36.16.64.25.86.32.36.11.69.1.95.06.29-.04.9-.37 1.03-.72.13-.35.13-.65.09-.72-.04-.07-.14-.11-.29-.18z"/>
+              </svg>
+              <div className="ci-txt"><strong>{t.whatsapp}</strong><a href={waUrl} target="_blank" rel="noopener noreferrer" data-ga-event="whatsapp_clicked" data-ga-location="contact_block" data-ga-lang="es">{c.empresa.telefono}</a></div>
+            </div>
+            <div className="ci">
+              <svg className="ci-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
+                <circle cx="7.5" cy="7.5" r="6"/>
+                <path d="M7.5 4.5v3l1.8 1.8"/>
+              </svg>
+              <div className="ci-txt"><strong>{t.horario}</strong>{t.horarioValue}</div>
+            </div>
+            <div className="ci-trust" aria-label="Tiempo de respuesta garantizado">
+              <svg width="12" height="12" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 4.5v3l1.8 1.8"/></svg>
+              Respondemos en menos de 24 h hábiles
+            </div>
+            <div className="ci-trust" aria-label="Cotización gratuita y sin compromiso">
+              <svg width="12" height="12" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><path d="M2.5 7.5L6 11l6.5-7"/></svg>
+              Diagnóstico inicial gratuito · Sin compromiso
+            </div>
+            <div className="next-steps">
+              <p className="next-steps-hd">¿Qué pasa después?</p>
+              <div className="next-step">
+                <span className="next-step-n">01</span>
+                <div><div className="next-step-l">Confirmación inmediata</div><div className="next-step-d">Acuse de recibo en menos de 2 h hábiles</div></div>
+              </div>
+              <div className="next-step">
+                <span className="next-step-n">02</span>
+                <div><div className="next-step-l">Diagnóstico gratuito</div><div className="next-step-d">Un especialista evalúa el proyecto sin costo ni compromiso</div></div>
+              </div>
+              <div className="next-step">
+                <span className="next-step-n">03</span>
+                <div><div className="next-step-l">Propuesta técnica</div><div className="next-step-d">Diseño y cotización detallada en 48–72 h hábiles</div></div>
+              </div>
             </div>
           </div>
-          <ContactForm lang="es" />
+          <ContactForm lang="es" waUrl={waUrl} />
         </div>
       </RevealSection>
       </main>
 
       <footer>
         <div className="f-cta">
-          <p className="f-cta-txt">¿Listo para cotizar tu proyecto? <em>Respondemos en menos de 24 h.</em></p>
+          <p className="f-cta-txt">¿Tiene un proyecto comercial o industrial? <em>Respondemos en menos de 24 h.</em></p>
           <a className="nav-cta" href="#contacto" data-ga-event="cta_clicked" data-ga-location="footer" data-ga-label={t.navCta} data-ga-lang="es">{t.navCta}</a>
         </div>
         <div className="f-logo">
           <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} style={{ height: 32, width: 'auto' }} />
+        </div>
+        <div className="f-contact">
+          <a className="f-contact-link" href={`tel:${c.empresa.telefono}`} data-ga-event="phone_clicked" data-ga-location="footer" data-ga-lang="es">
+            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/></svg>
+            {c.empresa.telefono}
+          </a>
+          <a className="f-contact-link" href={`mailto:${c.empresa.email}`} data-ga-event="email_clicked" data-ga-location="footer" data-ga-lang="es">
+            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><rect x="1" y="2.5" width="13" height="10" rx="1"/><path d="M1 3.5l6.5 4.5 6.5-4.5"/></svg>
+            {c.empresa.email}
+          </a>
+          <a className="f-contact-link" href={waUrl} target="_blank" rel="noopener noreferrer" data-ga-event="whatsapp_clicked" data-ga-location="footer" data-ga-lang="es">
+            <svg viewBox="0 0 15 15" fill="currentColor" stroke="none" aria-hidden="true"><path d="M7.5 1.25C4.05 1.25 1.25 4.05 1.25 7.5c0 1.16.32 2.24.87 3.17L1.25 13.75l3.15-.85c.9.5 1.94.79 3.1.79 3.45 0 6.25-2.8 6.25-6.25S10.95 1.25 7.5 1.25zm2.77 8.51c-.15-.08-.9-.44-1.04-.49-.14-.05-.24-.08-.34.08-.1.15-.4.49-.48.59-.09.1-.18.11-.33.04-.15-.08-.63-.23-1.2-.74-.44-.4-.74-.89-.83-1.04-.09-.15-.01-.23.07-.3.07-.07.15-.18.23-.27.08-.09.1-.15.15-.25.05-.1.02-.19-.01-.27-.04-.08-.34-.82-.46-1.12-.12-.3-.25-.26-.34-.26-.09 0-.19-.01-.29-.01-.1 0-.26.04-.4.19-.14.15-.53.52-.53 1.27s.54 1.47.62 1.57c.08.1 1.06 1.62 2.57 2.27.36.16.64.25.86.32.36.11.69.1.95.06.29-.04.9-.37 1.03-.72.13-.35.13-.65.09-.72-.04-.07-.14-.11-.29-.18z"/></svg>
+            WhatsApp
+          </a>
         </div>
         <ul className="f-links">
           <li><a href="#servicios">{t.navServicios}</a></li>

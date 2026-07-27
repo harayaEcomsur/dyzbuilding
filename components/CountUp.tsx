@@ -32,5 +32,10 @@ export default function CountUp({ to }: { to: number }) {
     return () => obs.disconnect()
   }, [to])
 
-  return <span ref={ref}>{val}</span>
+  return (
+    <>
+      <span ref={ref} aria-hidden="true">{val}</span>
+      <span className="sr-only">{to}</span>
+    </>
+  )
 }

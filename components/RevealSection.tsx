@@ -14,10 +14,11 @@ export default function RevealSection({ children, className = '', ...rest }: Pro
       el.classList.add('reveal-in')
       return
     }
+    const lang = document.documentElement.lang?.startsWith('en') ? 'en' : 'es'
     const obs = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
         el.classList.add('reveal-in')
-        if (rest.id) gtagEvent('section_viewed', { section_id: rest.id })
+        if (rest.id) gtagEvent('section_viewed', { section: rest.id, lang })
         obs.disconnect()
       }
     }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' })

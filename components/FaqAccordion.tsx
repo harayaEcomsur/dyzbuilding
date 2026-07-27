@@ -18,9 +18,12 @@ export default function FaqAccordion({ items, lang = 'es' }: { items: FaqItem[];
       {items.map((item, i) => (
         <article key={i} className={`faq-item${open === i ? ' faq-open' : ''}`}>
           <button
+            id={`faq-btn-${i}`}
+            type="button"
             className="faq-q"
             onClick={() => toggle(i, item)}
             aria-expanded={open === i}
+            aria-controls={`faq-panel-${i}`}
           >
             <h3>{item.pregunta}</h3>
             <svg
@@ -36,7 +39,13 @@ export default function FaqAccordion({ items, lang = 'es' }: { items: FaqItem[];
               <path d="M6 9l6 6 6-6" />
             </svg>
           </button>
-          <div className="faq-a" aria-hidden={open !== i}>
+          <div
+            id={`faq-panel-${i}`}
+            className="faq-a"
+            aria-hidden={open !== i}
+            role="region"
+            aria-labelledby={`faq-btn-${i}`}
+          >
             <div className="faq-a-inner">
               <p>{item.respuesta}</p>
             </div>

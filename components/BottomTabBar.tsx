@@ -23,8 +23,9 @@ export default function BottomTabBar({ tabs, lang = 'es' }: { tabs: Tab[]; lang?
     return () => window.removeEventListener('scroll', update)
   }, [tabs])
 
+  const navLabel = lang === 'en' ? 'Navigation' : 'Navegación'
   return (
-    <div role="navigation" aria-label="Navegación" className="tab-bar">
+    <div role="navigation" aria-label={navLabel} className="tab-bar">
       {tabs.map(t => {
         const id = t.href.replace('#', '')
         return (
