@@ -110,7 +110,7 @@ const FAQ = [
   },
   {
     q: 'What is the response time for an emergency repair under a maintenance contract?',
-    a: 'Under our Standard plan, response time is 48 business hours for non-critical equipment. Under our Priority plan, we commit to a 24-hour response for critical equipment (server room cooling, operating room HVAC, refrigerated cold rooms). For data centers and hospitals, we can structure a custom SLA with a 4-hour on-site response.',
+    a: 'Response times depend on the plan and equipment criticality. For critical equipment (server room cooling, operating room HVAC, refrigerated cold rooms), we can structure a custom SLA with a prioritized on-site response. Response commitments are agreed with each client individually as part of the maintenance contract.',
   },
 ]
 
@@ -313,7 +313,7 @@ export default function PreventiveMaintenancePage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Tell us your equipment list, location, and number of units.
-            We will send you a maintenance contract proposal within 48 hours.
+            We will send you a maintenance contract proposal.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/en/#contacto" className="sp-hero-cta">Request maintenance quote</Link>

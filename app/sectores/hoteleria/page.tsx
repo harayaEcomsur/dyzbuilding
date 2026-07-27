@@ -272,7 +272,7 @@ export default function SectorHoteleriaPage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Obra nueva, ampliación o remplazo de equipos en hotel en operación.
-            Cotización orientativa en 48–72 horas con visita técnica sin costo para proyectos sobre UF 500.
+            Cotización orientativa con visita técnica sin costo para proyectos sobre UF 500.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/?servicio=asesoria#contacto" className="sp-hero-cta">Solicitar cotización hotelera</Link>

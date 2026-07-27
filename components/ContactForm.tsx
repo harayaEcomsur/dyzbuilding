@@ -73,10 +73,10 @@ const CF = {
     seleccionar: 'Seleccionar...',
     enviando: 'Enviando...', enviarMsg: 'Enviar mensaje', enviarSol: 'Enviar solicitud',
     enviado: 'SOLICITUD RECIBIDA',
-    gracias: 'Un especialista revisará su proyecto y responderá en menos de 24 horas hábiles.',
+    gracias: 'Un especialista revisará su proyecto y se pondrá en contacto a la brevedad.',
     urgente: '¿Necesita respuesta urgente?', waBtn: 'Escribir por WhatsApp →',
     otroMensaje: 'Enviar otra consulta', errorEnvio: 'Error al enviar. Por favor intenta nuevamente.',
-    sinCompromiso: 'Sin compromiso · Diagnóstico gratuito',
+    sinCompromiso: 'Sin compromiso',
   },
   en: {
     tabContacto: 'Contact', tabCotizacion: 'Request a Quote',
@@ -91,10 +91,10 @@ const CF = {
     seleccionar: 'Select...',
     enviando: 'Sending...', enviarMsg: 'Send message', enviarSol: 'Send request',
     enviado: 'REQUEST RECEIVED',
-    gracias: 'A specialist will review your project and respond within 24 business hours.',
+    gracias: 'A specialist will review your project and get in touch shortly.',
     urgente: 'Need it sooner?', waBtn: 'Chat on WhatsApp →',
     otroMensaje: 'Send another request', errorEnvio: 'Error sending your message. Please try again.',
-    sinCompromiso: 'No commitment · Free assessment',
+    sinCompromiso: 'No commitment',
   },
 }
 

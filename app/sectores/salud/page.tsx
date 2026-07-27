@@ -276,7 +276,7 @@ export default function SectorSaludPage() {
             Cuéntenos su proyecto de salud
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
-            Asesoría técnica y cotización orientativa gratuita en 48–72 horas.
+            Asesoría técnica y cotización orientativa gratuita.
             Ingeniería de detalle y BIM HVAC disponibles para etapas de licitación.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

@@ -274,7 +274,7 @@ export default function VentilacionIndustrialPage() {
             Cuéntenos su proyecto
           </p>
           <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontWeight: 300, fontSize: 'clamp(22px,2.8vw,36px)', margin: '0 0 14px', color: 'var(--text)' }}>
-            Cotización técnica en 48–72 horas
+            Cotización técnica
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Necesitamos: tipo de recinto, superficie, ocupación y normativa aplicable.

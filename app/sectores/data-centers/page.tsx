@@ -70,7 +70,7 @@ const SOLUCIONES = [
   },
   {
     titulo: 'Mantenimiento preventivo con SLA',
-    desc: 'Planes de mantención trimestral o mensual con SLA de respuesta 4 horas 24/7/365. Incluye revisión de refrigerante, filtros, correas, drenajes, calibración de sensores y pruebas de transferencia de carga.',
+    desc: 'Planes de mantención trimestral o mensual con SLA de respuesta a definir según criticidad. Incluye revisión de refrigerante, filtros, correas, drenajes, calibración de sensores y pruebas de transferencia de carga.',
   },
 ]
 
@@ -93,7 +93,7 @@ const FAQ = [
   },
   {
     pregunta: '¿Ofrecen monitoreo remoto y soporte 24/7 para data centers?',
-    respuesta: 'Sí. Integramos los sistemas de climatización con plataformas BMS/DCIM para monitoreo en tiempo real, alarmas y tele-diagnóstico. Nuestros planes de mantención para data centers incluyen SLA de respuesta de 4 horas con disponibilidad 24/7/365.',
+    respuesta: 'Sí. Integramos los sistemas de climatización con plataformas BMS/DCIM para monitoreo en tiempo real, alarmas y tele-diagnóstico. Nuestros planes de mantención para data centers pueden estructurarse con SLA de respuesta prioritaria según los requerimientos del sitio.',
   },
   {
     pregunta: '¿Qué marcas de equipos de precisión instalan?',
@@ -303,7 +303,7 @@ export default function DataCentersPage() {
             Cuéntenos su proyecto
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
-            Cotización técnica gratuita en 48–72 horas. Ingeniería incluida sin costo.
+            Cotización técnica gratuita. Ingeniería incluida sin costo.
             Técnicos certificados. Cobertura nacional.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

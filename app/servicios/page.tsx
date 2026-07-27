@@ -198,7 +198,7 @@ export default function ServiciosPage() {
             ¿Qué proyecto tienes en mente?
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit', sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)' }}>
-            Cotización gratuita en 48 – 72 h. Técnicos certificados. Cobertura nacional.
+            Cotización gratuita. Técnicos certificados. Cobertura nacional.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/#contacto" className="sp-hero-cta">Solicitar cotización gratuita</Link>

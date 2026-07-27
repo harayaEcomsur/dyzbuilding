@@ -460,7 +460,7 @@ export default async function HomeEN() {
         <h2 className="sec-title">How we work</h2>
         <div className="proceso-grid">
           {([
-            { n: '01', titulo: 'Initial assessment', desc: 'We evaluate the space, needs and project conditions at no cost and no commitment.' },
+            { n: '01', titulo: 'Initial assessment', desc: 'We evaluate the space, needs and project conditions.' },
             { n: '02', titulo: 'Technical proposal', desc: 'Detailed quote with equipment specifications, project timeline and total cost.' },
             { n: '03', titulo: 'Design & engineering', desc: 'Calculations, drawings and BIM coordination for project approval and permitting.' },
             { n: '04', titulo: 'Installation & commissioning', desc: 'Execution by certified technicians, performance testing and full documentation handover.' },
@@ -560,8 +560,8 @@ export default async function HomeEN() {
               icon: <><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></>,
             },
             {
-              titulo: 'Technical quote within 48–72 h',
-              desc: 'Free initial assessment. Detailed technical proposal delivered within 48 to 72 business hours of the site evaluation.',
+              titulo: 'Detailed technical proposal',
+              desc: 'We evaluate your project and deliver a technical and cost proposal tailored to your needs.',
               icon: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></>,
             },
           ] as const).map((g, i) => (
@@ -649,27 +649,27 @@ export default async function HomeEN() {
               </svg>
               <div className="ci-txt"><strong>{t.horario}</strong>{t.horarioValue}</div>
             </div>
-            <div className="ci-trust" aria-label="Guaranteed response time">
+            <div className="ci-trust" aria-label="Fast response">
               <svg width="12" height="12" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 4.5v3l1.8 1.8"/></svg>
-              We respond within 24 business hours
+              We&apos;ll get back to you shortly
             </div>
-            <div className="ci-trust" aria-label="Free assessment, no commitment">
+            <div className="ci-trust" aria-label="Free quote, no commitment">
               <svg width="12" height="12" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><path d="M2.5 7.5L6 11l6.5-7"/></svg>
-              Free initial assessment · No commitment
+              Free quote · No commitment
             </div>
             <div className="next-steps">
               <p className="next-steps-hd">What happens next?</p>
               <div className="next-step">
                 <span className="next-step-n">01</span>
-                <div><div className="next-step-l">Immediate confirmation</div><div className="next-step-d">Acknowledgement within 2 business hours</div></div>
+                <div><div className="next-step-l">Immediate confirmation</div><div className="next-step-d">You&apos;ll receive an automatic acknowledgement</div></div>
               </div>
               <div className="next-step">
                 <span className="next-step-n">02</span>
-                <div><div className="next-step-l">Free assessment</div><div className="next-step-d">A specialist evaluates your project at no cost or obligation</div></div>
+                <div><div className="next-step-l">Project review</div><div className="next-step-d">A specialist evaluates your project at no cost or obligation</div></div>
               </div>
               <div className="next-step">
                 <span className="next-step-n">03</span>
-                <div><div className="next-step-l">Technical proposal</div><div className="next-step-d">Design and detailed quote delivered within 48–72 business hours</div></div>
+                <div><div className="next-step-l">Technical proposal</div><div className="next-step-d">Design and detailed quote tailored to your project</div></div>
               </div>
             </div>
           </div>
@@ -680,7 +680,7 @@ export default async function HomeEN() {
 
       <footer>
         <div className="f-cta">
-          <p className="f-cta-txt">Have a commercial or industrial HVAC project? <em>We respond in under 24 h.</em></p>
+          <p className="f-cta-txt">Have a commercial or industrial HVAC project? <em>Let&apos;s talk.</em></p>
           <a className="nav-cta" href="#contacto" data-ga-event="cta_clicked" data-ga-location="footer" data-ga-label={t.navCta} data-ga-lang="en">{t.navCta}</a>
         </div>
         <div className="f-logo">

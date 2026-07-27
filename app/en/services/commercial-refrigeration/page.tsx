@@ -139,7 +139,7 @@ const FAQ_REFRIG = [
   },
   {
     pregunta: 'How much does it cost to install commercial refrigeration in Chile?',
-    respuesta: 'The cost depends on the type, number of units, and required cold chain. A single display case installation starts from approximately UF 80–150; a full cold room system ranges from UF 500 to UF 5,000+. We provide a detailed free quote within 48–72 hours.',
+    respuesta: 'The cost depends on the type, number of units, and required cold chain. A single display case installation starts from approximately UF 80–150; a full cold room system ranges from UF 500 to UF 5,000+. We provide a detailed free quote.',
   },
   {
     pregunta: 'What is the typical energy consumption of commercial refrigeration systems?',
@@ -335,7 +335,7 @@ export default async function CommercialRefrigerationPage() {
             Ready to quote your project?
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)' }}>
-            Free quote within 48–72 hours. Certified technicians. Nationwide coverage.
+            Free quote. Certified technicians. Nationwide coverage.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/?servicio=refrigeracion#contacto" className="sp-hero-cta">

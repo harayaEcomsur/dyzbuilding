@@ -271,7 +271,7 @@ export default function SectorPlantasIndustrialesPage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Cuéntenos el tipo de planta, actividad productiva y normativa aplicable.
-            Evaluamos el proyecto y respondemos en 48–72 horas con una propuesta técnica.
+            Evaluamos el proyecto y respondemos con una propuesta técnica.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/?servicio=asesoria#contacto" className="sp-hero-cta">Solicitar asesoría técnica</Link>

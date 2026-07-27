@@ -291,7 +291,7 @@ export default function SectorFarmaceuticaPage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Cuéntenos el tipo de proceso, clasificación de sala requerida y los requisitos del ISP.
-            Evaluamos el proyecto y respondemos en 48–72 horas con una propuesta técnica.
+            Evaluamos el proyecto y respondemos con una propuesta técnica.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/?servicio=climatizacion-vrf#contacto" className="sp-hero-cta">Solicitar asesoría técnica</Link>

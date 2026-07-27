@@ -268,7 +268,7 @@ export default function EnServiceBimHvacPage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Share your architectural model or drawings, project scope, and LOD required.
-            We will send you a proposal within 48 hours.
+            We will send you a proposal.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/?servicio=2#contacto" className="sp-hero-cta">Request a BIM HVAC quote</Link>

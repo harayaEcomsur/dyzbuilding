@@ -55,9 +55,9 @@ const SOLUTIONS = [
     desc: 'We integrate HVAC systems with the data center BMS or DCIM platform for real-time monitoring of temperature, humidity, differential pressure, and unit status. Alert rules send email and SMS notifications with response times defined in the SLA. Compatible with common DCIM platforms (Schneider EcoStruxure, Vertiv Avocent, custom).',
   },
   {
-    titulo: 'Preventive Maintenance — 24/7 SLA',
-    subtitulo: '4-hour response · Quarterly or monthly',
-    desc: 'Maintenance contracts for data center HVAC include quarterly or monthly scheduled visits (refrigerant checks, filter replacement, belt inspection, drain cleaning, sensor calibration) plus 24/7/365 emergency response with a 4-hour on-site SLA. Critical spare parts are pre-positioned based on site inventory requirements.',
+    titulo: 'Preventive Maintenance — Custom SLA',
+    subtitulo: 'Priority response · Quarterly or monthly',
+    desc: 'Maintenance contracts for data center HVAC include quarterly or monthly scheduled visits (refrigerant checks, filter replacement, belt inspection, drain cleaning, sensor calibration) plus a custom emergency response SLA structured around each site\'s criticality. Critical spare parts are pre-positioned based on site inventory requirements.',
   },
 ]
 
@@ -87,7 +87,7 @@ const FAQ = [
   },
   {
     q: 'Do you provide remote monitoring and 24/7 support?',
-    a: "Yes. We integrate HVAC systems with BMS or DCIM platforms for real-time monitoring, alarm management, and remote diagnostics. Our data center maintenance contracts include 24/7/365 emergency response with a 4-hour on-site SLA for Santiago and major regional cities. Monitoring dashboards can be shared with the client's operations team.",
+    a: "Yes. We integrate HVAC systems with BMS or DCIM platforms for real-time monitoring, alarm management, and remote diagnostics. Our data center maintenance contracts can be structured with a custom emergency response SLA for Santiago and major regional cities. Monitoring dashboards can be shared with the client's operations team.",
   },
   {
     q: 'Which precision cooling brands do you install and service?',
@@ -287,7 +287,7 @@ export default function EnSectorDataCentersPage() {
             Tell us about your project
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
-            Free technical quote in 48–72 hours. Engineering included at no cost.
+            Free technical quote. Engineering included at no cost.
             Certified technicians. National coverage.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

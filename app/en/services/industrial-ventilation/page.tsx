@@ -251,7 +251,7 @@ export default function EnServiceIndustrialVentilationPage() {
             </p>
             <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.6vw,18px)', color: 'var(--text)', margin: 0, maxWidth: 520, lineHeight: 1.5 }}>
               Tell us your space type, surface area, occupancy, and applicable regulations.
-              We will send you a preliminary design and cost estimate within 48 hours.
+              We will send you a preliminary design and cost estimate.
             </p>
           </div>
           <Link href="/?servicio=ventilacion#contacto" className="sp-hero-cta" style={{ whiteSpace: 'nowrap' }}>
@@ -305,7 +305,7 @@ export default function EnServiceIndustrialVentilationPage() {
             Tell us about your project
           </p>
           <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontWeight: 300, fontSize: 'clamp(22px,2.8vw,36px)', margin: '0 0 14px', color: 'var(--text)' }}>
-            Technical quote in 48–72 hours
+            Technical quote
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             We need: space type, surface area, occupancy, and applicable regulations.

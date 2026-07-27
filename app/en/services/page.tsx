@@ -184,7 +184,7 @@ export default function EnServicesPage() {
             What project are you planning?
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit', sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)' }}>
-            Free quote within 48–72 hours. Certified technicians. Nationwide coverage across Chile.
+            Free quote. Certified technicians. Nationwide coverage across Chile.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/en/#contacto" className="sp-hero-cta">Request a free quote</Link>

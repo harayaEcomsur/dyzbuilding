@@ -209,7 +209,7 @@ export default function EnSectorsIndexPage() {
             What sector are you planning for?
           </h2>
           <p className="sp-cta-sub">
-            Free quote within 48–72 hours. Certified technicians. Nationwide coverage across Chile.
+            Free quote. Certified technicians. Nationwide coverage across Chile.
           </p>
           <div className="sp-cta-btns">
             <Link href="/en/#contacto" className="sp-hero-cta">Request a free quote</Link>

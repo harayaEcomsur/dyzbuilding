@@ -267,7 +267,7 @@ export default function EnSectorMiningPage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Tell us the site location, elevation, facility type, and regulatory requirements.
-            We will respond within 48–72 hours with a technical proposal.
+            We will respond with a technical proposal.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/en/#contacto" className="sp-hero-cta">Get in Touch</Link>

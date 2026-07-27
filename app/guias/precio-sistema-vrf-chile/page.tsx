@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: '¿Cuánto cuesta un sistema VRF en Chile? Guía de precios 2025',
 
   description:
-    'Guía completa de precios para sistemas VRF/VRV en Chile: rangos de costo por tipo de proyecto, marcas, instalación y mantención. Cotización gratuita en 48 h.',
+    'Guía completa de precios para sistemas VRF/VRV en Chile: rangos de costo por tipo de proyecto, marcas, instalación y mantención. Cotización gratuita.',
   alternates: {
     canonical: `${siteUrl}/guias/precio-sistema-vrf-chile/`,
     languages: {
@@ -173,7 +173,7 @@ export default function GuiaPrecioVrfPage() {
             y cómo comparar presupuestos. Basado en 20 años instalando sistemas VRF/VRV en Chile.
           </p>
           <Link href="/?servicio=vrf#contacto" className="sp-hero-cta">
-            Cotización gratuita en 48 h →
+            Cotización gratuita →
           </Link>
         </div>
 
@@ -287,7 +287,7 @@ export default function GuiaPrecioVrfPage() {
                 Cotización gratuita
               </p>
               <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.5vw,18px)', color: 'var(--text)', margin: 0, maxWidth: 480 }}>
-                Obtenga un presupuesto detallado para su proyecto en 48 – 72 horas hábiles.
+                Obtenga un presupuesto detallado para su proyecto.
               </p>
             </div>
             <Link href="/?servicio=vrf#contacto" className="sp-hero-cta">
@@ -370,7 +370,7 @@ export default function GuiaPrecioVrfPage() {
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 540, marginLeft: 'auto', marginRight: 'auto' }}>
             Los rangos de esta guía son orientativos. El precio real depende de su layout, accesos y especificaciones.
-            Cotización gratuita y sin compromiso en 48 – 72 horas.
+            Cotización gratuita y sin compromiso.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/?servicio=vrf#contacto" className="sp-hero-cta">Solicitar cotización gratuita</Link>

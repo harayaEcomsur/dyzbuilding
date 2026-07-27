@@ -159,7 +159,7 @@ const FAQ_VRF = [
   {
     pregunta: '¿Cómo solicito una cotización para un sistema VRF?',
     respuesta:
-      'Puede solicitar cotización sin costo completando el formulario en dyzbuilding.cl, enviando un correo a contacto@dyzbuilding.cl o llamando al número publicado en el sitio. Nuestro equipo técnico le responde dentro de 24 horas hábiles con una propuesta detallada.',
+      'Puede solicitar cotización sin costo completando el formulario en dyzbuilding.cl, enviando un correo a contacto@dyzbuilding.cl o llamando al número publicado en el sitio. Nuestro equipo técnico le responde con una propuesta detallada.',
   },
 ]
 
@@ -197,7 +197,7 @@ const VENTAJAS = [
   },
   {
     titulo: 'Mantención Post-Instalación',
-    desc: 'Planes de mantención preventiva con diagnóstico, limpieza y optimización de rendimiento. Respuesta en 24 horas.',
+    desc: 'Planes de mantención preventiva con diagnóstico, limpieza y optimización de rendimiento.',
     icon: (
       <>
         <path key="a" d="M6 28 C8 22 14 18 18 18 C22 18 24 14 22 10" />

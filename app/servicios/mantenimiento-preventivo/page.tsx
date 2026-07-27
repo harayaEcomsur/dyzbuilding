@@ -159,7 +159,7 @@ const FAQ_MANT = [
   {
     pregunta: '¿Cómo contrato un plan de mantención preventiva?',
     respuesta:
-      'Puede solicitar una cotización de plan de mantención completando el formulario en dyzbuilding.cl, escribiendo a contacto@dyzbuilding.cl o llamando al número del sitio. Nuestro equipo le envía una propuesta con las opciones de plan y precios dentro de 24 horas hábiles.',
+      'Puede solicitar una cotización de plan de mantención completando el formulario en dyzbuilding.cl, escribiendo a contacto@dyzbuilding.cl o llamando al número del sitio. Nuestro equipo le envía una propuesta con las opciones de plan y precios.',
   },
 ]
 
@@ -390,7 +390,7 @@ export default async function MantenimientoPage() {
           <div className="sec-eyebrow" style={{ marginBottom: 12 }}>¿Sus equipos ya necesitan mantención?</div>
           <h2 className="sp-cta-title">Cotice su plan de mantención sin costo</h2>
           <p className="sp-cta-sub">
-            Evaluamos su instalación y le presentamos un plan ajustado a sus equipos y presupuesto dentro de 24 horas hábiles.
+            Evaluamos su instalación y le presentamos un plan ajustado a sus equipos y presupuesto.
           </p>
           <div className="sp-cta-btns">
             <Link

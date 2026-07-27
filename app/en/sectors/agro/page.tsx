@@ -302,7 +302,7 @@ export default function EnSectorAgroPage() {
             Working on an agro-industrial cold chain project in Chile?
           </p>
           <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontWeight: 300, fontSize: 'clamp(22px,2.8vw,36px)', margin: '0 0 14px', color: 'var(--text)' }}>
-            Preliminary cost estimate and engineering in 48–72 hours
+            Preliminary cost estimate and engineering
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Tell us your storage volume, product, and design temperature.

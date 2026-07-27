@@ -156,7 +156,7 @@ const FAQ_REFRIG = [
   {
     pregunta: '¿Cómo solicito una cotización para equipos de refrigeración comercial?',
     respuesta:
-      'Puede solicitar cotización gratuita completando el formulario en dyzbuilding.cl, escribiendo a contacto@dyzbuilding.cl o llamando al número publicado en el sitio. Nuestro equipo técnico le responde dentro de 24 horas hábiles con una propuesta según sus necesidades.',
+      'Puede solicitar cotización gratuita completando el formulario en dyzbuilding.cl, escribiendo a contacto@dyzbuilding.cl o llamando al número publicado en el sitio. Nuestro equipo técnico le responde con una propuesta según sus necesidades.',
   },
 ]
 

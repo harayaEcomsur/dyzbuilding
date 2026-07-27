@@ -158,7 +158,7 @@ const FAQ_VRF = [
   {
     pregunta: 'How do I request a VRF system quotation?',
     respuesta:
-      'You can request a free quotation by filling out the contact form at dyzbuilding.cl, emailing contacto@dyzbuilding.cl, or calling the phone number listed on the website. Our technical team responds within 24 business hours with a detailed proposal.',
+      'You can request a free quotation by filling out the contact form at dyzbuilding.cl, emailing contacto@dyzbuilding.cl, or calling the phone number listed on the website. Our technical team responds with a detailed proposal.',
   },
 ]
 
@@ -196,7 +196,7 @@ const ADVANTAGES = [
   },
   {
     title: 'Post-Installation Maintenance',
-    desc: 'Preventive maintenance plans with diagnostics, cleaning, and performance optimization. 24-hour response.',
+    desc: 'Preventive maintenance plans with diagnostics, cleaning, and performance optimization.',
     icon: (
       <>
         <path key="a" d="M6 28 C8 22 14 18 18 18 C22 18 24 14 22 10" />
@@ -440,7 +440,7 @@ export default async function VrfSystemsPage() {
           <div className="sec-eyebrow" style={{ marginBottom: 12 }}>Have a project in mind?</div>
           <h2 className="sp-cta-title">Get a free VRF system quote</h2>
           <p className="sp-cta-sub">
-            Our technical team evaluates your project and delivers a detailed proposal within 48 business hours.
+            Our technical team evaluates your project and delivers a detailed proposal.
           </p>
           <div className="sp-cta-btns">
             <Link

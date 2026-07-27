@@ -249,7 +249,7 @@ export default function SectoresIndexPage() {
           </p>
           <h2 className="sp-cta-title">¿Tu sector no aparece? Igual podemos ayudarte</h2>
           <p className="sp-cta-sub">
-            Cotización gratuita en 48 – 72 h. Técnicos certificados. Cobertura nacional.
+            Cotización gratuita. Técnicos certificados. Cobertura nacional.
           </p>
           <div className="sp-cta-btns">
             <Link href="/?servicio=0#contacto" className="sp-hero-cta">Solicitar cotización gratuita</Link>

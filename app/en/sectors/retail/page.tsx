@@ -269,7 +269,7 @@ export default function EnSectorRetailPage() {
             One contract for HVAC and refrigeration — we handle both
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
-            New stores or chain renovations: technical quote within 48–72 hours.
+            New stores or chain renovations: technical quote.
             Multi-store maintenance contracts: proposal within 72 hours with a scheduled visits program.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

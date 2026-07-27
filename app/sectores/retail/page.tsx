@@ -280,7 +280,7 @@ export default function SectorRetailPage() {
             Cuéntenos sobre su proyecto o flota
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
-            Proyectos nuevos o remodelaciones: cotización técnica en 48–72 horas.
+            Proyectos nuevos o remodelaciones: cotización técnica.
             Contratos de mantención multi-sucursal: propuesta en 72 horas con programa de visitas.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

@@ -735,7 +735,7 @@ export default function EnGuideEnergyEfficiencyPage() {
             }}
           >
             Our technical team conducts a free energy assessment of your facility and delivers
-            a prioritized savings report within 48–72 business hours.
+            a prioritized savings report.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/en/#contacto" className="sp-hero-cta">Request a free energy audit</Link>

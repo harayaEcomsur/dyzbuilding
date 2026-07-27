@@ -288,7 +288,7 @@ export default function SectorAgroindustriaPage() {
             ¿Tiene un proyecto frigorífico o agroindustrial?
           </p>
           <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontWeight: 300, fontSize: 'clamp(22px,2.8vw,36px)', margin: '0 0 14px', color: 'var(--text)' }}>
-            Cotización orientativa en 48–72 horas
+            Cotización orientativa
           </h2>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit',sans-serif", margin: '0 0 28px', fontSize: 'clamp(14px,1.4vw,17px)', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
             Cuéntenos el volumen de su bodega, el producto y la temperatura de diseño.

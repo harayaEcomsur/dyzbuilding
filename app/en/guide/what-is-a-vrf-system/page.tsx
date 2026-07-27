@@ -103,7 +103,7 @@ const FAQ = [
   },
   {
     question: 'What happens if the VRF outdoor unit fails?',
-    answer: 'If the outdoor unit fails, the entire system loses conditioning. For critical facilities (data centers, operating rooms, luxury hotels), N+1 redundancy with two outdoor units connected to the same piping ring is recommended. For standard offices, a single outdoor unit is the norm. Major brand spare parts availability in Chile (Daikin, Mitsubishi, LG) typically allows repairs within 24–72 business hours.',
+    answer: 'If the outdoor unit fails, the entire system loses conditioning. For critical facilities (data centers, operating rooms, luxury hotels), N+1 redundancy with two outdoor units connected to the same piping ring is recommended. For standard offices, a single outdoor unit is the norm. Major brand spare parts availability in Chile (Daikin, Mitsubishi, LG) typically allows repairs.',
   },
   {
     question: 'How much energy does VRF save compared to conventional splits?',
@@ -621,7 +621,7 @@ export default function EnGuideWhatIsVrfPage() {
                   maxWidth: 480,
                 }}
               >
-                Get a detailed budget for your VRF project within 48–72 business hours.
+                Get a detailed budget for your VRF project.
               </p>
             </div>
             <Link href="/en/#contacto" className="sp-hero-cta">

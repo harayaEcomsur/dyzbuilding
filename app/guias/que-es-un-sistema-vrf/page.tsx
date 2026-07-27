@@ -197,7 +197,7 @@ export default function GuiaQueEsVrfPage() {
             Todo lo que necesita saber sobre los sistemas de Volumen Variable de Refrigerante: cómo funcionan, tipos, diferencias con splits convencionales y para qué proyectos son la mejor opción en Chile.
           </p>
           <Link href="/?servicio=vrf#contacto" className="sp-hero-cta">
-            Cotización gratuita en 48 h →
+            Cotización gratuita →
           </Link>
         </div>
 
@@ -351,7 +351,7 @@ export default function GuiaQueEsVrfPage() {
                 Cotización gratuita
               </p>
               <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.5vw,18px)', color: 'var(--text)', margin: 0, maxWidth: 480 }}>
-                Obtenga un presupuesto detallado para su proyecto en 48 – 72 horas hábiles.
+                Obtenga un presupuesto detallado para su proyecto.
               </p>
             </div>
             <Link href="/?servicio=vrf#contacto" className="sp-hero-cta">

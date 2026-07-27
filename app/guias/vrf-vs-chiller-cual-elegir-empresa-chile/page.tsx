@@ -206,7 +206,7 @@ export default function GuiaVrfVsChillerPage() {
             Comparación técnica y económica entre sistemas VRF y chiller para empresas chilenas: cuándo usar cada uno, costos de instalación, eficiencia, mantenimiento y casos de uso reales.
           </p>
           <Link href="/?servicio=climatizacion-vrf#contacto" className="sp-hero-cta">
-            Cotización gratuita en 48 h →
+            Cotización gratuita →
           </Link>
         </div>
 
@@ -329,7 +329,7 @@ export default function GuiaVrfVsChillerPage() {
                 Cotización gratuita
               </p>
               <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.5vw,18px)', color: 'var(--text)', margin: 0, maxWidth: 480 }}>
-                Obtenga un presupuesto detallado para su proyecto en 48 – 72 horas hábiles.
+                Obtenga un presupuesto detallado para su proyecto.
               </p>
             </div>
             <Link href="/?servicio=climatizacion-vrf#contacto" className="sp-hero-cta">
