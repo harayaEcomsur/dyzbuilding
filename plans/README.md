@@ -105,8 +105,9 @@ All 90 worktrees and their `worktree-agent-*` branches were removed after mergin
 
 ## Key Findings
 
-### Critical
-- **Cookie-based i18n is invisible to Googlebot.** Googlebot crawls with no cookies and no `Accept-Language` header. The entire EN content tree is unreachable to search engines. English-language queries for HVAC services in Chile will never surface this site in EN.
+### Critical — RESOLVED
+- ~~**Cookie-based i18n is invisible to Googlebot.**~~ Fixed by plan 001 (`/en/` is now a real, independently crawlable route with its own `alternates.languages`/hreflang, included in `sitemap.ts`). Verified 2026-08-13: `app/en/page.tsx` has no `cookies()` dependency, `robots.ts` allows `/`, and hreflang tags are present on both `/` and `/en/`.
+- **`middleware.ts` was missing** — it existed briefly (commit `e3a1f55`) and was deleted in the same session (`5073a62`) with no explanation. It only auto-redirects `/` → `/en/` for browsers sending `Accept-Language: en` without a `lang-manual` cookie; it explicitly skips `/en/`, `/admin`, and `/api`, so its absence never affected indexability — only UX for English-speaking visitors landing on `/`. Restored 2026-08-13 (identical to the `e3a1f55` version).
 
 ### Medium
 - Ordenes de compra and contratos document editors have an EN toggle that saves `lang: 'en'` to the DB, but their preview sections still render all structural labels in Spanish.

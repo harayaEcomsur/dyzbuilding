@@ -63,6 +63,7 @@ const BRANDS = [
   { name: 'LG', src: '/brands/lg.png', width: 63, height: 34 },
   { name: 'Samsung', src: '/brands/samsung.png', width: 1024, height: 272 },
   { name: 'Gree', src: '/brands/gree.png', width: 120, height: 24 },
+  { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
 ] as const
 
 const TAB_ICONS_EN = {
