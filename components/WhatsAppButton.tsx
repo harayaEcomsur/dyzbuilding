@@ -30,7 +30,6 @@ const SERVICE_MSG_EN = [
 
 const SECTOR_MSG_ES = [
   'Hola, tengo un proyecto de climatización para retail o centro comercial. ¿Podrían contactarme?',
-  'Hola, tengo un proyecto de climatización HVAC para una clínica u hospital. ¿Podrían contactarme?',
   'Hola, tengo un proyecto de climatización o ventilación industrial / minería. ¿Podrían contactarme?',
   'Hola, tengo un proyecto de climatización VRF para un hotel. ¿Podrían contactarme?',
   'Hola, tengo un proyecto de climatización de precisión para data center. ¿Podrían contactarme?',
@@ -39,7 +38,6 @@ const SECTOR_MSG_ES = [
 
 const SECTOR_MSG_EN = [
   'Hello, I have a commercial HVAC project for retail or a shopping center. Could you contact me?',
-  'Hello, I have an HVAC project for a clinic or hospital. Could you contact me?',
   'Hello, I have an industrial / mining HVAC or ventilation project. Could you contact me?',
   'Hello, I have a VRF HVAC project for a hotel. Could you contact me?',
   'Hello, I have a precision cooling project for a data center. Could you contact me?',

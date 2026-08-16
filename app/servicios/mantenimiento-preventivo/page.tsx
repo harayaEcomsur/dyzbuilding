@@ -124,7 +124,7 @@ const FAQ_MANT = [
   {
     pregunta: '¿Con qué frecuencia se debe hacer la mantención preventiva de un sistema VRF?',
     respuesta:
-      'Para sistemas VRF y VRV en uso comercial se recomienda una revisión semestral como mínimo: una en primavera (preparación para verano) y otra en otoño (preparación para invierno). En entornos de alta exigencia como hospitales, data centers o cocinas industriales, se recomienda mantención trimestral.',
+      'Para sistemas VRF y VRV en uso comercial se recomienda una revisión semestral como mínimo: una en primavera (preparación para verano) y otra en otoño (preparación para invierno). En entornos de alta exigencia como data centers o cocinas industriales, se recomienda mantención trimestral.',
   },
   {
     pregunta: '¿Qué incluye un plan de mantención preventiva de D&Z Building?',

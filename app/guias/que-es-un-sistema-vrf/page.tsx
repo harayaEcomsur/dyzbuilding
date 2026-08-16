@@ -64,7 +64,7 @@ const TIPOS = [
   {
     titulo: 'VRF Recuperación de Calor (Heat Recovery)',
     subtitulo: 'Frío y calor simultáneos · Máxima eficiencia',
-    desc: 'El sistema más avanzado: algunas unidades interiores enfrían mientras otras calientan, simultáneamente. El calor "desechado" por las zonas en enfriamiento se "recupera" para calentar otras zonas. Resultado: eficiencias altísimas (COP de hasta 6 en modo recuperación). Ideal para hoteles, hospitales, oficinas con zonas de exposición solar diferenciada.',
+    desc: 'El sistema más avanzado: algunas unidades interiores enfrían mientras otras calientan, simultáneamente. El calor "desechado" por las zonas en enfriamiento se "recupera" para calentar otras zonas. Resultado: eficiencias altísimas (COP de hasta 6 en modo recuperación). Ideal para hoteles, oficinas con zonas de exposición solar diferenciada.',
   },
 ]
 

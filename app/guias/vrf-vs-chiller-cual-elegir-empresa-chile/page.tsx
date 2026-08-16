@@ -61,12 +61,12 @@ const CASOS_DE_USO = [
   {
     titulo: 'Elige VRF cuando...',
     subtitulo: 'Oficinas · Hoteles · Clínicas · Retail · Proyectos medianos',
-    desc: 'El VRF es la mejor opción para: (1) Edificios de oficinas de 500–5.000 m² con múltiples zonas de control; (2) Hoteles de cualquier tamaño (una unidad indoor = una habitación = una zona independiente); (3) Clínicas y hospitales medianos donde cada consultorio necesita control independiente; (4) Strip centers y malls pequeños donde se requiere medición por arrendatario; (5) Edificios donde no hay espacio para sala de máquinas o el edificio ya está construido.',
+    desc: 'El VRF es la mejor opción para: (1) Edificios de oficinas de 500–5.000 m² con múltiples zonas de control; (2) Hoteles de cualquier tamaño (una unidad indoor = una habitación = una zona independiente); (3) Clínicas medianas donde cada consultorio necesita control independiente; (4) Strip centers y malls pequeños donde se requiere medición por arrendatario; (5) Edificios donde no hay espacio para sala de máquinas o el edificio ya está construido.',
   },
   {
     titulo: 'Elige Chiller cuando...',
-    subtitulo: 'Grandes superficies · Data centers · Plantas industriales · Hospitales grandes',
-    desc: 'El chiller supera al VRF en: (1) Plantas de manufactura y bodegas refrigeradas >5.000 m² con carga constante y alta; (2) Data centers de gran escala donde la carga es constante 24/7 y la eficiencia a plena carga es crítica; (3) Hospitales de más de 200 camas donde la centralización simplifica el mantenimiento y la redundancia; (4) Edificios con grandes espacios abiertos (plantas de producción, galpones) que se sirven mejor con AHUs centralizadas.',
+    subtitulo: 'Grandes superficies · Data centers · Plantas industriales',
+    desc: 'El chiller supera al VRF en: (1) Plantas de manufactura y bodegas refrigeradas >5.000 m² con carga constante y alta; (2) Data centers de gran escala donde la carga es constante 24/7 y la eficiencia a plena carga es crítica; (3) Edificios con grandes espacios abiertos (plantas de producción, galpones) que se sirven mejor con AHUs centralizadas.',
   },
   {
     titulo: 'Sistema Híbrido: VRF + Chiller',

@@ -81,15 +81,15 @@ const FAQ = [
   },
   {
     pregunta: '¿Pueden participar en licitaciones de proyectos del sector público?',
-    respuesta: 'Sí. Participamos en licitaciones de Mercado Público (Chile Compra) para proyectos de edificios públicos, hospitales del MINSAL, establecimientos educacionales del MINEDUC y municipalidades. Tenemos experiencia en la preparación de propuestas técnicas y económicas según los requisitos de las bases de licitación, incluyendo memoria técnica, propuesta de solución, programa de trabajo y garantías.',
+    respuesta: 'Sí. Participamos en licitaciones de Mercado Público (Chile Compra) para proyectos de edificios públicos, establecimientos educacionales del MINEDUC y municipalidades. Tenemos experiencia en la preparación de propuestas técnicas y económicas según los requisitos de las bases de licitación, incluyendo memoria técnica, propuesta de solución, programa de trabajo y garantías.',
   },
   {
     pregunta: '¿Subcontratan la instalación o tienen cuadrilla propia?',
-    respuesta: 'Tenemos cuadrilla propia para la instalación. No subcontratamos la mano de obra de instalación — creemos que la calidad del trabajo se controla mejor con personal propio. Nuestros instaladores están certificados en refrigeración y climatización, y conocen los estándares de calidad y seguridad que exige la puesta en marcha. Para proyectos de gran escala (hoteles, hospitales) podemos complementar con personal de nuestra red de subcontratistas evaluados.',
+    respuesta: 'Tenemos cuadrilla propia para la instalación. No subcontratamos la mano de obra de instalación — creemos que la calidad del trabajo se controla mejor con personal propio. Nuestros instaladores están certificados en refrigeración y climatización, y conocen los estándares de calidad y seguridad que exige la puesta en marcha. Para proyectos de gran escala (hoteles) podemos complementar con personal de nuestra red de subcontratistas evaluados.',
   },
   {
     pregunta: '¿Qué garantías entrega D&Z Building en un proyecto llave en mano?',
-    respuesta: 'Entregamos garantía de instalación de 12 meses (defectos de instalación, montaje y puesta en marcha) y tramitamos la garantía de fábrica de cada equipo (típicamente 2–5 años según fabricante). Para proyectos de infraestructura crítica (salas de servidores, hospitales) podemos ofrecer SLA de mantención y respuesta técnica 24/7. Recomendamos vincular el proyecto a un contrato de mantención preventiva para mantener la garantía de fábrica vigente.',
+    respuesta: 'Entregamos garantía de instalación de 12 meses (defectos de instalación, montaje y puesta en marcha) y tramitamos la garantía de fábrica de cada equipo (típicamente 2–5 años según fabricante). Para proyectos de infraestructura crítica (salas de servidores) podemos ofrecer SLA de mantención y respuesta técnica 24/7. Recomendamos vincular el proyecto a un contrato de mantención preventiva para mantener la garantía de fábrica vigente.',
   },
   {
     pregunta: '¿Pueden hacer proyectos fuera de la Región Metropolitana?',

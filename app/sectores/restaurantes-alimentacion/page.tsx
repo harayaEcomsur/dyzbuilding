@@ -46,8 +46,8 @@ const APLICACIONES = [
   },
   {
     titulo: 'Casinos Empresariales e Institucionales',
-    subtitulo: 'JUNAEB · Casino hospitales · Comedores industriales',
-    desc: 'Los casinos empresariales, comedores de hospital o comedores de colegios (JUNAEB) tienen características especiales: alta densidad de personas durante el almuerzo (12:00–14:00), cocinas con alta carga de calor latente, y requisitos de la SEREMI de Salud para la calidad del aire. D&Z Building ha instalado sistemas en comedores para 200–1.500 personas, con diseño que asegura confort en el peak de ocupación sin sobredimensionar el equipo.',
+    subtitulo: 'JUNAEB · Comedores industriales',
+    desc: 'Los casinos empresariales y comedores de colegios (JUNAEB) tienen características especiales: alta densidad de personas durante el almuerzo (12:00–14:00), cocinas con alta carga de calor latente, y requisitos de la SEREMI de Salud para la calidad del aire. D&Z Building ha instalado sistemas en comedores para 200–1.500 personas, con diseño que asegura confort en el peak de ocupación sin sobredimensionar el equipo.',
   },
   {
     titulo: 'Áreas de Producción Alimentaria (HACCP)',

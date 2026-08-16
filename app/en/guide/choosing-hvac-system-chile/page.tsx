@@ -65,7 +65,7 @@ const SYSTEMS = [
   },
   {
     name: 'Chiller + Fan-Coil (chilled water)',
-    ideal: 'Buildings > 2,000 m², multi-tenant, hospitals',
+    ideal: 'Buildings > 2,000 m², multi-tenant',
     advantages: [
       'Equipment life 25–30 years (longer than VRF)',
       'Per-tenant metering via sub-meters',
@@ -118,7 +118,7 @@ const CRITERIA = [
   },
   {
     criterion: 'Certification and regulatory requirements',
-    guide: 'For LEED or EDGE, you need certified efficiency data — high-efficiency VRF (EER > 4.5) supports the energy credit. For hospitals, cleanrooms, and data centers, systems must include N+1 redundancy and precision control independent of the comfort HVAC.',
+    guide: 'For LEED or EDGE, you need certified efficiency data — high-efficiency VRF (EER > 4.5) supports the energy credit. For cleanrooms and data centers, systems must include N+1 redundancy and precision control independent of the comfort HVAC.',
   },
 ]
 
@@ -138,7 +138,7 @@ const FAQ = [
   },
   {
     question: 'VRF or central air with ductwork?',
-    answer: 'Ductless VRF is more efficient in spaces with multiple zones that have different operating hours. Centralized AHU + ductwork is mandatory in hospitals, labs, and commercial kitchens (100% fresh air treatment required). For offices and hotels, the comparison depends on ceiling plenum space: if there is enough plenum height, a central AHU can be quieter at the work area level; if not, VRF with ceiling cassettes is the standard solution.',
+    answer: 'Ductless VRF is more efficient in spaces with multiple zones that have different operating hours. Centralized AHU + ductwork is mandatory in labs and commercial kitchens (100% fresh air treatment required). For offices and hotels, the comparison depends on ceiling plenum space: if there is enough plenum height, a central AHU can be quieter at the work area level; if not, VRF with ceiling cassettes is the standard solution.',
   },
   {
     question: 'Is VRF worth it vs. conventional splits for a mid-size business?',
@@ -154,7 +154,7 @@ const FAQ = [
   },
   {
     question: 'When is a chiller better than VRF?',
-    answer: 'A chiller is preferable when: (1) the space exceeds 2,000 m² in a multi-tenant building requiring independent per-floor metering; (2) the expected asset life exceeds 25 years; (3) the project requires chilled water flow for centralized AHUs (large hotels, hospitals); or (4) there are regulatory constraints limiting the refrigerant charge inside the building (some jurisdictions set VRF charge limits per m²). In Chile, for 5–15-story office buildings, VRF is typically more efficient and lower cost than a chiller.',
+    answer: 'A chiller is preferable when: (1) the space exceeds 2,000 m² in a multi-tenant building requiring independent per-floor metering; (2) the expected asset life exceeds 25 years; (3) the project requires chilled water flow for centralized AHUs (large hotels); or (4) there are regulatory constraints limiting the refrigerant charge inside the building (some jurisdictions set VRF charge limits per m²). In Chile, for 5–15-story office buildings, VRF is typically more efficient and lower cost than a chiller.',
   },
 ]
 

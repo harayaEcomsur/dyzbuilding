@@ -64,13 +64,6 @@ const SISTEMAS = [
     rango_clp: '~$5M – $165M CLP',
     nota: 'Incluye unidades AHU, ductos, rejillas, VFDs y control automático.',
   },
-  {
-    sistema: 'HVAC hospitalario (pabellones, UCI)',
-    uso: 'Clínicas, hospitales, laboratorios clínicos',
-    rango_uf: 'UF 1.500 – 20.000',
-    rango_clp: 'Proyecto mayor',
-    nota: 'Mayor complejidad técnica. Incluye filtración HEPA, control diferencial de presión y certificación.',
-  },
 ]
 
 const PROYECTOS = [

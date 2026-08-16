@@ -82,7 +82,7 @@ const PLANS = [
   {
     name: 'Priority',
     cadence: 'Monthly',
-    ideal: 'Hotels, hospitals, data centers',
+    ideal: 'Hotels, data centers',
     includes: ['12 visits / year', 'Detailed technical report', 'SLA 24h response', 'Consumables included', 'Emergency dispatch', 'Manufacturer warranty preservation'],
   },
 ]
@@ -94,7 +94,7 @@ const FAQ = [
   },
   {
     q: 'How often does a VRF system need maintenance in Chile?',
-    a: 'For commercial VRF systems in Chile, we recommend a minimum of two visits per year: one before the summer cooling season (October–November) and one before the winter heating season (April–May). Systems in high-use environments (24/7 operations, dusty areas, coastal locations with salt air) benefit from quarterly visits. Heavy-duty environments like data centers or hospitals require monthly inspection.',
+    a: 'For commercial VRF systems in Chile, we recommend a minimum of two visits per year: one before the summer cooling season (October–November) and one before the winter heating season (April–May). Systems in high-use environments (24/7 operations, dusty areas, coastal locations with salt air) benefit from quarterly visits. Heavy-duty environments like data centers require monthly inspection.',
   },
   {
     q: 'Do you service brands you did not install?',

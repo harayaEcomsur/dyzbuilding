@@ -64,13 +64,6 @@ const SYSTEMS = [
     range_clp: '~USD 5K – 165K',
     note: 'Includes AHU units, ductwork, diffusers, VFDs, and automatic controls.',
   },
-  {
-    system: 'Healthcare HVAC (OR, ICU, cleanrooms)',
-    use: 'Hospitals, clinics, clinical laboratories',
-    range_uf: 'UF 1,500 – 20,000',
-    range_clp: 'Major project',
-    note: 'Highest technical complexity. Includes HEPA filtration, differential pressure control, and certification.',
-  },
 ]
 
 const PROJECTS = [

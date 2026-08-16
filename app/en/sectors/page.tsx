@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Industries We Serve — Commercial & Industrial HVAC in Chile',
 
   description:
-    'D&Z Building provides commercial and industrial HVAC for offices, data centers, healthcare, mining, hotels, retail, and agro-industry in Chile. Explore sector-specific solutions.',
+    'D&Z Building provides commercial and industrial HVAC for offices, data centers, mining, hotels, retail, and agro-industry in Chile. Explore sector-specific solutions.',
   alternates: {
     canonical: `${siteUrl}/en/sectors/`,
     languages: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Industries We Serve — HVAC Chile | D&Z Building',
     description:
-      'Sector-specific HVAC solutions for offices, data centers, healthcare, mining, hotels, and more. Commercial and industrial specialists in Chile.',
+      'Sector-specific HVAC solutions for offices, data centers, mining, hotels, and more. Commercial and industrial specialists in Chile.',
     url: `${siteUrl}/en/sectors/`,
     locale: 'en_US',
     type: 'website',
@@ -39,12 +39,6 @@ const SECTORS = [
     title: 'Data Centers & Server Rooms',
     desc: 'Precision HVAC (CRAC/CRAH), N+1 redundancy, hot/cold aisle containment, free cooling. ANSI/TIA-942 Tier I–IV compliant designs.',
     href: '/en/sectors/data-centers/',
-    hasPage: true,
-  },
-  {
-    title: 'Healthcare — Hospitals & Clinics',
-    desc: 'Surgical theaters (ISO 5, HEPA H14, laminar flow), ICU, isolation rooms, cleanroom pharmacy. MINSAL Res. N°283 and ASHRAE 170 compliance.',
-    href: '/en/sectors/health/',
     hasPage: true,
   },
   {
@@ -165,7 +159,7 @@ export default function EnSectorsIndexPage() {
           <h1 className="sp-hero-title">Industries We Serve</h1>
           <p style={{ color: 'var(--dim)', fontFamily: "'Outfit', sans-serif", fontSize: 'clamp(15px,1.6vw,18px)', maxWidth: 640, lineHeight: 1.6, margin: '0 0 28px' }}>
             Commercial and industrial HVAC specialists in Chile — from corporate offices
-            to mining operations, healthcare, and hospitality.
+            to mining operations and hospitality.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Link href="/en/#contacto" className="sp-hero-cta">Request a Quote</Link>

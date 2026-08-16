@@ -53,7 +53,7 @@ export const defaultEN: SiteContentEN = {
   nosotros: {
     titulo: 'Two decades of\nclimate excellence',
     p1: 'D&Z Building is a Chilean company specialized in commercial HVAC and industrial refrigeration with over 20 years of experience. We design, install, and maintain VRF/VRV systems for offices, hotels, and retail across Chile, as an authorized distributor of LG, Samsung, and Gree.',
-    p2: 'We work with the leading brands in the sector — LG, Samsung, and Gree — offering comprehensive solutions for commercial, industrial, and healthcare projects throughout Chile.',
+    p2: 'We work with the leading brands in the sector — LG, Samsung, and Gree — offering comprehensive solutions for commercial and industrial projects throughout Chile.',
   },
   servicios: {
     eyebrow: 'Technical expertise',
@@ -108,7 +108,7 @@ export const defaultContent: SiteContent = {
   nosotros: {
     titulo: 'Dos décadas de\nexcelencia climática',
     p1: 'D&Z Building es una empresa chilena de climatización comercial y refrigeración industrial con más de 20 años de experiencia. Diseña, instala y mantiene sistemas VRF/VRV para oficinas, hoteles y comercio en todo Chile, como distribuidor oficial de LG, Samsung y Gree.',
-    p2: 'Trabajamos con las principales marcas del sector — LG, Samsung y Gree — ofreciendo soluciones integrales para proyectos comerciales, industriales y hospitalarios en todo Chile.',
+    p2: 'Trabajamos con las principales marcas del sector — LG, Samsung y Gree — ofreciendo soluciones integrales para proyectos comerciales e industriales en todo Chile.',
   },
   servicios: {
     eyebrow: 'Especialidades técnicas',

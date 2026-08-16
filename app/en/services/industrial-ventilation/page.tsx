@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Industrial Ventilation Chile — ATEX, Kitchens, Cleanrooms, HRV | D&Z Building',
     description:
-      'Forced ventilation, industrial extraction, HRV heat recovery, and air quality control for industry, hospitality, and healthcare in Chile. DS 594, NFPA 96, ATEX compliance.',
+      'Forced ventilation, industrial extraction, HRV heat recovery, and air quality control for industry and hospitality in Chile. DS 594, NFPA 96, ATEX compliance.',
     url: `${siteUrl}/en/services/industrial-ventilation/`,
     locale: 'en_US',
     type: 'website',
@@ -32,7 +32,7 @@ const APPLICATIONS = [
   {
     titulo: 'Commercial & Industrial Kitchens',
     norma: 'NFPA 96 · ASHRAE 154',
-    desc: 'Extraction hoods with grease filters, 16-gauge stainless steel ductwork, high-static-pressure centrifugal fans (500–1,500 Pa), and makeup air units for restaurants, hotels, casinos, hospitals, and industrial canteens. Airflow calculations per DS 594 and NFPA 96.',
+    desc: 'Extraction hoods with grease filters, 16-gauge stainless steel ductwork, high-static-pressure centrifugal fans (500–1,500 Pa), and makeup air units for restaurants, hotels, casinos, and industrial canteens. Airflow calculations per DS 594 and NFPA 96.',
   },
   {
     titulo: 'Parking Garage Ventilation',

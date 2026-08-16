@@ -38,8 +38,6 @@ const SVC_ICONS: React.ReactNode[] = [
 const SECTOR_ICONS: React.ReactNode[] = [
   /* Retail — storefront */
   <><rect key="a" x="3" y="13" width="30" height="19" rx=".5"/><path key="b" d="M3 13 L8 5 L28 5 L33 13"/><line key="c" x1="3" y1="21" x2="33" y2="21"/><rect key="d" x="14" y="24" width="8" height="8"/></>,
-  /* Healthcare — medical cross */
-  <><rect key="a" x="13" y="3" width="10" height="30" rx=".5"/><rect key="b" x="3" y="13" width="30" height="10" rx=".5"/></>,
   /* Mining & Industry — factory */
   <><rect key="a" x="2" y="16" width="32" height="16" rx=".5"/><path key="b" d="M2 16 L10 8 L18 16 L26 8 L34 16"/><rect key="c" x="6" y="22" width="5" height="10"/><rect key="d" x="15" y="22" width="5" height="10"/><rect key="e" x="24" y="22" width="5" height="10"/></>,
   /* Hospitality — hotel with star */
@@ -52,7 +50,6 @@ const SECTOR_ICONS: React.ReactNode[] = [
 
 const SECTORES_EN = [
   { nombre: 'Retail & Shopping Centers', desc: 'HVAC for stores, supermarkets and large commercial surfaces.' },
-  { nombre: 'Healthcare', desc: 'HVAC for clinics, hospitals, surgical suites and intensive care units.' },
   { nombre: 'Mining & Industry', desc: 'Ventilation and cooling for process plants, electrical rooms and mining facilities.' },
   { nombre: 'Hospitality', desc: 'VRF systems for boutique hotels, apart hotels and hotel chains.' },
   { nombre: 'Data Centers', desc: 'Precision cooling for server rooms and enterprise data centers.' },
@@ -80,7 +77,7 @@ const t = {
   navCta: 'Request a Quote', marcasLabel: 'Authorized distributors', quienesSomos: 'Who we are',
   whatsapp: 'WhatsApp', horario: 'Hours', horarioValue: 'Monday – Friday, 8:30 – 18:00',
   heroBtn1: 'Our specialties', heroBtn2: 'Request a quote', svcCta: 'Get a quote →',
-  sectorBadge: 'Industrial · Commercial · Healthcare services',
+  sectorBadge: 'Industrial · Commercial services',
   statsAnios: 'years of experience', statsCobertura: 'Nationwide coverage',
   statsMarcas: 'Authorized distributors', statsSoporte: 'Technical support',
   contactoEyebrow: "Let's talk", contactoTitulo: 'Request a Quote',
@@ -195,13 +192,14 @@ export default async function HomeEN() {
           'Preventive VRF Maintenance', 'BIM HVAC Modeling', 'HVAC BIM Design',
           'LG VRF Distributor Chile', 'Samsung HVAC Distributor Chile', 'Gree Air Conditioning Chile',
           'Mining Facility HVAC Chile', 'Data Center Cooling Santiago', 'Cold Chain Refrigeration Chile',
-          'Hospital HVAC Systems Chile', 'Hotel Air Conditioning Chile', 'BIM HVAC Engineering Chile',
+          'Hotel Air Conditioning Chile', 'BIM HVAC Engineering Chile',
           'Corporate Office HVAC', 'Heat Recovery VRF System', 'HVAC Operational Analysis',
         ],
         brand: [
           { '@type': 'Brand', name: 'LG' },
           { '@type': 'Brand', name: 'Samsung' },
           { '@type': 'Brand', name: 'Gree' },
+          { '@type': 'Brand', name: 'CYPE' },
         ],
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
@@ -509,7 +507,7 @@ export default async function HomeEN() {
           <div className="ventaja">
             <span className="ventaja-tag">B2B</span>
             <h3>Commercial and industrial projects only</h3>
-            <p>20 years without residential projects. All our technical capacity is dedicated to the level of complexity required by commercial, healthcare, and industrial projects.</p>
+            <p>20 years without residential projects. All our technical capacity is dedicated to the level of complexity required by commercial and industrial projects.</p>
           </div>
         </div>
       </RevealSection>

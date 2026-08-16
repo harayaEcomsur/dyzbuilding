@@ -46,8 +46,8 @@ const SOLUTIONS = [
   },
   {
     titulo: 'Corporate Cafeterias & Institutional Dining',
-    subtitulo: 'High peak occupancy · Hospital & school cafeterias',
-    desc: 'Corporate dining rooms, hospital cafeterias, and school canteens have distinct characteristics: very high occupancy density during the lunch peak (noon–2pm), kitchens with high latent heat loads, and SEREMI de Salud air quality requirements. D&Z Building has designed systems for 200–1,500-person dining facilities, sized for peak occupancy without oversizing.',
+    subtitulo: 'High peak occupancy · School cafeterias',
+    desc: 'Corporate dining rooms and school canteens have distinct characteristics: very high occupancy density during the lunch peak (noon–2pm), kitchens with high latent heat loads, and SEREMI de Salud air quality requirements. D&Z Building has designed systems for 200–1,500-person dining facilities, sized for peak occupancy without oversizing.',
   },
   {
     titulo: 'Food Processing Areas (HACCP)',

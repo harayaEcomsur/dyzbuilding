@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Ventilación Industrial Chile — Extracción y Renovación de Aire | D&Z Building',
     description:
-      'Sistemas de ventilación forzada, extracción industrial, HRV y control de calidad del aire para industria, comercio y hospitales en Chile.',
+      'Sistemas de ventilación forzada, extracción industrial, HRV y control de calidad del aire para industria y comercio en Chile.',
     url: `${siteUrl}/servicios/ventilacion-industrial/`,
     locale: 'es_CL',
     type: 'website',
@@ -32,7 +32,7 @@ const APLICACIONES = [
   {
     titulo: 'Cocinas Comerciales e Industriales',
     norma: 'NFPA 96 · ASHRAE 154',
-    desc: 'Campanas de extracción con filtros de grasa, ductos de acero inoxidable calibre 16, ventiladores centrífugos de alta presión estática (500–1.500 Pa), y equipos de aire de reposición (makeup air unit) para restaurantes, hoteles, casinos, hospitales y casinos industriales. Cálculo de caudales según DS 594 y NFPA 96.',
+    desc: 'Campanas de extracción con filtros de grasa, ductos de acero inoxidable calibre 16, ventiladores centrífugos de alta presión estática (500–1.500 Pa), y equipos de aire de reposición (makeup air unit) para restaurantes, hoteles, casinos y casinos industriales. Cálculo de caudales según DS 594 y NFPA 96.',
   },
   {
     titulo: 'Ventilación de Estacionamientos',
@@ -262,8 +262,8 @@ export default function VentilacionIndustrialPage() {
             <Link href="/servicios/mantenimiento-preventivo" style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--dim)', textDecoration: 'none', border: '1px solid var(--border)', padding: '10px 18px' }}>
               Mantención preventiva →
             </Link>
-            <Link href="/sectores/salud/" style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--dim)', textDecoration: 'none', border: '1px solid var(--border)', padding: '10px 18px' }}>
-              Sector salud →
+            <Link href="/sectores/" style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--dim)', textDecoration: 'none', border: '1px solid var(--border)', padding: '10px 18px' }}>
+              Ver todos los sectores →
             </Link>
           </div>
         </div>

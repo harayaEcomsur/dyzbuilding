@@ -36,8 +36,6 @@ const SVC_ICONS: React.ReactNode[] = [
 const SECTOR_ICONS: React.ReactNode[] = [
   /* Retail — storefront */
   <><rect key="a" x="3" y="13" width="30" height="19" rx=".5"/><path key="b" d="M3 13 L8 5 L28 5 L33 13"/><line key="c" x1="3" y1="21" x2="33" y2="21"/><rect key="d" x="14" y="24" width="8" height="8"/></>,
-  /* Salud — medical cross */
-  <><rect key="a" x="13" y="3" width="10" height="30" rx=".5"/><rect key="b" x="3" y="13" width="30" height="10" rx=".5"/></>,
   /* Industria / Minería — factory */
   <><rect key="a" x="2" y="16" width="32" height="16" rx=".5"/><path key="b" d="M2 16 L10 8 L18 16 L26 8 L34 16"/><rect key="c" x="6" y="22" width="5" height="10"/><rect key="d" x="15" y="22" width="5" height="10"/><rect key="e" x="24" y="22" width="5" height="10"/></>,
   /* Hotelería — hotel con estrella */
@@ -50,7 +48,6 @@ const SECTOR_ICONS: React.ReactNode[] = [
 
 const SECTORES_ES = [
   { nombre: 'Retail y Centros Comerciales', desc: 'Climatización de salas de ventas, supermercados y grandes superficies comerciales.' },
-  { nombre: 'Salud', desc: 'HVAC para clínicas, hospitales, pabellones quirúrgicos y unidades de cuidado intensivo.' },
   { nombre: 'Industria y Minería', desc: 'Ventilación y refrigeración para plantas de proceso, salas eléctricas y recintos mineros.' },
   { nombre: 'Hotelería', desc: 'Sistemas VRF para hoteles boutique, apart hoteles y cadenas hoteleras.' },
   { nombre: 'Data Centers', desc: 'Climatización de precisión para salas de servidores y centros de datos empresariales.' },
@@ -79,7 +76,7 @@ const UI = {
     navCta: 'Solicitar Cotización', marcasLabel: 'Distribuidores oficiales', quienesSomos: 'Quiénes somos',
     whatsapp: 'WhatsApp', horario: 'Horario', horarioValue: 'Lunes a viernes, 8:30 – 18:00',
     heroBtn1: 'Nuestras especialidades', heroBtn2: 'Solicitar cotización', svcCta: 'Cotizar →',
-    sectorBadge: 'Servicios industriales · Comerciales · Hospitalarios',
+    sectorBadge: 'Servicios industriales · Comerciales',
     statsAnios: 'años de experiencia', statsCobertura: 'Cobertura nacional',
     statsMarcas: 'Distribuidores oficiales', statsSoporte: 'Soporte técnico',
     contactoEyebrow: 'Hablemos', contactoTitulo: 'Solicitar Cotización',
@@ -206,7 +203,7 @@ export default async function Home() {
           'Mantención preventiva VRF', 'BIM HVAC', 'Modelamiento BIM HVAC',
           'Distribuidor LG VRF Chile', 'Distribuidor Samsung HVAC Chile', 'Distribuidor Gree Chile',
           'Climatización minería Chile', 'HVAC data centers Santiago', 'Refrigeración agroindustrial Chile',
-          'VRF hospitales y clínicas Chile', 'Climatización hoteles Chile', 'Ingeniería BIM HVAC Chile',
+          'Climatización hoteles Chile', 'Ingeniería BIM HVAC Chile',
           'Climatización edificios corporativos', 'VRF recuperación de calor', 'Análisis operacional HVAC',
         ],
         brand: [
@@ -524,7 +521,7 @@ export default async function Home() {
           <div className="ventaja">
             <span className="ventaja-tag">B2B</span>
             <h3>Solo proyectos comerciales e industriales</h3>
-            <p>20 años sin proyectos residenciales. Toda nuestra capacidad técnica está dedicada al nivel de exigencia de proyectos comerciales, hospitalarios e industriales.</p>
+            <p>20 años sin proyectos residenciales. Toda nuestra capacidad técnica está dedicada al nivel de exigencia de proyectos comerciales e industriales.</p>
           </div>
         </div>
       </RevealSection>

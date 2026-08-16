@@ -315,7 +315,7 @@ export default function GuiaPrecioVrfPage() {
               <strong style={{ color: 'var(--text)' }}>Daikin VRV</strong>: Tecnología de referencia, precio 15–25% sobre LG/Samsung. Amplia oferta de unidades interiores especializadas.
             </p>
             <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: 0 }}>
-              <strong style={{ color: 'var(--text)' }}>Mitsubishi Electric City Multi</strong>: Precio premium, equipo de referencia para hospitales y data centers que requieren máxima confiabilidad.
+              <strong style={{ color: 'var(--text)' }}>Mitsubishi Electric City Multi</strong>: Precio premium, equipo de referencia para data centers que requieren máxima confiabilidad.
             </p>
           </div>
         </div>

@@ -64,7 +64,7 @@ const SISTEMAS = [
   },
   {
     nombre: 'Chiller + Fan-Coil (agua helada)',
-    ideal: 'Edificios > 2.000 m², multi-arrendatario, hospitales',
+    ideal: 'Edificios > 2.000 m², multi-arrendatario',
     ventajas: [
       'Vida útil 25–30 años (mayor que VRF)',
       'Medición por arrendatario con submedidores',
@@ -117,7 +117,7 @@ const CRITERIOS = [
   },
   {
     criterio: 'Exigencias de certificación o normativa',
-    guia: 'Para LEED o EDGE se requieren datos de eficiencia certificados — los VRF de alta eficiencia (EER > 4.5) facilitan el crédito de energía. Para hospitales, salas limpias o data centers los sistemas deben incluir redundancia N+1 y control de precisión independiente del sistema de confort.',
+    guia: 'Para LEED o EDGE se requieren datos de eficiencia certificados — los VRF de alta eficiencia (EER > 4.5) facilitan el crédito de energía. Para salas limpias o data centers los sistemas deben incluir redundancia N+1 y control de precisión independiente del sistema de confort.',
   },
 ]
 
@@ -137,7 +137,7 @@ const FAQ = [
   },
   {
     pregunta: '¿VRF o sistema de aire central con ductos?',
-    respuesta: 'El VRF sin ductos es más eficiente en espacios con múltiples zonas de distinto uso horario. El sistema de aire central (AHU + ductos) permite tratar el 100% del aire y es obligatorio en hospitales, laboratorios y cocinas. Para oficinas y hoteles, la comparación depende del espacio disponible para ductos: si hay pleno de altura suficiente, el AHU centralizado puede ser más silencioso en la zona de trabajo; si no hay espacio, el VRF con cassettes de techo es la solución estándar.',
+    respuesta: 'El VRF sin ductos es más eficiente en espacios con múltiples zonas de distinto uso horario. El sistema de aire central (AHU + ductos) permite tratar el 100% del aire y es obligatorio en laboratorios y cocinas. Para oficinas y hoteles, la comparación depende del espacio disponible para ductos: si hay pleno de altura suficiente, el AHU centralizado puede ser más silencioso en la zona de trabajo; si no hay espacio, el VRF con cassettes de techo es la solución estándar.',
   },
   {
     pregunta: '¿Vale la pena el VRF respecto a splits convencionales en una pyme?',
@@ -153,7 +153,7 @@ const FAQ = [
   },
   {
     pregunta: '¿Cuándo es mejor optar por un chiller en lugar de VRF?',
-    respuesta: 'El chiller conviene cuando: (1) la superficie supera los 2.000 m² en un edificio multi-arrendatario donde se requiere medición independiente por piso; (2) la vida útil esperada del activo supera los 25 años; (3) el proyecto requiere flujo de agua helada para AHUs centralizadas (hospitales, hoteles de gran escala); o (4) hay restricciones normativas que limitan la cantidad de refrigerante dentro del edificio (en algunos países el refrigerante de VRF tiene límites de carga por m²). En Chile, para edificios de oficinas de 5–15 pisos, el VRF suele ser más eficiente y de menor costo que un chiller.',
+    respuesta: 'El chiller conviene cuando: (1) la superficie supera los 2.000 m² en un edificio multi-arrendatario donde se requiere medición independiente por piso; (2) la vida útil esperada del activo supera los 25 años; (3) el proyecto requiere flujo de agua helada para AHUs centralizadas (hoteles de gran escala); o (4) hay restricciones normativas que limitan la cantidad de refrigerante dentro del edificio (en algunos países el refrigerante de VRF tiene límites de carga por m²). En Chile, para edificios de oficinas de 5–15 pisos, el VRF suele ser más eficiente y de menor costo que un chiller.',
   },
 ]
 

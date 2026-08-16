@@ -44,7 +44,7 @@ const GUIAS = [
   {
     titulo: 'Precio Climatización Comercial — Guía 2025',
     descripcion:
-      'Rangos de precio reales para todos los sistemas HVAC comerciales en Chile: VRF, multi-split, chiller, refrigeración comercial, ventilación y HVAC hospitalario.',
+      'Rangos de precio reales para todos los sistemas HVAC comerciales en Chile: VRF, multi-split, chiller, refrigeración comercial y ventilación.',
     href: '/guias/precio-climatizacion-comercial-chile/',
   },
   {

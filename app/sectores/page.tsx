@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Sectores que Atendemos — HVAC Comercial e Industrial en Chile',
 
   description:
-    'D&Z Building entrega soluciones HVAC especializadas para oficinas, data centers, salud, minería, hotelería, retail, agroindustria e industria. Climatización y refrigeración comercial e industrial en Chile.',
+    'D&Z Building entrega soluciones HVAC especializadas para oficinas, data centers, minería, hotelería, retail, agroindustria e industria. Climatización y refrigeración comercial e industrial en Chile.',
   alternates: {
     canonical: `${siteUrl}/sectores/`,
     languages: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sectores — HVAC Comercial e Industrial Chile | D&Z Building',
     description:
-      'Soluciones HVAC por sector: oficinas, data centers, hospitales, minería, hoteles, retail y agroindustria. Especialistas en climatización industrial y comercial.',
+      'Soluciones HVAC por sector: oficinas, data centers, minería, hoteles, retail y agroindustria. Especialistas en climatización industrial y comercial.',
     url: `${siteUrl}/sectores/`,
     locale: 'es_CL',
     type: 'website',
@@ -41,13 +41,6 @@ const SECTORES = [
     descripcion:
       'Climatización de precisión (CRAC/CRAH), redundancia N+1, contención de pasillos caliente/frío, free cooling. Diseño ANSI/TIA-942 Tier I–IV.',
     href: '/sectores/data-centers/',
-    hasPagina: true,
-  },
-  {
-    titulo: 'Sector Salud — Hospitales y Clínicas',
-    descripcion:
-      'Pabellones quirúrgicos (ISO 5, HEPA H14, flujo laminar), UCI, salas de aislamiento, farmacia limpia y diagnóstico por imágenes. Cumplimiento Res. N°283 MINSAL y ASHRAE 170.',
-    href: '/sectores/salud/',
     hasPagina: true,
   },
   {
@@ -173,11 +166,11 @@ export default function SectoresIndexPage() {
             <span>›</span>
             <span>Sectores</span>
           </div>
-          <div className="sp-hero-eyebrow">Industrial · Comercial · Hospitalario</div>
+          <div className="sp-hero-eyebrow">Industrial · Comercial</div>
           <h1 className="sp-hero-title">Sectores que Atendemos</h1>
           <p className="sp-hero-sub">
             Soluciones HVAC especializadas por industria — desde oficinas corporativas
-            hasta faenas mineras, hospitales y hoteles en todo Chile.
+            hasta faenas mineras y hoteles en todo Chile.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Link href="/?servicio=0#contacto" className="sp-hero-cta">Solicitar Cotización</Link>

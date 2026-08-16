@@ -65,7 +65,7 @@ const TYPES = [
   {
     titulo: 'Heat Recovery (Simultaneous Heating & Cooling)',
     subtitulo: 'Cooling and heating at the same time · Maximum efficiency',
-    desc: 'The most advanced configuration: some indoor units cool while others heat, simultaneously. Heat "rejected" by the cooling zones is "recovered" to heat other zones. This produces very high efficiencies (COP up to 6 in recovery mode). Ideal for hotels, hospitals, and offices with varied solar exposure by zone.',
+    desc: 'The most advanced configuration: some indoor units cool while others heat, simultaneously. Heat "rejected" by the cooling zones is "recovered" to heat other zones. This produces very high efficiencies (COP up to 6 in recovery mode). Ideal for hotels and offices with varied solar exposure by zone.',
   },
 ]
 

@@ -229,7 +229,7 @@ export default async function VrfPage() {
         '@id': `${siteUrl}/servicios/climatizacion-vrf#service`,
         name: 'Instalación y Mantención de Sistemas VRF/VRV',
         description:
-          'Diseño, instalación y mantención de sistemas de climatización VRF y VRV para proyectos comerciales, hospitalarios e industriales en Chile.',
+          'Diseño, instalación y mantención de sistemas de climatización VRF y VRV para proyectos comerciales e industriales en Chile.',
         provider: { '@id': `${siteUrl}/#business` },
         areaServed: { '@type': 'Country', name: 'Chile' },
         serviceType: 'HVAC Installation',
@@ -279,8 +279,8 @@ export default async function VrfPage() {
             Sistemas VRF y VRV<br />para Climatización Comercial en Chile
           </h1>
           <p className="sp-hero-sub">
-            Diseñamos, instalamos y mantenemos sistemas VRF/VRV de LG, Samsung y Gree para proyectos comerciales,
-            hospitalarios e industriales en todo Chile. Más de 20 años de experiencia y cotización sin costo.
+            Diseñamos, instalamos y mantenemos sistemas VRF/VRV de LG, Samsung y Gree para proyectos comerciales
+            e industriales en todo Chile. Más de 20 años de experiencia y cotización sin costo.
           </p>
           <div className="sp-hero-tags">
             {['Sistema VRF', 'Sistema VRV', 'Multi-Split', 'Distribuidor LG · Samsung · Gree', 'Todo Chile'].map(tag => (

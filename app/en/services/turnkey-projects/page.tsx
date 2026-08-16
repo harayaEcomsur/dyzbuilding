@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Turnkey HVAC Projects Chile — BIM Engineering to Commissioning | D&Z Building',
     description:
-      'One HVAC contractor for engineering, supply, installation, and commissioning in Chile. BIM HVAC Modeling (Revit MEP LOD 300), certified crew, 12-month warranty. Hotels, hospitals, offices, data centers.',
+      'One HVAC contractor for engineering, supply, installation, and commissioning in Chile. BIM HVAC Modeling (Revit MEP LOD 300), certified crew, 12-month warranty. Hotels, offices, data centers.',
     url: `${siteUrl}/en/services/turnkey-projects/`,
     locale: 'en_US',
     type: 'website',
@@ -88,15 +88,15 @@ const FAQ = [
   },
   {
     question: 'Can you participate in public sector tenders in Chile?',
-    answer: 'Yes. We participate in public procurement tenders (Mercado Público / Chile Compra) for public buildings, MINSAL hospitals, MINEDUC educational facilities, and municipalities. We have experience preparing technical and economic proposals per tender requirements, including technical reports, solution proposals, work programs, and bond/guarantee documentation.',
+    answer: 'Yes. We participate in public procurement tenders (Mercado Público / Chile Compra) for public buildings, MINEDUC educational facilities, and municipalities. We have experience preparing technical and economic proposals per tender requirements, including technical reports, solution proposals, work programs, and bond/guarantee documentation.',
   },
   {
     question: 'Do you subcontract installation, or do you have your own crew?',
-    answer: 'We have our own installation crew. We do not subcontract the installation labor — quality is best controlled with direct employees. Our installers are certified in refrigeration and HVAC, and trained in the quality and safety standards required for proper commissioning. For large-scale projects (hotels, hospitals), we can supplement with our network of vetted subcontractors.',
+    answer: 'We have our own installation crew. We do not subcontract the installation labor — quality is best controlled with direct employees. Our installers are certified in refrigeration and HVAC, and trained in the quality and safety standards required for proper commissioning. For large-scale projects (hotels), we can supplement with our network of vetted subcontractors.',
   },
   {
     question: 'What warranties does D&Z Building provide on a turnkey project?',
-    answer: 'We provide a 12-month installation warranty (covering installation, assembly, and commissioning defects) plus we process the manufacturer warranty for each piece of equipment (typically 2–5 years depending on brand). For mission-critical infrastructure (server rooms, hospitals), we can offer 24/7 SLA maintenance and technical response. We recommend connecting the project to a preventive maintenance contract to keep manufacturer warranties valid.',
+    answer: 'We provide a 12-month installation warranty (covering installation, assembly, and commissioning defects) plus we process the manufacturer warranty for each piece of equipment (typically 2–5 years depending on brand). For mission-critical infrastructure (server rooms), we can offer 24/7 SLA maintenance and technical response. We recommend connecting the project to a preventive maintenance contract to keep manufacturer warranties valid.',
   },
   {
     question: 'Can you execute HVAC projects outside the Santiago metro area?',

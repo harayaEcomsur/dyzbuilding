@@ -162,18 +162,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
-      url: `${siteUrl}/en/sectors/health/`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-      alternates: {
-        languages: {
-          es: `${siteUrl}/sectores/salud/`,
-          en: `${siteUrl}/en/sectors/health/`,
-        },
-      },
-    },
-    {
       url: `${siteUrl}/en/sectors/hotels/`,
       lastModified: now,
       changeFrequency: 'monthly' as const,
@@ -666,18 +654,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           es: `${siteUrl}/sectores/retail/`,
           en: `${siteUrl}/en/sectors/retail/`,
-        },
-      },
-    },
-    {
-      url: `${siteUrl}/sectores/salud/`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-      alternates: {
-        languages: {
-          es: `${siteUrl}/sectores/salud/`,
-          en: `${siteUrl}/en/sectors/health/`,
         },
       },
     },

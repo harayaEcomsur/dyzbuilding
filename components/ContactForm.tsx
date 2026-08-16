@@ -24,8 +24,8 @@ const SERVICES_EN = [
   'Engineering Consultancy',
 ]
 
-const PROPERTY_TYPES_ES = ['Oficina / Edificio', 'Hotel / Apart Hotel', 'Supermercado / Retail', 'Industria / Bodega', 'Clínica / Hospital', 'Centro Comercial', 'Planta Minera / Faena', 'Agroindustria / Frigorífico', 'Data Center', 'Otro']
-const PROPERTY_TYPES_EN = ['Office / Building', 'Hotel / Apart Hotel', 'Supermarket / Retail', 'Industry / Warehouse', 'Clinic / Hospital', 'Shopping Center', 'Mining Plant / Site', 'Agro-industry / Cold Storage', 'Data Center', 'Other']
+const PROPERTY_TYPES_ES = ['Oficina / Edificio', 'Hotel / Apart Hotel', 'Supermercado / Retail', 'Industria / Bodega', 'Clínica', 'Centro Comercial', 'Planta Minera / Faena', 'Agroindustria / Frigorífico', 'Data Center', 'Otro']
+const PROPERTY_TYPES_EN = ['Office / Building', 'Hotel / Apart Hotel', 'Supermarket / Retail', 'Industry / Warehouse', 'Clinic', 'Shopping Center', 'Mining Plant / Site', 'Agro-industry / Cold Storage', 'Data Center', 'Other']
 const URGENCY_ES = ['Normal (sin fecha límite)', 'En evaluación / Diseño', 'Urgente (menos de 30 días)']
 const URGENCY_EN = ['Normal (no deadline)', 'Under evaluation / Design', 'Urgent (less than 30 days)']
 
@@ -128,12 +128,12 @@ export default function ContactForm({ lang = 'es', waUrl }: { lang?: 'es' | 'en'
         }
       }
       // Sector card pre-fill: maps sector index to tipo_inmueble
-      // Order: 0→Retail(2), 1→Salud(4), 2→Minería(6), 3→Hotel(1), 4→DataCenter(8), 5→Agro(7)
+      // Order: 0→Retail(2), 1→Minería(6), 2→Hotel(1), 3→DataCenter(8), 4→Agro(7)
       const sectorIdx = sessionStorage.getItem('preselect_sector_idx')
       if (sectorIdx !== null) {
         sessionStorage.removeItem('preselect_sector_idx')
         const si = parseInt(sectorIdx, 10)
-        const SECTOR_TO_PROP: Record<number, number> = { 0: 2, 1: 4, 2: 6, 3: 1, 4: 8, 5: 7 }
+        const SECTOR_TO_PROP: Record<number, number> = { 0: 2, 1: 6, 2: 1, 3: 8, 4: 7 }
         const propIdx = SECTOR_TO_PROP[si]
         const propTypes = lang === 'en' ? PROPERTY_TYPES_EN : PROPERTY_TYPES_ES
         if (propIdx !== undefined && propIdx < propTypes.length) {
