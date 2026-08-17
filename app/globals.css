@@ -351,11 +351,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
   .admin-shell{display:block !important;background:#fff !important;overflow:visible !important;height:auto !important;}
   .admin-main{display:block !important;height:auto !important;padding:0 !important;}
   .admin-sidebar,.admin-mobile-header,.admin-overlay{display:none !important;}
-  .cot-form,.mb-form,.it-form,.oc-form,.ctr-form,.admin-editor-tabs{display:none !important;}
-  .cot-layout,.mb-layout,.it-layout,.oc-layout,.ctr-layout{display:block !important;}
-  #print-preview,#mb-print,#it-print,#oc-print,#ctr-print{display:block !important;background:#fff !important;padding:0 !important;overflow:visible !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
-  #print-preview *,#mb-print *,#it-print *,#oc-print *,#ctr-print *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
-  #print-preview .page,#mb-print .mb-page,#it-print .it-page,#oc-print .oc-page,#ctr-print .ctr-page{box-shadow:none !important;margin:0 !important;width:100% !important;max-width:none !important;zoom:1 !important;}
+  .cot-form,.mb-form,.it-form,.oc-form,.ctr-form,.sy-form,.admin-editor-tabs{display:none !important;}
+  .cot-layout,.mb-layout,.it-layout,.oc-layout,.ctr-layout,.sy-layout{display:block !important;}
+  #print-preview,#mb-print,#it-print,#oc-print,#ctr-print,#sy-print{display:block !important;background:#fff !important;padding:0 !important;overflow:visible !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  #print-preview *,#mb-print *,#it-print *,#oc-print *,#ctr-print *,#sy-print *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  #print-preview .page,#mb-print .mb-page,#it-print .it-page,#oc-print .oc-page,#ctr-print .ctr-page,#sy-print .sy-page{box-shadow:none !important;margin:0 !important;width:100% !important;max-width:none !important;zoom:1 !important;}
 }
 
 @media(max-width:900px){

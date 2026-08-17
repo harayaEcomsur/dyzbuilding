@@ -39,6 +39,22 @@ const groups: { label: string; items: NavItem[] }[] = [
         ],
       },
       {
+        label: 'Informe VRV',
+        href: '/admin/informe-vrv',
+        children: [
+          { label: 'Nuevo Informe', href: '/admin/informe-vrv/nuevo' },
+          { label: 'Historial', href: '/admin/informe-vrv' },
+        ],
+      },
+      {
+        label: 'Informe Rooftop',
+        href: '/admin/informe-rooftop',
+        children: [
+          { label: 'Nuevo Informe', href: '/admin/informe-rooftop/nuevo' },
+          { label: 'Historial', href: '/admin/informe-rooftop' },
+        ],
+      },
+      {
         label: 'Orden de Compra',
         href: '/admin/ordenes',
         children: [
