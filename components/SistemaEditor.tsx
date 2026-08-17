@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef, useCallback } from 'react'
+import FileUploadButton from '@/components/FileUploadButton'
 import {
   SistemaData, SistemaTipo, SistemaRecord, CircuitoMedicion,
   SISTEMA_LABELS, makeId, makeCircuito, makeDefaultSistemaData,
@@ -373,14 +374,14 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                 </button>
               </div>
             ) : (
-              <input
-                type="file"
+              <FileUploadButton
+                label="Subir diagrama"
+                busyLabel="Subiendo diagrama…"
+                busy={uploadingDiagrama}
                 accept="image/*"
-                disabled={uploadingDiagrama}
-                onChange={e => { const f = e.target.files?.[0]; if (f) void handleDiagramaUpload(f); e.target.value = '' }}
+                onFiles={files => { const f = files[0]; if (f) void handleDiagramaUpload(f) }}
               />
             )}
-            {uploadingDiagrama && <span style={{ fontSize: 10, color: 'var(--dim)' }}>Subiendo…</span>}
           </div>
 
           <div>
@@ -515,14 +516,14 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                           </div>
                         ))}
                       </div>
-                      <input
-                        type="file"
+                      <FileUploadButton
+                        label={c.fotos.length ? 'Agregar más fotos' : 'Subir fotos'}
+                        busyLabel="Subiendo fotos…"
+                        busy={uploadingFotoOf === c.id}
                         accept="image/*"
                         multiple
-                        disabled={uploadingFotoOf === c.id}
-                        onChange={e => { const files = e.target.files; if (files && files.length) void handleFotosUpload(c.id, files); e.target.value = '' }}
+                        onFiles={files => void handleFotosUpload(c.id, files)}
                       />
-                      {uploadingFotoOf === c.id && <span style={{ fontSize: 10, color: 'var(--dim)', marginLeft: 8 }}>Subiendo…</span>}
                     </div>
 
                     <div className="sy-field">
