@@ -54,7 +54,7 @@ export interface SistemaData {
     proyecto: string
   }
   objeto: string
-  diagramaUrl: string            // diagrama de flujo del ciclo de refrigeración
+  diagramas: string[]             // diagramas de flujo del ciclo de refrigeración (URLs)
   circuitos: CircuitoMedicion[]
   observaciones: string
   conclusiones: string
@@ -84,11 +84,21 @@ export const SISTEMA_LABELS: Record<SistemaTipo, { es: string; en: string; prefi
   rooftop: { es: 'Informe de Sistema Rooftop', en: 'Rooftop System Report', prefix: 'RT' },
 }
 
+// Migra registros guardados antes de que "diagramaUrl" (un solo diagrama)
+// pasara a ser "diagramas" (arreglo). Sin esto, informes ya emitidos con un
+// diagrama perderían esa imagen al abrirse en el editor nuevo.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function migrateSistemaData(raw: any): SistemaData {
+  if (Array.isArray(raw?.diagramas)) return raw as SistemaData
+  const legacyUrl = typeof raw?.diagramaUrl === 'string' ? raw.diagramaUrl : ''
+  return { ...raw, diagramas: legacyUrl ? [legacyUrl] : [] }
+}
+
 export function makeDefaultSistemaData(): SistemaData {
   return {
     meta: { codigo: '', fecha: '', cliente: '', tecnico: '', proyecto: '' },
     objeto: 'Medición y diagnóstico del ciclo de refrigeración del sistema, con el fin de evaluar su desempeño operativo y detectar desviaciones respecto de los parámetros normales de funcionamiento.',
-    diagramaUrl: '',
+    diagramas: [],
     circuitos: [makeCircuito('1')],
     observaciones: '',
     conclusiones: '',

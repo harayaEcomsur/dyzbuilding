@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import FileUploadButton from '@/components/FileUploadButton'
 import {
   SistemaData, SistemaTipo, SistemaRecord, CircuitoMedicion,
-  SISTEMA_LABELS, makeId, makeCircuito, makeDefaultSistemaData,
+  SISTEMA_LABELS, makeId, makeCircuito, makeDefaultSistemaData, migrateSistemaData,
 } from '@/lib/sistemas-store'
 import {
   apiFetchSistemaRecord, apiCreateSistemaRecord, apiUpdateSistemaRecord,
@@ -76,7 +76,7 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     if (id) {
       apiFetchSistemaRecord(id).then(record => {
         if (record) {
-          setData(record.data)
+          setData(migrateSistemaData(record.data))
           setEditingId(id)
           editingIdRef.current = id
           estadoRef.current = record.estado
@@ -178,16 +178,22 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     updateCircuito(id, { [field]: Number.isFinite(value) ? value : null } as Partial<CircuitoMedicion>)
   }
 
-  async function handleDiagramaUpload(file: File) {
+  async function handleDiagramasUpload(files: FileList) {
     setUploadingDiagrama(true)
     try {
-      const url = await apiUploadFoto(file, `informes-sistemas/${tipo}/diagramas`)
-      set({ diagramaUrl: url })
+      const urls: string[] = []
+      for (const file of Array.from(files)) {
+        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/diagramas`))
+      }
+      set({ diagramas: [...data.diagramas, ...urls] })
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Error al subir el diagrama')
     } finally {
       setUploadingDiagrama(false)
     }
+  }
+  function removeDiagrama(url: string) {
+    set({ diagramas: data.diagramas.filter(d => d !== url) })
   }
 
   async function handleFotosUpload(circuitoId: string, files: FileList) {
@@ -363,25 +369,25 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
           </div>
 
           <div className="sy-field">
-            <label>02 · Diagrama de flujo del ciclo de refrigeración</label>
-            {data.diagramaUrl ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div className="sy-foto-thumb" style={{ width: 72, height: 72 }}>
-                  <img src={data.diagramaUrl} alt="Diagrama" />
-                </div>
-                <button type="button" className="btn-outline" style={{ fontSize: 10, padding: '7px 10px' }} onClick={() => set({ diagramaUrl: '' })}>
-                  Quitar
-                </button>
+            <label>02 · Diagramas de flujo del ciclo de refrigeración</label>
+            {data.diagramas.length > 0 && (
+              <div className="sy-fotos" style={{ marginBottom: 8 }}>
+                {data.diagramas.map(url => (
+                  <div key={url} className="sy-foto-thumb" style={{ width: 72, height: 72 }}>
+                    <img src={url} alt="Diagrama" />
+                    <button className="sy-foto-remove" onClick={() => removeDiagrama(url)}>×</button>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <FileUploadButton
-                label="Subir diagrama"
-                busyLabel="Subiendo diagrama…"
-                busy={uploadingDiagrama}
-                accept="image/*"
-                onFiles={files => { const f = files[0]; if (f) void handleDiagramaUpload(f) }}
-              />
             )}
+            <FileUploadButton
+              label={data.diagramas.length ? 'Agregar otro diagrama' : 'Subir diagrama'}
+              busyLabel="Subiendo diagrama…"
+              busy={uploadingDiagrama}
+              accept="image/*"
+              multiple
+              onFiles={files => void handleDiagramasUpload(files)}
+            />
           </div>
 
           <div>
@@ -600,9 +606,13 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                 <p style={{ fontSize: 11, lineHeight: 1.7, color: '#444', margin: 0 }}>{data.objeto}</p>
               </Section>
 
-              {data.diagramaUrl && (
-                <Section num="02" title={isEN ? 'Refrigeration Cycle Diagram' : 'Diagrama del ciclo de refrigeración'}>
-                  <img src={data.diagramaUrl} alt="Diagrama del ciclo de refrigeración" style={{ maxWidth: '100%', border: '1px solid #eee' }} />
+              {data.diagramas.length > 0 && (
+                <Section num="02" title={isEN ? 'Refrigeration Cycle Diagrams' : 'Diagramas del ciclo de refrigeración'}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                    {data.diagramas.map(url => (
+                      <img key={url} src={url} alt="Diagrama del ciclo de refrigeración" style={{ maxWidth: data.diagramas.length > 1 ? 'calc(50% - 5px)' : '100%', border: '1px solid #eee' }} />
+                    ))}
+                  </div>
                 </Section>
               )}
 
