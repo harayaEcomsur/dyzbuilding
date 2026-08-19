@@ -183,7 +183,7 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     try {
       const urls: string[] = []
       for (const file of Array.from(files)) {
-        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/diagramas`))
+        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/diagramas`, { maxDimension: 2000, quality: 0.88 }))
       }
       set({ diagramas: [...data.diagramas, ...urls] })
     } catch (err) {
@@ -201,7 +201,7 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     try {
       const urls: string[] = []
       for (const file of Array.from(files)) {
-        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/fotos`))
+        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/fotos`, { maxDimension: 1600, quality: 0.8 }))
       }
       const circuito = data.circuitos.find(c => c.id === circuitoId)
       if (circuito) updateCircuito(circuitoId, { fotos: [...circuito.fotos, ...urls] })

@@ -1,4 +1,5 @@
 import type { SistemaRecord, SistemaData, SistemaTipo, EstadoDoc } from './sistemas-store'
+import { compressImage } from './image-compress'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function rowToRecord(r: any): SistemaRecord {
@@ -78,9 +79,14 @@ export async function apiDeleteSistemaRecord(id: string): Promise<void> {
   if (!res.ok) throw new Error('Error al eliminar informe')
 }
 
-export async function apiUploadFoto(file: File, folder: string): Promise<string> {
+export async function apiUploadFoto(
+  file: File,
+  folder: string,
+  compress: { maxDimension?: number; quality?: number } = {},
+): Promise<string> {
+  const uploadFile = await compressImage(file, compress)
   const form = new FormData()
-  form.append('file', file)
+  form.append('file', uploadFile)
   form.append('folder', folder)
   const res = await fetch('/api/upload', { method: 'POST', body: form })
   if (!res.ok) {
