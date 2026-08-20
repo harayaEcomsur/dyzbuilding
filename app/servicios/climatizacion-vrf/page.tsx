@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: `Sistemas VRF y VRV en Chile — Instalación y Mantención`,
 
     description:
-      'Empresa especialista en instalación y mantención de sistemas VRF/VRV en Chile. Distribuidores oficiales LG, Samsung y Gree. Proyectos para comercio, salud e industria. Cotización gratuita.',
+      'Empresa especialista en instalación y mantención de sistemas VRF/VRV en Chile. Solicitud de repuestos LG, Samsung y Gree. Proyectos para comercio, salud e industria. Cotización gratuita.',
     alternates: {
       canonical: `${siteUrl}/servicios/climatizacion-vrf/`,
       languages: {
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: `Sistemas VRF/VRV en Chile | ${c.empresa.nombre}`,
       description:
-        'Instalación y mantención de sistemas VRF/VRV en Chile. 20 años de experiencia. Distribuidores LG, Samsung y Gree. Cotización sin costo.',
+        'Instalación y mantención de sistemas VRF/VRV en Chile. 20 años de experiencia. Solicitud de repuestos LG, Samsung y Gree. Cotización sin costo.',
       url: `${siteUrl}/servicios/climatizacion-vrf/`,
       siteName: c.empresa.nombre,
       images: [{ url: `${siteUrl}/og.png`, width: 1200, height: 630 }],
@@ -147,9 +147,9 @@ const FAQ_VRF = [
       'Sí, los sistemas VRF de recuperación de calor (HR) permiten que algunas unidades interiores enfríen mientras otras calientan al mismo tiempo. Esto maximiza la eficiencia energética del sistema al recuperar el calor desplazado internamente.',
   },
   {
-    pregunta: '¿Qué marcas VRF instala y distribuye D&Z Building?',
+    pregunta: '¿Qué marcas VRF instala D&Z Building?',
     respuesta:
-      'D&Z Building es distribuidor oficial de LG, Samsung y Gree en Chile. Las tres marcas lideran el mercado VRF con sistemas desde 8 hasta 130+ HP y amplia disponibilidad de repuestos en el país.',
+      'D&Z Building instala LG, Samsung y Gree en Chile y gestiona la solicitud de repuestos para las tres marcas. Lideran el mercado VRF con sistemas desde 8 hasta 130+ HP y amplia disponibilidad de repuestos en el país.',
   },
   {
     pregunta: '¿Cuánto demora la instalación de un sistema VRF?',
@@ -165,8 +165,8 @@ const FAQ_VRF = [
 
 const VENTAJAS = [
   {
-    titulo: 'Distribuidores Oficiales',
-    desc: 'LG, Samsung y Gree. Equipos originales con garantía de fábrica y respaldo de servicio técnico directo.',
+    titulo: 'Solicitud de Repuestos',
+    desc: 'LG, Samsung y Gree. Gestionamos la solicitud de repuestos originales y coordinamos garantía de fábrica y servicio técnico directo.',
     icon: (
       <path d="M18 3 L21 12 L30 12 L23 18 L26 27 L18 21 L10 27 L13 18 L6 12 L15 12 Z" />
     ),
@@ -283,7 +283,7 @@ export default async function VrfPage() {
             e industriales en todo Chile. Más de 20 años de experiencia y cotización sin costo.
           </p>
           <div className="sp-hero-tags">
-            {['Sistema VRF', 'Sistema VRV', 'Multi-Split', 'Distribuidor LG · Samsung · Gree', 'Todo Chile'].map(tag => (
+            {['Sistema VRF', 'Sistema VRV', 'Multi-Split', 'Repuestos LG · Samsung · Gree', 'Todo Chile'].map(tag => (
               <span key={tag} className="sp-hero-tag">{tag}</span>
             ))}
           </div>
@@ -336,8 +336,8 @@ export default async function VrfPage() {
               <h3>VRF vs. VRV: ¿cuál es la diferencia?</h3>
               <p>
                 Son la misma tecnología. &ldquo;VRV&rdquo; es la marca registrada de Daikin; el resto de fabricantes usan el
-                término genérico &ldquo;VRF&rdquo;. D&Z Building instala sistemas VRF de LG, Samsung y Gree — distribuidores
-                oficiales en Chile — con plena equivalencia técnica y mejor relación precio–rendimiento.
+                término genérico &ldquo;VRF&rdquo;. D&Z Building instala sistemas VRF de LG, Samsung y Gree — y gestiona la
+                solicitud de repuestos de las tres marcas en Chile — con plena equivalencia técnica y mejor relación precio–rendimiento.
               </p>
             </div>
             <div className="sp-what-col">
@@ -374,16 +374,16 @@ export default async function VrfPage() {
 
         {/* MARCAS */}
         <RevealSection className="sp-section" id="sp-marcas">
-          <div className="sec-eyebrow">Distribuidores oficiales</div>
+          <div className="sec-eyebrow">Solicitud de repuestos</div>
           <h2 className="sec-title">Marcas que instalamos</h2>
           <p style={{ color: 'var(--dim)', fontSize: 15, lineHeight: 1.7, maxWidth: 640, marginTop: 12, marginBottom: 36 }}>
-            Como distribuidores oficiales de LG, Samsung y Gree en Chile, tenemos acceso directo a equipos originales,
-            repuestos y soporte técnico de fábrica para todos los sistemas VRF instalados.
+            Gestionamos la solicitud de repuestos originales de LG, Samsung y Gree en Chile, con soporte técnico
+            de fábrica para todos los sistemas VRF instalados.
           </p>
           <div className="brands-row" style={{ justifyContent: 'flex-start', gap: 40 }}>
-            <Image src="/brands/lg.png" alt="LG VRF — distribuidor oficial Chile" width={63} height={34} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
-            <Image src="/brands/samsung.png" alt="Samsung VRF — distribuidor oficial Chile" width={110} height={29} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
-            <Image src="/brands/gree.png" alt="Gree VRF — distribuidor oficial Chile" width={90} height={18} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+            <Image src="/brands/lg.png" alt="LG VRF — solicitud de repuestos Chile" width={63} height={34} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+            <Image src="/brands/samsung.png" alt="Samsung VRF — solicitud de repuestos Chile" width={110} height={29} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+            <Image src="/brands/gree.png" alt="Gree VRF — solicitud de repuestos Chile" width={90} height={18} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
           </div>
         </RevealSection>
 

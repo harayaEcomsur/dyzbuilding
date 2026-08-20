@@ -169,7 +169,7 @@ export async function sendAutoReplyEmail({
       ? `Recibimos tu solicitud${safeService ? ` de <strong>${safeService}</strong>` : ' de cotización'}${safeCiudad ? ` para <strong>${safeCiudad}</strong>` : ''}. Nuestro equipo técnico la revisará y te contactará con una propuesta detallada.`
       : `Recibimos tu mensaje. Te responderemos a la brevedad, en horario hábil de lunes a viernes.`,
     footer: `Si necesitas una respuesta urgente, escríbenos directamente a <a href="mailto:contacto@dyzbuilding.cl" style="color:#C8A84B;">contacto@dyzbuilding.cl</a> o llámanos al teléfono publicado en nuestro sitio.`,
-    tagline: 'Climatización Comercial · Refrigeración Industrial · Distribuidor LG · Samsung · Gree',
+    tagline: 'Climatización Comercial · Refrigeración Industrial · Solicitud de Repuestos LG · Samsung · Gree',
     note: 'Este es un mensaje automático. No es necesario responderlo.',
   }
 
@@ -182,7 +182,7 @@ export async function sendAutoReplyEmail({
       ? `We received your${safeService ? ` <strong>${safeService}</strong>` : ''} quote request${safeCiudad ? ` for <strong>${safeCiudad}</strong>` : ''}. Our technical team will review it and get back to you with a detailed proposal.`
       : `We received your message and will get back to you shortly during business hours, Monday to Friday.`,
     footer: `For an urgent response, email us at <a href="mailto:contacto@dyzbuilding.cl" style="color:#C8A84B;">contacto@dyzbuilding.cl</a> or call the phone number listed on our website.`,
-    tagline: 'Commercial HVAC · Industrial Refrigeration · Official Distributor LG · Samsung · Gree',
+    tagline: 'Commercial HVAC · Industrial Refrigeration · Parts Request LG · Samsung · Gree',
     note: 'This is an automated message. No reply is needed.',
   }
 

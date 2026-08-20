@@ -58,7 +58,6 @@ const BRANDS = [
   { name: 'LG', src: '/brands/lg.png', width: 63, height: 34 },
   { name: 'Samsung', src: '/brands/samsung.png', width: 1024, height: 272 },
   { name: 'Gree', src: '/brands/gree.png', width: 120, height: 24 },
-  { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
 ] as const
 
 const TAB_ICONS = {
@@ -73,12 +72,12 @@ const UI = {
   es: {
     navInicio: 'Inicio',
     navServicios: 'Especialidades', navNosotros: 'Nosotros', navFaq: 'Preguntas', navContacto: 'Contacto',
-    navCta: 'Solicitar Cotización', marcasLabel: 'Distribuidores oficiales', quienesSomos: 'Quiénes somos',
+    navCta: 'Solicitar Cotización', marcasLabel: 'Solicitud de repuestos', quienesSomos: 'Quiénes somos',
     whatsapp: 'WhatsApp', horario: 'Horario', horarioValue: 'Lunes a viernes, 8:30 – 18:00',
     heroBtn1: 'Nuestras especialidades', heroBtn2: 'Solicitar cotización', svcCta: 'Cotizar →',
     sectorBadge: 'Servicios industriales · Comerciales',
     statsAnios: 'años de experiencia', statsCobertura: 'Cobertura nacional',
-    statsMarcas: 'Distribuidores oficiales', statsSoporte: 'Soporte técnico',
+    statsMarcas: 'Marcas con repuestos', statsSoporte: 'Soporte técnico',
     contactoEyebrow: 'Hablemos', contactoTitulo: 'Solicitar Cotización',
     contactoDirecto: 'Contacto directo', ubicacion: 'Ubicación', telefono: 'Teléfono', email: 'Email',
   },
@@ -201,7 +200,7 @@ export default async function Home() {
           'Refrigeración comercial industrial', 'HVAC industrial Chile',
           'Eficiencia energética HVAC', 'Proyectos llave en mano climatización',
           'Mantención preventiva VRF', 'BIM HVAC', 'Modelamiento BIM HVAC',
-          'Distribuidor LG VRF Chile', 'Distribuidor Samsung HVAC Chile', 'Distribuidor Gree Chile',
+          'Repuestos LG VRF Chile', 'Repuestos Samsung HVAC Chile', 'Repuestos Gree Chile',
           'Climatización minería Chile', 'HVAC data centers Santiago', 'Refrigeración agroindustrial Chile',
           'Climatización hoteles Chile', 'Ingeniería BIM HVAC Chile',
           'Climatización edificios corporativos', 'VRF recuperación de calor', 'Análisis operacional HVAC',
@@ -514,9 +513,9 @@ export default async function Home() {
             <p>Coordinamos con arquitectos y constructoras mediante modelos BIM HVAC, reduciendo conflictos de instalación y acelerando la aprobación de proyectos.</p>
           </div>
           <div className="ventaja">
-            <span className="ventaja-tag">OFICIAL</span>
-            <h3>Distribuidores oficiales LG, Samsung y Gree</h3>
-            <p>Acceso directo a equipos genuinos, precios de distribuidor y soporte técnico postventa certificado por las marcas líderes del mercado.</p>
+            <span className="ventaja-tag">REPUESTOS</span>
+            <h3>Solicitud de repuestos LG, Samsung y Gree</h3>
+            <p>Gestionamos la solicitud y despacho de repuestos originales para LG, Samsung y Gree, con soporte técnico postventa certificado por las marcas líderes del mercado.</p>
           </div>
           <div className="ventaja">
             <span className="ventaja-tag">B2B</span>
@@ -559,7 +558,7 @@ export default async function Home() {
           {([
             {
               titulo: 'Equipos con garantía de fábrica',
-              desc: 'Distribuidores oficiales LG, Samsung y Gree. Todos los equipos incluyen garantía directa del fabricante.',
+              desc: 'Solicitud de repuestos LG, Samsung y Gree. Todos los equipos incluyen garantía directa del fabricante.',
               icon: <><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></>,
             },
             {

@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: `VRF and VRV Systems in Chile — Installation & Maintenance`,
 
     description:
-      'Specialist company in VRF/VRV system installation and maintenance in Chile. Authorized distributors of LG, Samsung, and Gree. Commercial, healthcare, and industrial projects. Free quotation.',
+      'Specialist company in VRF/VRV system installation and maintenance in Chile. Parts requests for LG, Samsung, and Gree. Commercial, healthcare, and industrial projects. Free quotation.',
     alternates: {
       canonical: `${siteUrl}/en/services/vrf-systems/`,
       languages: {
@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: `VRF/VRV Systems in Chile | ${c.empresa.nombre}`,
       description:
-        'VRF/VRV system installation and maintenance in Chile. 20+ years of experience. Authorized distributors LG, Samsung, and Gree. Free quote.',
+        'VRF/VRV system installation and maintenance in Chile. 20+ years of experience. Parts requests LG, Samsung, and Gree. Free quote.',
       url: `${siteUrl}/en/services/vrf-systems/`,
       siteName: c.empresa.nombre,
       images: [{ url: `${siteUrl}/og.png`, width: 1200, height: 630 }],
@@ -146,9 +146,9 @@ const FAQ_VRF = [
       'Yes. Heat recovery VRF (HR) systems allow some indoor units to cool while others heat simultaneously. This maximizes energy efficiency by transferring the heat displaced internally from one zone to another.',
   },
   {
-    pregunta: 'Which VRF brands does D&Z Building install and distribute?',
+    pregunta: 'Which VRF brands does D&Z Building install?',
     respuesta:
-      'D&Z Building is an authorized distributor of LG, Samsung, and Gree in Chile. All three brands lead the VRF market with systems from 8 to 130+ HP and broad spare-parts availability in the country.',
+      'D&Z Building installs LG, Samsung, and Gree in Chile and handles parts requests for all three brands. They lead the VRF market with systems from 8 to 130+ HP and broad spare-parts availability in the country.',
   },
   {
     pregunta: 'How long does VRF system installation take?',
@@ -164,8 +164,8 @@ const FAQ_VRF = [
 
 const ADVANTAGES = [
   {
-    title: 'Authorized Distributors',
-    desc: 'LG, Samsung, and Gree. Original equipment with manufacturer warranty and direct technical service support.',
+    title: 'Parts Request',
+    desc: 'LG, Samsung, and Gree. We handle original parts requests and coordinate manufacturer warranty and direct technical service support.',
     icon: (
       <path d="M18 3 L21 12 L30 12 L23 18 L26 27 L18 21 L10 27 L13 18 L6 12 L15 12 Z" />
     ),
@@ -283,7 +283,7 @@ export default async function VrfSystemsPage() {
             healthcare, and industrial projects throughout Chile. Over 20 years of experience and free quotation.
           </p>
           <div className="sp-hero-tags">
-            {['VRF System', 'VRV System', 'Multi-Split', 'LG · Samsung · Gree Distributor', 'All Chile'].map(tag => (
+            {['VRF System', 'VRV System', 'Multi-Split', 'LG · Samsung · Gree Parts', 'All Chile'].map(tag => (
               <span key={tag} className="sp-hero-tag">{tag}</span>
             ))}
           </div>
@@ -337,7 +337,7 @@ export default async function VrfSystemsPage() {
               <p>
                 They are the same technology. &quot;VRV&quot; is Daikin&apos;s registered trademark; all other manufacturers use
                 the generic term &quot;VRF.&quot; D&amp;Z Building installs VRF systems from LG, Samsung, and Gree —
-                authorized distributors in Chile — with full technical equivalence.
+                and handles parts requests for all three brands in Chile — with full technical equivalence.
               </p>
             </div>
             <div className="sp-what-col">
@@ -374,16 +374,16 @@ export default async function VrfSystemsPage() {
 
         {/* BRANDS */}
         <RevealSection className="sp-section" id="sp-brands">
-          <div className="sec-eyebrow">Authorized distributors</div>
+          <div className="sec-eyebrow">Parts request</div>
           <h2 className="sec-title">Brands we install</h2>
           <p style={{ color: 'var(--dim)', fontSize: 15, lineHeight: 1.7, maxWidth: 640, marginTop: 12, marginBottom: 36 }}>
-            As authorized distributors of LG, Samsung, and Gree in Chile, we have direct access to original
-            equipment, spare parts, and factory technical support for all installed VRF systems.
+            We handle parts requests for LG, Samsung, and Gree in Chile, with factory technical support
+            for all installed VRF systems.
           </p>
           <div className="brands-row" style={{ justifyContent: 'flex-start', gap: 40 }}>
-            <Image src="/brands/lg.png" alt="LG VRF — authorized distributor Chile" width={63} height={34} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
-            <Image src="/brands/samsung.png" alt="Samsung VRF — authorized distributor Chile" width={110} height={29} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
-            <Image src="/brands/gree.png" alt="Gree VRF — authorized distributor Chile" width={90} height={18} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+            <Image src="/brands/lg.png" alt="LG VRF — parts request Chile" width={63} height={34} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+            <Image src="/brands/samsung.png" alt="Samsung VRF — parts request Chile" width={110} height={29} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
+            <Image src="/brands/gree.png" alt="Gree VRF — parts request Chile" width={90} height={18} style={{ filter: 'brightness(0) invert(1)', opacity: 0.7 }} />
           </div>
         </RevealSection>
 

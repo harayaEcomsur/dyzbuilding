@@ -60,7 +60,6 @@ const BRANDS = [
   { name: 'LG', src: '/brands/lg.png', width: 63, height: 34 },
   { name: 'Samsung', src: '/brands/samsung.png', width: 1024, height: 272 },
   { name: 'Gree', src: '/brands/gree.png', width: 120, height: 24 },
-  { name: 'CYPE', src: '/brands/cype.png', width: 1024, height: 943 },
 ] as const
 
 const TAB_ICONS_EN = {
@@ -74,12 +73,12 @@ const TAB_ICONS_EN = {
 const t = {
   navInicio: 'Home',
   navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact',
-  navCta: 'Request a Quote', marcasLabel: 'Authorized distributors', quienesSomos: 'Who we are',
+  navCta: 'Request a Quote', marcasLabel: 'Parts Request', quienesSomos: 'Who we are',
   whatsapp: 'WhatsApp', horario: 'Hours', horarioValue: 'Monday – Friday, 8:30 – 18:00',
   heroBtn1: 'Our specialties', heroBtn2: 'Request a quote', svcCta: 'Get a quote →',
   sectorBadge: 'Industrial · Commercial services',
   statsAnios: 'years of experience', statsCobertura: 'Nationwide coverage',
-  statsMarcas: 'Authorized distributors', statsSoporte: 'Technical support',
+  statsMarcas: 'Brands with parts support', statsSoporte: 'Technical support',
   contactoEyebrow: "Let's talk", contactoTitulo: 'Request a Quote',
   contactoDirecto: 'Direct contact', ubicacion: 'Location', telefono: 'Phone', email: 'Email',
   intlEyebrow: 'International Projects',
@@ -190,7 +189,7 @@ export default async function HomeEN() {
           'Commercial Refrigeration Chile', 'Industrial HVAC Chile',
           'HVAC Energy Efficiency', 'Turnkey HVAC Projects Chile',
           'Preventive VRF Maintenance', 'BIM HVAC Modeling', 'HVAC BIM Design',
-          'LG VRF Distributor Chile', 'Samsung HVAC Distributor Chile', 'Gree Air Conditioning Chile',
+          'LG VRF Parts Chile', 'Samsung HVAC Parts Chile', 'Gree Air Conditioning Chile',
           'Mining Facility HVAC Chile', 'Data Center Cooling Santiago', 'Cold Chain Refrigeration Chile',
           'Hotel Air Conditioning Chile', 'BIM HVAC Engineering Chile',
           'Corporate Office HVAC', 'Heat Recovery VRF System', 'HVAC Operational Analysis',
@@ -199,7 +198,6 @@ export default async function HomeEN() {
           { '@type': 'Brand', name: 'LG' },
           { '@type': 'Brand', name: 'Samsung' },
           { '@type': 'Brand', name: 'Gree' },
-          { '@type': 'Brand', name: 'CYPE' },
         ],
         hasOfferCatalog: {
           '@type': 'OfferCatalog',
@@ -500,9 +498,9 @@ export default async function HomeEN() {
             <p>We coordinate with architects and contractors through BIM HVAC models, reducing installation conflicts and accelerating project approval.</p>
           </div>
           <div className="ventaja">
-            <span className="ventaja-tag">OFFICIAL</span>
-            <h3>Authorized LG, Samsung &amp; Gree distributors</h3>
-            <p>Direct access to genuine equipment, distributor pricing and certified after-sales technical support from the market-leading brands.</p>
+            <span className="ventaja-tag">PARTS</span>
+            <h3>LG, Samsung &amp; Gree parts request</h3>
+            <p>We manage parts requests and dispatch for LG, Samsung and Gree, with certified after-sales technical support from the market-leading brands.</p>
           </div>
           <div className="ventaja">
             <span className="ventaja-tag">B2B</span>
@@ -545,7 +543,7 @@ export default async function HomeEN() {
           {([
             {
               titulo: 'Factory-backed equipment warranty',
-              desc: 'Official LG, Samsung & Gree distributors. All equipment includes direct manufacturer warranty — no gray-market risk.',
+              desc: 'LG, Samsung & Gree parts request. All equipment includes direct manufacturer warranty — no gray-market risk.',
               icon: <><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></>,
             },
             {

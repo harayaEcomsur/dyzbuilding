@@ -158,7 +158,7 @@ const VENTAJAS = [
   },
   {
     titulo: 'Authorized Multi-Brand Service',
-    desc: 'Official distributors of LG and Samsung; authorized service for Carrier, Bohn, Hussmann, True, and other leading brands.',
+    desc: 'We handle parts requests for LG and Samsung; authorized service for Carrier, Bohn, Hussmann, True, and other leading brands.',
   },
   {
     titulo: 'Nationwide Coverage',

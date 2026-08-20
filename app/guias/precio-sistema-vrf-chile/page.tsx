@@ -77,7 +77,7 @@ const FAQ = [
   },
   {
     pregunta: '¿Qué marcas de VRF son más utilizadas en Chile?',
-    respuesta: 'Las marcas más instaladas en el mercado chileno son LG (Multi V), Samsung (DVM), Daikin (VRV), Mitsubishi Electric (City Multi) y Midea. D&Z Building es distribuidor oficial de LG y Samsung, lo que garantiza acceso a stock y soporte técnico certificado.',
+    respuesta: 'Las marcas más instaladas en el mercado chileno son LG (Multi V), Samsung (DVM), Daikin (VRV), Mitsubishi Electric (City Multi) y Midea. D&Z Building gestiona la solicitud de repuestos originales para LG y Samsung, lo que garantiza acceso a stock y soporte técnico certificado.',
   },
   {
     pregunta: '¿Es posible financiar la instalación de un sistema VRF?',
@@ -309,7 +309,7 @@ export default function GuiaPrecioVrfPage() {
             </p>
             <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: '0 0 16px' }}>
               <strong style={{ color: 'var(--text)' }}>LG Multi V</strong> y <strong style={{ color: 'var(--text)' }}>Samsung DVM</strong>:
-              Excelente relación precio-eficiencia, amplia red de soporte en Chile, stock local. D&Z Building es distribuidor oficial de ambas marcas.
+              Excelente relación precio-eficiencia, amplia red de soporte en Chile, stock local. D&Z Building gestiona la solicitud de repuestos para ambas marcas.
             </p>
             <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: '0 0 16px' }}>
               <strong style={{ color: 'var(--text)' }}>Daikin VRV</strong>: Tecnología de referencia, precio 15–25% sobre LG/Samsung. Amplia oferta de unidades interiores especializadas.

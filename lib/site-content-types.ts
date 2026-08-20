@@ -52,7 +52,7 @@ export const defaultEN: SiteContentEN = {
   },
   nosotros: {
     titulo: 'Two decades of\nclimate excellence',
-    p1: 'D&Z Building is a Chilean company specialized in commercial HVAC and industrial refrigeration with over 20 years of experience. We design, install, and maintain VRF/VRV systems for offices, hotels, and retail across Chile, as an authorized distributor of LG, Samsung, and Gree.',
+    p1: 'D&Z Building is a Chilean company specialized in commercial HVAC and industrial refrigeration with over 20 years of experience. We design, install, and maintain VRF/VRV systems for offices, hotels, and retail across Chile, and handle parts requests for LG, Samsung, and Gree.',
     p2: 'We work with the leading brands in the sector — LG, Samsung, and Gree — offering comprehensive solutions for commercial and industrial projects throughout Chile.',
   },
   servicios: {
@@ -71,8 +71,8 @@ export const defaultEN: SiteContentEN = {
   },
   seo: {
     titulo: 'Commercial HVAC and VRF Systems in Chile | D&Z Building',
-    descripcion: 'Leading company in commercial HVAC, VRF/VRV systems, and industrial refrigeration in Chile. 20+ years of experience. Authorized distributors of LG, Samsung, and Gree. Free quotation.',
-    keywords: 'commercial HVAC Chile, VRF system Chile, VRV system Chile, HVAC company Santiago Chile, commercial refrigeration company, VRF installation Chile, HVAC maintenance companies, turnkey HVAC project, energy efficiency HVAC, industrial HVAC Chile, LG VRF distributor Chile, commercial air conditioning company',
+    descripcion: 'Leading company in commercial HVAC, VRF/VRV systems, and industrial refrigeration in Chile. 20+ years of experience. Parts requests for LG, Samsung, and Gree. Free quotation.',
+    keywords: 'commercial HVAC Chile, VRF system Chile, VRV system Chile, HVAC company Santiago Chile, commercial refrigeration company, VRF installation Chile, HVAC maintenance companies, turnkey HVAC project, energy efficiency HVAC, industrial HVAC Chile, LG VRF parts Chile, commercial air conditioning company',
   },
   faq: {
     eyebrow: 'Frequently asked questions',
@@ -81,7 +81,7 @@ export const defaultEN: SiteContentEN = {
       { pregunta: 'What is D&Z Building?', respuesta: 'D&Z Building is a Chilean company specialized in commercial HVAC, VRF/VRV systems, and industrial refrigeration. With over 20 years of experience, we offer design, installation, maintenance, and turnkey projects for companies throughout Chile.' },
       { pregunta: 'What is a VRF or VRV system?', respuesta: 'VRF (Variable Refrigerant Flow) and VRV (Variable Refrigerant Volume) are multi-zone HVAC systems that allow temperature control across multiple areas with a single outdoor unit. Ideal for commercial buildings, hotels, and offices due to their energy efficiency and flexibility.' },
       { pregunta: 'What areas of Chile does D&Z Building serve?', respuesta: 'D&Z Building has nationwide coverage in Chile, based in Santiago. We handle HVAC and commercial refrigeration projects in the Metropolitan Region and throughout the country.' },
-      { pregunta: 'Which HVAC brands does D&Z Building distribute?', respuesta: 'D&Z Building is an authorized distributor of LG, Samsung, and Gree in Chile. These brands lead the VRF/VRV systems and commercial HVAC market.' },
+      { pregunta: 'Does D&Z Building handle parts requests for LG, Samsung, and Gree?', respuesta: 'Yes. D&Z Building handles parts requests for LG, Samsung, and Gree in Chile. These brands lead the VRF/VRV systems and commercial HVAC market.' },
       { pregunta: 'Do you offer preventive maintenance for VRF systems?', respuesta: 'Yes. D&Z Building offers preventive maintenance plans for VRF, VRV, commercial air conditioning, and industrial refrigeration systems, including diagnostics, cleaning, and performance optimization.' },
       { pregunta: 'How much does a VRF system cost in Chile?', respuesta: 'The cost of a VRF system depends on building size, number of zones, equipment brand, and installation complexity. D&Z Building provides free personalized quotations after evaluating your project.' },
       { pregunta: 'What is the difference between VRF and traditional split air conditioning?', respuesta: 'A traditional split system conditions one or a few areas with independent units. A VRF system connects multiple zones to a single outdoor unit, offering better energy efficiency and individual zone control — ideal for medium and large commercial buildings.' },
@@ -107,7 +107,7 @@ export const defaultContent: SiteContent = {
   },
   nosotros: {
     titulo: 'Dos décadas de\nexcelencia climática',
-    p1: 'D&Z Building es una empresa chilena de climatización comercial y refrigeración industrial con más de 20 años de experiencia. Diseña, instala y mantiene sistemas VRF/VRV para oficinas, hoteles y comercio en todo Chile, como distribuidor oficial de LG, Samsung y Gree.',
+    p1: 'D&Z Building es una empresa chilena de climatización comercial y refrigeración industrial con más de 20 años de experiencia. Diseña, instala y mantiene sistemas VRF/VRV para oficinas, hoteles y comercio en todo Chile, y gestiona la solicitud de repuestos para LG, Samsung y Gree.',
     p2: 'Trabajamos con las principales marcas del sector — LG, Samsung y Gree — ofreciendo soluciones integrales para proyectos comerciales e industriales en todo Chile.',
   },
   servicios: {
@@ -126,8 +126,8 @@ export const defaultContent: SiteContent = {
   },
   seo: {
     titulo: 'Climatización Comercial y Sistemas VRF en Chile | D&Z Building',
-    descripcion: 'Empresa especialista en climatización comercial, sistemas VRF/VRV y refrigeración industrial en Chile. 20 años de experiencia. Distribuidores oficiales LG, Samsung y Gree. Cotización gratuita.',
-    keywords: 'climatización comercial Chile, sistema VRF Chile, sistema VRV Chile, empresa climatización Santiago, refrigeración comercial empresa, instalación VRF empresa Chile, mantención climatización empresas, proyecto HVAC llave en mano, eficiencia energética HVAC, climatización industrial Chile, distribuidor LG VRF Chile, aire acondicionado comercial empresa',
+    descripcion: 'Empresa especialista en climatización comercial, sistemas VRF/VRV y refrigeración industrial en Chile. 20 años de experiencia. Solicitud de repuestos LG, Samsung y Gree. Cotización gratuita.',
+    keywords: 'climatización comercial Chile, sistema VRF Chile, sistema VRV Chile, empresa climatización Santiago, refrigeración comercial empresa, instalación VRF empresa Chile, mantención climatización empresas, proyecto HVAC llave en mano, eficiencia energética HVAC, climatización industrial Chile, repuestos LG VRF Chile, aire acondicionado comercial empresa',
   },
   faq: {
     eyebrow: 'Preguntas frecuentes',
@@ -146,8 +146,8 @@ export const defaultContent: SiteContent = {
         respuesta: 'D&Z Building tiene cobertura nacional en Chile, con base en Santiago. Atiende proyectos de climatización y refrigeración comercial en la Región Metropolitana y regiones del país.',
       },
       {
-        pregunta: '¿Qué marcas de climatización comercial distribuye D&Z Building?',
-        respuesta: 'D&Z Building es distribuidor oficial de LG, Samsung y Gree en Chile. Estas marcas lideran el mercado de sistemas VRF/VRV y equipos de climatización comercial.',
+        pregunta: '¿D&Z Building gestiona la solicitud de repuestos para LG, Samsung y Gree?',
+        respuesta: 'Sí. D&Z Building gestiona la solicitud de repuestos originales para LG, Samsung y Gree en Chile. Estas marcas lideran el mercado de sistemas VRF/VRV y equipos de climatización comercial.',
       },
       {
         pregunta: '¿Ofrecen mantención preventiva de sistemas VRF?',
