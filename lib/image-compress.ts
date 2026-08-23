@@ -10,7 +10,7 @@ interface CompressOptions {
 }
 
 export async function compressImage(file: File, opts: CompressOptions = {}): Promise<File> {
-  const { maxDimension = 1800, quality = 0.82 } = opts
+  const { maxDimension = 2200, quality = 0.87 } = opts
 
   if (!file.type.startsWith('image/') || file.type === 'image/svg+xml') return file
 

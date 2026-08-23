@@ -164,11 +164,18 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     }
   }
 
-  function addCircuito() {
-    set({ circuitos: [...data.circuitos, makeCircuito(String(nextCircuitoId++))] })
-  }
-  function removeCircuito(id: string) {
-    set({ circuitos: data.circuitos.filter(c => c.id !== id) })
+  // Los circuitos de medición son proporcionales a la cantidad de diagramas
+  // subidos (mínimo 1, aunque no haya diagramas). Se sincronizan al subir o
+  // quitar un diagrama, agregando/recortando desde el final para preservar
+  // las mediciones ya ingresadas en los circuitos existentes.
+  function syncCircuitos(circuitos: CircuitoMedicion[], diagramCount: number): CircuitoMedicion[] {
+    const target = Math.max(1, diagramCount)
+    if (circuitos.length === target) return circuitos
+    if (circuitos.length < target) {
+      const added = Array.from({ length: target - circuitos.length }, () => makeCircuito(String(nextCircuitoId++)))
+      return [...circuitos, ...added]
+    }
+    return circuitos.slice(0, target)
   }
   function updateCircuito(id: string, patch: Partial<CircuitoMedicion>) {
     set({ circuitos: data.circuitos.map(c => c.id === id ? { ...c, ...patch } : c) })
@@ -183,9 +190,10 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     try {
       const urls: string[] = []
       for (const file of Array.from(files)) {
-        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/diagramas`, { maxDimension: 2000, quality: 0.88 }))
+        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/diagramas`, { maxDimension: 2600, quality: 0.92 }))
       }
-      set({ diagramas: [...data.diagramas, ...urls] })
+      const diagramas = [...data.diagramas, ...urls]
+      set({ diagramas, circuitos: syncCircuitos(data.circuitos, diagramas.length) })
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Error al subir el diagrama')
     } finally {
@@ -193,7 +201,8 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     }
   }
   function removeDiagrama(url: string) {
-    set({ diagramas: data.diagramas.filter(d => d !== url) })
+    const diagramas = data.diagramas.filter(d => d !== url)
+    set({ diagramas, circuitos: syncCircuitos(data.circuitos, diagramas.length) })
   }
 
   async function handleFotosUpload(circuitoId: string, files: FileList) {
@@ -201,7 +210,7 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
     try {
       const urls: string[] = []
       for (const file of Array.from(files)) {
-        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/fotos`, { maxDimension: 1600, quality: 0.8 }))
+        urls.push(await apiUploadFoto(file, `informes-sistemas/${tipo}/fotos`, { maxDimension: 2200, quality: 0.87 }))
       }
       const circuito = data.circuitos.find(c => c.id === circuitoId)
       if (circuito) updateCircuito(circuitoId, { fotos: [...circuito.fotos, ...urls] })
@@ -393,11 +402,7 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)' }}>03 · Circuitos / Unidades</span>
-              <button onClick={addCircuito} style={{
-                fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.18em', textTransform: 'uppercase',
-                background: 'rgba(200,168,75,0.1)', color: 'var(--accent)', border: '1px solid rgba(200,168,75,0.2)',
-                padding: '5px 10px', cursor: 'pointer',
-              }}>+ Agregar circuito</button>
+              <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.1em', color: 'var(--dim)' }}>Según diagramas subidos</span>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -418,9 +423,6 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                       <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.1em', color: 'var(--dim)' }}>
                         Circuito {idx + 1}
                       </span>
-                      {data.circuitos.length > 1 && (
-                        <button onClick={() => removeCircuito(c.id)} style={{ background: 'none', border: 'none', color: 'var(--dim)', cursor: 'pointer', fontSize: 15 }}>× Quitar</button>
-                      )}
                     </div>
 
                     <div className="sy-grid4">
