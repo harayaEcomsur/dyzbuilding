@@ -17,8 +17,12 @@ export interface CircuitoMedicion {
   tempLiquido: number | null    // °C, línea de líquido
   tempSuccion: number | null    // °C, línea de succión
   tempDescarga: number | null   // °C
-  frecuencia: number | null     // Hz, frecuencia de compresor inverter
-  corriente: number | null      // A
+  frecuencia: number | null     // Hz, frecuencia de compresión (compresor inverter)
+  corriente: number | null      // A, corriente del compresor
+  corrienteVentilador: number | null // A, corriente del motor ventilador
+  voltaje: number | null        // V, voltaje de suministro eléctrico
+  tempPcbInverter: number | null // °C, temperatura placa PCB inverter
+  tempPcbFan: number | null      // °C, temperatura placa PCB fan
   fotos: string[]               // URLs (Vercel Blob)
   observaciones: string
 }
@@ -40,6 +44,10 @@ export function makeCircuito(id: string): CircuitoMedicion {
     tempDescarga: null,
     frecuencia: null,
     corriente: null,
+    corrienteVentilador: null,
+    voltaje: null,
+    tempPcbInverter: null,
+    tempPcbFan: null,
     fotos: [],
     observaciones: '',
   }
@@ -89,9 +97,18 @@ export const SISTEMA_LABELS: Record<SistemaTipo, { es: string; en: string; prefi
 // diagrama perderían esa imagen al abrirse en el editor nuevo.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function migrateSistemaData(raw: any): SistemaData {
-  if (Array.isArray(raw?.diagramas)) return raw as SistemaData
   const legacyUrl = typeof raw?.diagramaUrl === 'string' ? raw.diagramaUrl : ''
-  return { ...raw, diagramas: legacyUrl ? [legacyUrl] : [] }
+  const diagramas = Array.isArray(raw?.diagramas) ? raw.diagramas : (legacyUrl ? [legacyUrl] : [])
+  const circuitos = Array.isArray(raw?.circuitos)
+    ? raw.circuitos.map((c: any) => ({
+        tempPcbInverter: null,
+        tempPcbFan: null,
+        corrienteVentilador: null,
+        voltaje: null,
+        ...c,
+      }))
+    : raw?.circuitos
+  return { ...raw, diagramas, circuitos }
 }
 
 export function makeDefaultSistemaData(): SistemaData {

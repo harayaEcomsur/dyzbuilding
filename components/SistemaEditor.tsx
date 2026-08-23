@@ -27,7 +27,7 @@ const RANGE_COLORS: Record<RangeStatus, { bg: string; text: string; label: strin
 let nextCircuitoId = 2
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
-type NumField = 'tempAmbiente' | 'presionAlta' | 'presionBaja' | 'tempSatEvap' | 'tempSatCond' | 'tempLiquido' | 'tempSuccion' | 'tempDescarga' | 'frecuencia' | 'corriente'
+type NumField = 'tempAmbiente' | 'presionAlta' | 'presionBaja' | 'tempSatEvap' | 'tempSatCond' | 'tempLiquido' | 'tempSuccion' | 'tempDescarga' | 'frecuencia' | 'corriente' | 'corrienteVentilador' | 'voltaje' | 'tempPcbInverter' | 'tempPcbFan'
 
 function fmtDate(iso: string) {
   try {
@@ -454,12 +454,23 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                         <input type="number" value={c.presionBaja ?? ''} onChange={e => updateNum(c.id, 'presionBaja', e.target.value)} />
                       </div>
                       <div className="sy-field">
-                        <label>Frecuencia (Hz)</label>
+                        <label>Frecuencia de compresión (Hz)</label>
                         <input type="number" value={c.frecuencia ?? ''} onChange={e => updateNum(c.id, 'frecuencia', e.target.value)} />
                       </div>
                       <div className="sy-field">
-                        <label>Corriente (A)</label>
+                        <label>Corriente compresor (A)</label>
                         <input type="number" step="0.1" value={c.corriente ?? ''} onChange={e => updateNum(c.id, 'corriente', e.target.value)} />
+                      </div>
+                    </div>
+
+                    <div className="sy-grid2">
+                      <div className="sy-field">
+                        <label>Voltaje de suministro (V)</label>
+                        <input type="number" step="0.1" value={c.voltaje ?? ''} onChange={e => updateNum(c.id, 'voltaje', e.target.value)} />
+                      </div>
+                      <div className="sy-field">
+                        <label>Corriente ventilador (A)</label>
+                        <input type="number" step="0.1" value={c.corrienteVentilador ?? ''} onChange={e => updateNum(c.id, 'corrienteVentilador', e.target.value)} />
                       </div>
                     </div>
 
@@ -482,7 +493,7 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                       </div>
                     </div>
 
-                    <div className="sy-grid2">
+                    <div className="sy-grid4">
                       <div className="sy-field">
                         <label>Temp. ambiente (°C)</label>
                         <input type="number" step="0.1" value={c.tempAmbiente ?? ''} onChange={e => updateNum(c.id, 'tempAmbiente', e.target.value)} />
@@ -490,6 +501,14 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                       <div className="sy-field">
                         <label>Temp. descarga (°C)</label>
                         <input type="number" step="0.1" value={c.tempDescarga ?? ''} onChange={e => updateNum(c.id, 'tempDescarga', e.target.value)} />
+                      </div>
+                      <div className="sy-field">
+                        <label title="Sensor de temperatura de la placa inverter del compresor">Temp. PCB inverter (°C)</label>
+                        <input type="number" step="0.1" value={c.tempPcbInverter ?? ''} onChange={e => updateNum(c.id, 'tempPcbInverter', e.target.value)} />
+                      </div>
+                      <div className="sy-field">
+                        <label title="Sensor de temperatura de la placa del motor ventilador">Temp. PCB fan (°C)</label>
+                        <input type="number" step="0.1" value={c.tempPcbFan ?? ''} onChange={e => updateNum(c.id, 'tempPcbFan', e.target.value)} />
                       </div>
                     </div>
 
@@ -644,8 +663,14 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                               <Td label={isEN ? 'Discharge temp' : 'Temp. descarga'} value={fmtC(c.tempDescarga)} />
                             </tr>
                             <tr>
-                              <Td label={isEN ? 'Frequency' : 'Frecuencia'} value={c.frecuencia != null ? `${c.frecuencia} Hz` : '—'} />
-                              <Td label={isEN ? 'Current' : 'Corriente'} value={c.corriente != null ? `${c.corriente} A` : '—'} />
+                              <Td label={isEN ? 'Compression frequency' : 'Frecuencia de compresión'} value={c.frecuencia != null ? `${c.frecuencia} Hz` : '—'} />
+                              <Td label={isEN ? 'Compressor current' : 'Corriente compresor'} value={c.corriente != null ? `${c.corriente} A` : '—'} />
+                              <Td label={isEN ? 'Inverter PCB temp' : 'Temp. PCB inverter'} value={fmtC(c.tempPcbInverter)} />
+                              <Td label={isEN ? 'Fan PCB temp' : 'Temp. PCB fan'} value={fmtC(c.tempPcbFan)} />
+                            </tr>
+                            <tr>
+                              <Td label={isEN ? 'Supply voltage' : 'Voltaje de suministro'} value={c.voltaje != null ? `${c.voltaje} V` : '—'} />
+                              <Td label={isEN ? 'Fan current' : 'Corriente ventilador'} value={c.corrienteVentilador != null ? `${c.corrienteVentilador} A` : '—'} />
                               <td style={{ padding: '6px 10px' }} />
                               <td style={{ padding: '6px 10px' }} />
                             </tr>
