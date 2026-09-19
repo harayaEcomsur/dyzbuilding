@@ -6,3 +6,10 @@ export async function apiFetchEmpresa(): Promise<SiteContent['empresa'] | null> 
   const content: SiteContent = await res.json()
   return content.empresa ?? null
 }
+
+export async function apiFetchDatosBancarios(): Promise<SiteContent['datosBancarios'] | null> {
+  const res = await fetch('/api/site-content')
+  if (!res.ok) return null
+  const content: SiteContent = await res.json()
+  return content.datosBancarios ?? null
+}

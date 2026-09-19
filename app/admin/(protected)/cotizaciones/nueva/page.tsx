@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { QuotationData, LineItem, makeId, calcTotal } from '@/lib/cotizaciones-store'
 import { apiFetchRecord, apiCreateRecord, apiUpdateRecord } from '@/lib/cotizaciones-api'
+import { apiFetchEmpresa, apiFetchDatosBancarios } from '@/lib/site-content-api'
+import { defaultContent } from '@/lib/site-content-types'
 
 const MONEDAS: Record<string, { sym: string; label: string }> = {
   CLP: { sym: '$', label: 'CLP — Pesos Chilenos' },
@@ -50,6 +52,7 @@ function makeDefaultData(): QuotationData {
       { id: 2, descripcion: '', subtitulo: '', cantidad: '1', unidad: 'gl.', precioUnitario: '' },
     ],
     incluirIva: true,
+    incluirDatosBancarios: false,
     notas: 'Precios no incluyen IVA (salvo indicación).\nValidez de la oferta: 30 días corridos desde la fecha de emisión.\nPlazo de entrega a confirmar según stock y logística.\nForma de pago: 50% anticipo, 50% contra entrega.',
   }
 }
@@ -62,6 +65,8 @@ export default function NuevaCotizacion() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [initialized, setInitialized] = useState(false)
+  const [empresa, setEmpresa] = useState(defaultContent.empresa)
+  const [datosBancarios, setDatosBancarios] = useState(defaultContent.datosBancarios)
 
   const editingIdRef = useRef<string | null>(null)
   const estadoRef = useRef<'borrador' | 'emitida'>('borrador')
@@ -78,6 +83,11 @@ export default function NuevaCotizacion() {
     )
   }, [])
 
+  useEffect(() => {
+    apiFetchEmpresa().then(e => { if (e) setEmpresa(e) }).catch(() => {})
+    apiFetchDatosBancarios().then(b => { if (b) setDatosBancarios(b) }).catch(() => {})
+  }, [])
+
   // Carga inicial desde URL param
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -86,7 +96,7 @@ export default function NuevaCotizacion() {
     if (id) {
       apiFetchRecord(id).then(record => {
         if (record) {
-          setData(record.data)
+          setData({ ...record.data, incluirDatosBancarios: record.data.incluirDatosBancarios ?? false })
           setEditingId(id)
           editingIdRef.current = id
           estadoRef.current = record.estado
@@ -212,6 +222,8 @@ export default function NuevaCotizacion() {
     total: 'Total', footer: 'D&Z Building · Chile',
     tableHeaders: ['#', 'Description', 'Qty.', 'Unit Price', 'Total'],
     signClient: 'Client', signSupplier: 'D&Z Building',
+    bankTitle: 'Bank Transfer Details', bank: 'Bank', accountType: 'Account type',
+    accountNumber: 'Account number', accountHolder: 'Account holder', payEmail: 'Email',
   } : {
     title: 'Cotización', num: 'N°', date: 'Fecha:', validity: 'Validez:', validityUnit: 'días corridos',
     client: 'Cliente', supplier: 'Proveedor', currency: 'Moneda:', rut: 'RUT:',
@@ -219,6 +231,8 @@ export default function NuevaCotizacion() {
     total: 'Total', footer: 'D&Z Building · Chile',
     tableHeaders: ['#', 'Descripción', 'Cant.', 'P. Unitario', 'Total'],
     signClient: 'Cliente', signSupplier: 'D&Z Building',
+    bankTitle: 'Datos para Transferencia', bank: 'Banco', accountType: 'Tipo de cuenta',
+    accountNumber: 'N° de cuenta', accountHolder: 'Titular', payEmail: 'Email',
   }
 
   const fechaDisplay = (() => {
@@ -388,6 +402,15 @@ export default function NuevaCotizacion() {
                 <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--text)' }}>Total</span>
                 <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 20, fontWeight: 200, color: 'var(--accent)' }}>{formatNum(String(total), sym)}</span>
               </div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', paddingTop: 4 }}>
+                <input type="checkbox" checked={data.incluirDatosBancarios} onChange={e => set({ incluirDatosBancarios: e.target.checked })} style={{ width: 'auto' }} />
+                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--dim)' }}>Incluir datos bancarios</span>
+              </label>
+              {data.incluirDatosBancarios && !datosBancarios.banco && (
+                <div style={{ fontSize: 11, color: 'var(--dim)' }}>
+                  No hay datos bancarios configurados. Complétalos en <Link href="/admin/contenido" style={{ color: 'var(--accent)' }}>Contenido → Datos Bancarios</Link>.
+                </div>
+              )}
             </div>
           </section>
 
@@ -458,9 +481,10 @@ export default function NuevaCotizacion() {
               <div>
                 <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 9, fontWeight: 400 }}>{docT.supplier}</h4>
                 <p style={{ fontSize: 14, lineHeight: 1.78, color: '#666' }}>
-                  <strong style={{ display: 'block', fontSize: 15.5, color: '#1a1a1a', fontWeight: 500, marginBottom: 1 }}>D&Z Building</strong>
-                  Chile<br />
-                  contacto@dyzbuilding.cl
+                  <strong style={{ display: 'block', fontSize: 15.5, color: '#1a1a1a', fontWeight: 500, marginBottom: 1 }}>{empresa.nombre}</strong>
+                  {empresa.direccion}<br />
+                  {docT.rut} {empresa.rut}<br />
+                  {empresa.email}
                 </p>
               </div>
             </div>
@@ -531,6 +555,20 @@ export default function NuevaCotizacion() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {data.incluirDatosBancarios && datosBancarios.banco && (
+              <div style={{ background: '#f5f5f5', padding: '16px 20px', marginBottom: 32 }}>
+                <h4 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.36em', textTransform: 'uppercase', color: '#C8A84B', marginBottom: 10, fontWeight: 400 }}>{docT.bankTitle}</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 24px', fontSize: 13, color: '#444' }}>
+                  <div><span style={{ color: '#999' }}>{docT.bank}: </span>{datosBancarios.banco}</div>
+                  <div><span style={{ color: '#999' }}>{docT.accountType}: </span>{datosBancarios.tipoCuenta}</div>
+                  <div><span style={{ color: '#999' }}>{docT.accountNumber}: </span>{datosBancarios.numeroCuenta}</div>
+                  <div><span style={{ color: '#999' }}>{docT.rut}: </span>{datosBancarios.rutTitular}</div>
+                  <div><span style={{ color: '#999' }}>{docT.accountHolder}: </span>{datosBancarios.nombreTitular}</div>
+                  <div><span style={{ color: '#999' }}>{docT.payEmail}: </span>{datosBancarios.emailPagos}</div>
+                </div>
               </div>
             )}
 

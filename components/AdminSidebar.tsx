@@ -63,6 +63,14 @@ const groups: { label: string; items: NavItem[] }[] = [
         ],
       },
       {
+        label: 'Guía de Despacho',
+        href: '/admin/guias-despacho',
+        children: [
+          { label: 'Nueva Guía', href: '/admin/guias-despacho/nueva' },
+          { label: 'Historial', href: '/admin/guias-despacho' },
+        ],
+      },
+      {
         label: 'Contratos',
         href: '/admin/contratos',
         children: [
@@ -70,6 +78,12 @@ const groups: { label: string; items: NavItem[] }[] = [
           { label: 'Historial', href: '/admin/contratos' },
         ],
       },
+    ],
+  },
+  {
+    label: 'Inventario',
+    items: [
+      { label: 'Stock e Inventario', href: '/admin/inventario' },
     ],
   },
   {

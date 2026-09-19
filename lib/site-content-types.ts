@@ -16,6 +16,16 @@ export interface SiteContent {
     horario: string
     rut: string
   }
+  // Dato interno para documentos del admin (cotizaciones). Nunca se usa en
+  // páginas públicas ni se traduce a EN.
+  datosBancarios: {
+    banco: string
+    tipoCuenta: string
+    numeroCuenta: string
+    rutTitular: string
+    nombreTitular: string
+    emailPagos: string
+  }
   hero: {
     eyebrow: string
     titulo: string
@@ -99,6 +109,14 @@ export const defaultContent: SiteContent = {
     direccion: 'Santiago, Chile',
     horario: 'Lunes a Viernes 8:30–18:00',
     rut: '78.353.685-4',
+  },
+  datosBancarios: {
+    banco: '',
+    tipoCuenta: '',
+    numeroCuenta: '',
+    rutTitular: '',
+    nombreTitular: '',
+    emailPagos: '',
   },
   hero: {
     eyebrow: '20 años · Climatización · Refrigeración · Todo Chile',

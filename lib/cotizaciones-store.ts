@@ -20,6 +20,7 @@ export interface QuotationData {
   clienteDireccion: string
   items: LineItem[]
   incluirIva: boolean
+  incluirDatosBancarios: boolean
   notas: string
   lang?: 'es' | 'en'
 }

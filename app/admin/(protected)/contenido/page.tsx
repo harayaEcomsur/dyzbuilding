@@ -145,6 +145,22 @@ export default function ContenidoPage() {
           </div>
         </div>
 
+        {/* Datos bancarios */}
+        <div>
+          <SectionTitle>Datos Bancarios</SectionTitle>
+          <div className="cn-info" style={{ marginBottom: 16 }}>
+            Uso interno — aparecen solo en documentos del admin (ej. Cotizaciones, si se activa la opción &quot;Incluir datos bancarios&quot;). Nunca se muestran en el sitio público.
+          </div>
+          <div className="cn-grid-2">
+            <Field cfg={cfg} path="datosBancarios.banco" label="Banco" set={set} />
+            <Field cfg={cfg} path="datosBancarios.tipoCuenta" label="Tipo de cuenta" set={set} />
+            <Field cfg={cfg} path="datosBancarios.numeroCuenta" label="Número de cuenta" set={set} />
+            <Field cfg={cfg} path="datosBancarios.rutTitular" label="RUT del titular" set={set} />
+            <Field cfg={cfg} path="datosBancarios.nombreTitular" label="Nombre del titular" set={set} />
+            <Field cfg={cfg} path="datosBancarios.emailPagos" label="Email para pagos" set={set} />
+          </div>
+        </div>
+
         {/* Hero */}
         <div>
           <SectionTitle>Hero (portada)</SectionTitle>
