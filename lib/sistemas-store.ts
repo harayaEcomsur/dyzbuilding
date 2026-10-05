@@ -25,6 +25,34 @@ export interface CircuitoMedicion {
   tempPcbFan: number | null      // °C, temperatura placa PCB fan
   fotos: string[]               // URLs (Vercel Blob)
   observaciones: string
+  unidadesInteriores: UnidadInterior[]
+  cajasHR: CajaHR[]             // cajas HR (Heat Recovery) — solo aplica a VRV con recuperación de calor
+}
+
+export interface UnidadInterior {
+  id: string
+  nombre: string        // "IDU1", "Oficina 2do piso", etc.
+  eev: number | null    // apertura de la válvula de expansión electrónica (pulsos/pasos, según equipo)
+  air: number | null    // °C, temperatura de aire leída en la unidad interior
+  pipeIn: number | null  // °C, temperatura de tubería "pipe in" del tablero de la unidad interior
+  pipeOut: number | null // °C, temperatura de tubería "pipe out" del tablero de la unidad interior
+}
+
+export function makeUnidadInterior(id: string): UnidadInterior {
+  return { id, nombre: '', eev: null, air: null, pipeIn: null, pipeOut: null }
+}
+
+export interface CajaHR {
+  id: string
+  nombre: string             // "HRU1", etc.
+  eev: number | null         // apertura de la válvula de expansión electrónica de la caja
+  liquidTemp: number | null  // °C, "liquid temp." de la caja HR
+  pipeInlet: number | null   // °C, "pipe inlet temp." de la caja HR
+  pipeOut: number | null     // °C, "pipe out temp." de la caja HR
+}
+
+export function makeCajaHR(id: string): CajaHR {
+  return { id, nombre: '', eev: null, liquidTemp: null, pipeInlet: null, pipeOut: null }
 }
 
 export function makeCircuito(id: string): CircuitoMedicion {
@@ -50,6 +78,8 @@ export function makeCircuito(id: string): CircuitoMedicion {
     tempPcbFan: null,
     fotos: [],
     observaciones: '',
+    unidadesInteriores: [],
+    cajasHR: [],
   }
 }
 
@@ -105,6 +135,8 @@ export function migrateSistemaData(raw: any): SistemaData {
         tempPcbFan: null,
         corrienteVentilador: null,
         voltaje: null,
+        unidadesInteriores: [],
+        cajasHR: [],
         ...c,
       }))
     : raw?.circuitos

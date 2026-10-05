@@ -5,16 +5,16 @@ import Link from 'next/link'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import FileUploadButton from '@/components/FileUploadButton'
 import {
-  SistemaData, SistemaTipo, SistemaRecord, CircuitoMedicion,
-  SISTEMA_LABELS, makeId, makeCircuito, makeDefaultSistemaData, migrateSistemaData,
+  SistemaData, SistemaTipo, SistemaRecord, CircuitoMedicion, UnidadInterior, CajaHR,
+  SISTEMA_LABELS, makeId, makeCircuito, makeUnidadInterior, makeCajaHR, makeDefaultSistemaData, migrateSistemaData,
 } from '@/lib/sistemas-store'
 import {
   apiFetchSistemaRecord, apiCreateSistemaRecord, apiUpdateSistemaRecord,
   apiFetchSistemaHistory, apiUploadFoto,
 } from '@/lib/sistemas-api'
 import {
-  REFRIGERANTES, RefrigeranteKey, computeSuperheat, computeSubcool,
-  rangeStatus, RangeStatus, SUPERHEAT_RANGE, SUBCOOL_RANGE,
+  REFRIGERANTES, RefrigeranteKey, computeSuperheat, computeSubcool, computeIduPipeDiff,
+  rangeStatus, RangeStatus, SUPERHEAT_RANGE, SUBCOOL_RANGE, IDU_PIPE_DIFF_RANGE,
 } from '@/lib/refrigerant-pt'
 
 const RANGE_COLORS: Record<RangeStatus, { bg: string; text: string; label: string }> = {
@@ -183,6 +183,46 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
   function updateNum(id: string, field: NumField, raw: string) {
     const value = raw === '' ? null : Number(raw)
     updateCircuito(id, { [field]: Number.isFinite(value) ? value : null } as Partial<CircuitoMedicion>)
+  }
+
+  function addUnidadInterior(circuitoId: string) {
+    const circuito = data.circuitos.find(c => c.id === circuitoId)
+    if (!circuito) return
+    updateCircuito(circuitoId, { unidadesInteriores: [...circuito.unidadesInteriores, makeUnidadInterior(makeId())] })
+  }
+  function removeUnidadInterior(circuitoId: string, rowId: string) {
+    const circuito = data.circuitos.find(c => c.id === circuitoId)
+    if (!circuito) return
+    updateCircuito(circuitoId, { unidadesInteriores: circuito.unidadesInteriores.filter(u => u.id !== rowId) })
+  }
+  function updateUnidadInterior(circuitoId: string, rowId: string, patch: Partial<UnidadInterior>) {
+    const circuito = data.circuitos.find(c => c.id === circuitoId)
+    if (!circuito) return
+    updateCircuito(circuitoId, { unidadesInteriores: circuito.unidadesInteriores.map(u => u.id === rowId ? { ...u, ...patch } : u) })
+  }
+  function updateUnidadInteriorNum(circuitoId: string, rowId: string, field: 'eev' | 'air' | 'pipeIn' | 'pipeOut', raw: string) {
+    const value = raw === '' ? null : Number(raw)
+    updateUnidadInterior(circuitoId, rowId, { [field]: Number.isFinite(value) ? value : null } as Partial<UnidadInterior>)
+  }
+
+  function addCajaHR(circuitoId: string) {
+    const circuito = data.circuitos.find(c => c.id === circuitoId)
+    if (!circuito) return
+    updateCircuito(circuitoId, { cajasHR: [...circuito.cajasHR, makeCajaHR(makeId())] })
+  }
+  function removeCajaHR(circuitoId: string, rowId: string) {
+    const circuito = data.circuitos.find(c => c.id === circuitoId)
+    if (!circuito) return
+    updateCircuito(circuitoId, { cajasHR: circuito.cajasHR.filter(h => h.id !== rowId) })
+  }
+  function updateCajaHR(circuitoId: string, rowId: string, patch: Partial<CajaHR>) {
+    const circuito = data.circuitos.find(c => c.id === circuitoId)
+    if (!circuito) return
+    updateCircuito(circuitoId, { cajasHR: circuito.cajasHR.map(h => h.id === rowId ? { ...h, ...patch } : h) })
+  }
+  function updateCajaHRNum(circuitoId: string, rowId: string, field: 'eev' | 'liquidTemp' | 'pipeInlet' | 'pipeOut', raw: string) {
+    const value = raw === '' ? null : Number(raw)
+    updateCajaHR(circuitoId, rowId, { [field]: Number.isFinite(value) ? value : null } as Partial<CajaHR>)
   }
 
   async function handleDiagramasUpload(files: FileList) {
@@ -534,6 +574,81 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                     </div>
 
                     <div className="sy-field">
+                      <label>Unidades interiores</label>
+                      <div style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 540 }}>
+                          {c.unidadesInteriores.length > 0 && (
+                            <thead>
+                              <tr>
+                                {['Nombre/ID', 'EEV', 'Air (°C)', 'Pipe In (°C)', 'Pipe Out (°C)', 'SC/SH', ''].map(h => (
+                                  <th key={h} style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--dim)', fontWeight: 400, padding: '0 6px 6px 0', textAlign: 'left' }}>{h}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                          )}
+                          <tbody>
+                            {c.unidadesInteriores.map(u => {
+                              const diff = computeIduPipeDiff(u.pipeOut, u.pipeIn)
+                              const status = rangeStatus(diff, IDU_PIPE_DIFF_RANGE)
+                              return (
+                                <tr key={u.id}>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 110 }}><input value={u.nombre} onChange={e => updateUnidadInterior(c.id, u.id, { nombre: e.target.value })} placeholder="IDU1" style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 70 }}><input type="number" value={u.eev ?? ''} onChange={e => updateUnidadInteriorNum(c.id, u.id, 'eev', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 80 }}><input type="number" step="0.1" value={u.air ?? ''} onChange={e => updateUnidadInteriorNum(c.id, u.id, 'air', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 90 }}><input type="number" step="0.1" value={u.pipeIn ?? ''} onChange={e => updateUnidadInteriorNum(c.id, u.id, 'pipeIn', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 90 }}><input type="number" step="0.1" value={u.pipeOut ?? ''} onChange={e => updateUnidadInteriorNum(c.id, u.id, 'pipeOut', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 90 }}>
+                                    {diff != null && (
+                                      <span className="sy-badge" style={{ background: RANGE_COLORS[status].bg, color: RANGE_COLORS[status].text }}>{diff} °C · {RANGE_COLORS[status].label}</span>
+                                    )}
+                                  </td>
+                                  <td style={{ padding: '4px 0', width: 20 }}>
+                                    <button onClick={() => removeUnidadInterior(c.id, u.id)} style={{ background: 'none', border: 'none', color: 'var(--dim)', cursor: 'pointer', fontSize: 15, padding: 0 }} title="Quitar">×</button>
+                                  </td>
+                                </tr>
+                              )
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                      <button onClick={() => addUnidadInterior(c.id)} className="btn-outline" style={{ marginTop: 8, padding: '7px 14px', fontSize: 10.5 }}>+ Agregar unidad interior</button>
+                    </div>
+
+                    {tipo === 'vrv' && (
+                      <div className="sy-field">
+                        <label title="Solo aplica a sistemas VRV con recuperación de calor (Heat Recovery)">Cajas HR (Heat Recovery)</label>
+                        <div style={{ overflowX: 'auto' }}>
+                          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 460 }}>
+                            {c.cajasHR.length > 0 && (
+                              <thead>
+                                <tr>
+                                  {['Nombre/ID', 'EEV', 'Liquid Temp (°C)', 'Pipe Inlet (°C)', 'Pipe Out (°C)', ''].map(h => (
+                                    <th key={h} style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--dim)', fontWeight: 400, padding: '0 6px 6px 0', textAlign: 'left' }}>{h}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                            )}
+                            <tbody>
+                              {c.cajasHR.map(h => (
+                                <tr key={h.id}>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 110 }}><input value={h.nombre} onChange={e => updateCajaHR(c.id, h.id, { nombre: e.target.value })} placeholder="HRU1" style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 70 }}><input type="number" value={h.eev ?? ''} onChange={e => updateCajaHRNum(c.id, h.id, 'eev', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 100 }}><input type="number" step="0.1" value={h.liquidTemp ?? ''} onChange={e => updateCajaHRNum(c.id, h.id, 'liquidTemp', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 100 }}><input type="number" step="0.1" value={h.pipeInlet ?? ''} onChange={e => updateCajaHRNum(c.id, h.id, 'pipeInlet', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 6px 4px 0', width: 100 }}><input type="number" step="0.1" value={h.pipeOut ?? ''} onChange={e => updateCajaHRNum(c.id, h.id, 'pipeOut', e.target.value)} style={{ width: '100%' }} /></td>
+                                  <td style={{ padding: '4px 0', width: 20 }}>
+                                    <button onClick={() => removeCajaHR(c.id, h.id)} style={{ background: 'none', border: 'none', color: 'var(--dim)', cursor: 'pointer', fontSize: 15, padding: 0 }} title="Quitar">×</button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <button onClick={() => addCajaHR(c.id)} className="btn-outline" style={{ marginTop: 8, padding: '7px 14px', fontSize: 10.5 }}>+ Agregar caja HR</button>
+                      </div>
+                    )}
+
+                    <div className="sy-field">
                       <label>Fotos</label>
                       <div className="sy-fotos" style={{ marginBottom: 8 }}>
                         {c.fotos.map(url => (
@@ -688,10 +803,69 @@ export default function SistemaEditor({ tipo }: { tipo: SistemaTipo }) {
                             <span style={{ background: RANGE_COLORS[scStatus].bg, color: RANGE_COLORS[scStatus].text, padding: '1px 6px', borderRadius: 2, fontSize: 8.5, fontWeight: 700 }}>{RANGE_COLORS[scStatus].label}</span>
                           </span>
                         </div>
+                        {c.unidadesInteriores.length > 0 && (
+                          <div style={{ padding: '10px 12px', borderTop: '1px solid #eee' }}>
+                            <div style={{ fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#999', marginBottom: 6 }}>{isEN ? 'Indoor units' : 'Unidades interiores'}</div>
+                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 9 }}>
+                              <thead>
+                                <tr style={{ background: '#f2f2f2' }}>
+                                  {[isEN ? 'Name/ID' : 'Nombre/ID', 'EEV', 'Air (°C)', 'Pipe In (°C)', 'Pipe Out (°C)', 'SC/SH'].map(h => (
+                                    <th key={h} style={{ padding: '5px 8px', textAlign: 'left', fontSize: 8, color: '#888', fontWeight: 600 }}>{h}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {c.unidadesInteriores.map((u, i) => {
+                                  const diff = computeIduPipeDiff(u.pipeOut, u.pipeIn)
+                                  const status = rangeStatus(diff, IDU_PIPE_DIFF_RANGE)
+                                  return (
+                                    <tr key={u.id} style={{ background: i % 2 === 1 ? '#fafafa' : '#fff', borderBottom: '1px solid #f0f0f0' }}>
+                                      <td style={{ padding: '4px 8px' }}>{u.nombre || '—'}</td>
+                                      <td style={{ padding: '4px 8px' }}>{u.eev ?? '—'}</td>
+                                      <td style={{ padding: '4px 8px' }}>{fmtC(u.air)}</td>
+                                      <td style={{ padding: '4px 8px' }}>{fmtC(u.pipeIn)}</td>
+                                      <td style={{ padding: '4px 8px' }}>{fmtC(u.pipeOut)}</td>
+                                      <td style={{ padding: '4px 8px' }}>
+                                        {diff != null ? (
+                                          <span style={{ background: RANGE_COLORS[status].bg, color: RANGE_COLORS[status].text, padding: '1px 6px', borderRadius: 2, fontSize: 8, fontWeight: 700 }}>{diff} °C · {RANGE_COLORS[status].label}</span>
+                                        ) : '—'}
+                                      </td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                        {c.cajasHR.length > 0 && (
+                          <div style={{ padding: '10px 12px', borderTop: '1px solid #eee' }}>
+                            <div style={{ fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#999', marginBottom: 6 }}>{isEN ? 'HR boxes (Heat Recovery)' : 'Cajas HR (Heat Recovery)'}</div>
+                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 9 }}>
+                              <thead>
+                                <tr style={{ background: '#f2f2f2' }}>
+                                  {[isEN ? 'Name/ID' : 'Nombre/ID', 'EEV', 'Liquid Temp (°C)', 'Pipe Inlet (°C)', 'Pipe Out (°C)'].map(h => (
+                                    <th key={h} style={{ padding: '5px 8px', textAlign: 'left', fontSize: 8, color: '#888', fontWeight: 600 }}>{h}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {c.cajasHR.map((h, i) => (
+                                  <tr key={h.id} style={{ background: i % 2 === 1 ? '#fafafa' : '#fff', borderBottom: '1px solid #f0f0f0' }}>
+                                    <td style={{ padding: '4px 8px' }}>{h.nombre || '—'}</td>
+                                    <td style={{ padding: '4px 8px' }}>{h.eev ?? '—'}</td>
+                                    <td style={{ padding: '4px 8px' }}>{fmtC(h.liquidTemp)}</td>
+                                    <td style={{ padding: '4px 8px' }}>{fmtC(h.pipeInlet)}</td>
+                                    <td style={{ padding: '4px 8px' }}>{fmtC(h.pipeOut)}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
                         {c.fotos.length > 0 && (
-                          <div style={{ display: 'flex', gap: 6, padding: '8px 12px', flexWrap: 'wrap', borderTop: '1px solid #eee' }}>
+                          <div style={{ display: 'flex', gap: 8, padding: '10px 12px', flexWrap: 'wrap', borderTop: '1px solid #eee' }}>
                             {c.fotos.map(url => (
-                              <img key={url} src={url} alt="" style={{ width: 64, height: 64, objectFit: 'cover', border: '1px solid #eee' }} />
+                              <img key={url} src={url} alt="" style={{ width: 176, height: 176, objectFit: 'cover', border: '1px solid #eee' }} />
                             ))}
                           </div>
                         )}

@@ -50,6 +50,19 @@ export type RangeStatus = 'ok' | 'bajo' | 'alto' | 'na'
 export const SUPERHEAT_RANGE: [number, number] = [4, 12]
 export const SUBCOOL_RANGE: [number, number] = [4, 10]
 
+// SC/SH de unidad interior (Pipe Out − Pipe In, leído del tablero de la
+// unidad interior o de la herramienta de servicio del fabricante, ej. LG
+// LGMV). Estimación de campo acordada con el técnico a partir de valores
+// reales observados — no es un valor publicado por el fabricante. Ajustar
+// con la experiencia propia si se observa que no refleja bien el estado
+// real de las unidades.
+export const IDU_PIPE_DIFF_RANGE: [number, number] = [2, 8]
+
+export function computeIduPipeDiff(pipeOutC: number | null, pipeInC: number | null): number | null {
+  if (pipeOutC == null || pipeInC == null) return null
+  return round1(pipeOutC - pipeInC)
+}
+
 export function rangeStatus(value: number | null, range: [number, number]): RangeStatus {
   if (value == null) return 'na'
   if (value < range[0]) return 'bajo'
