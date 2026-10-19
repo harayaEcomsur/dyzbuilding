@@ -663,6 +663,9 @@ footer{border-top:1px solid var(--border);padding:32px 52px;display:flex;align-i
   .faq-a-inner p{padding:0 20px 18px;}
   /* push footer above tab bar */
   footer{padding-bottom:calc(28px + 56px + env(safe-area-inset-bottom,0px));}
+  /* .sp-footer (páginas sp-*) fija su propio padding — en las que además
+     tienen BottomTabBar (ej. /repuestos) hay que sumarle el mismo espacio. */
+  .sp-footer-pad-tabbar{padding-bottom:calc(22px + 56px + env(safe-area-inset-bottom,0px))!important;}
 }
 
 /* ── WHATSAPP BUTTON ─────────────────────────────────── */

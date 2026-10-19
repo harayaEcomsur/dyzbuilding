@@ -172,7 +172,13 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
         .rp-libre-item button { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 13px; padding: 12px; margin: -12px -12px -12px 0; }
         .rp-tray { position: sticky; bottom: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; background: rgba(12,12,12,.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(200,168,75,.25); margin: 32px -24px -24px; flex-wrap: wrap; }
         .rp-form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        @media (max-width: 640px) { .rp-form-grid-2 { grid-template-columns: 1fr; } .rp-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
+        @media (max-width: 640px) {
+          .rp-form-grid-2 { grid-template-columns: 1fr; }
+          .rp-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+          /* En mobile esta página tiene BottomTabBar fijo abajo (ver tab-bar
+             en globals.css) — la bandeja sticky sube para no quedar tapada. */
+          .rp-tray { bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
+        }
       `}</style>
 
       <div className="sp-section" id={lang === 'en' ? 'catalog' : 'catalogo'}>

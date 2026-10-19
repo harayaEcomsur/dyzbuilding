@@ -3,10 +3,20 @@ import Link from 'next/link'
 import Image from 'next/image'
 import RepuestosCatalogo from '@/components/RepuestosCatalogo'
 import SiteHeader from '@/components/SiteHeader'
+import BottomTabBar from '@/components/BottomTabBar'
 import { getCatalogoPublico, getMarcasPublicas } from '@/lib/catalogo-data'
 import { getSiteContent } from '@/lib/site-content'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
+
+// Same glyphs as the home page's BottomTabBar, plus "catalog" for this page.
+const TAB_ICONS = {
+  inicio: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5L12 3l9 7.5V20h-6v-5.5H9V20H3z"/></svg>,
+  catalogo: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M4 7.5L12 12l8-4.5M12 12v9"/></svg>,
+  nosotros: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>,
+  faq: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M10 9.8c0-1.2 1-2 2-2s2 .9 2 2c0 1.1-1 1.7-1.7 2.5-.3.4-.3.7-.3 1"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/></svg>,
+  contacto: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2" y="5" width="20" height="14" rx="1.5"/><path d="M2 7l10 7 10-7"/></svg>,
+}
 
 export const revalidate = 300 // catalog is managed by hand in /admin — 5 min cache is plenty
 
@@ -105,7 +115,7 @@ export default async function PartsPage() {
 
       <RepuestosCatalogo lang="en" initialItems={items} initialMarcas={marcas} />
 
-      <footer className="sp-footer">
+      <footer className="sp-footer sp-footer-pad-tabbar">
         <Link href="/en" style={{ display: 'flex', alignItems: 'center' }}>
           <Image src="/logo.png" alt="D&Z Building" width={90} height={30} style={{ objectFit: 'contain' }} />
         </Link>
@@ -113,6 +123,14 @@ export default async function PartsPage() {
           © {new Date().getFullYear()} D&Z Building SpA
         </span>
       </footer>
+
+      <BottomTabBar lang="en" tabs={[
+        { label: 'Home', href: '/en', icon: TAB_ICONS.inicio },
+        { label: 'Catalog', href: '#catalog', icon: TAB_ICONS.catalogo },
+        { label: 'About', href: '/en#nosotros', icon: TAB_ICONS.nosotros },
+        { label: 'FAQ', href: '/en#faq', icon: TAB_ICONS.faq },
+        { label: 'Contact', href: '/en#contacto', icon: TAB_ICONS.contacto, accent: true },
+      ]} />
     </div>
   )
 }
