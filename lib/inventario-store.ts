@@ -9,6 +9,10 @@ export interface InventarioItem {
   costoUnitario: number | null
   ubicacion: string
   notas: string
+  marca: string               // marca del repuesto/equipo (ej. "LG"), para el catálogo público
+  imagenes: string[]          // URLs (Vercel Blob), fotos del repuesto para el catálogo público
+  compatibilidad: string      // texto libre: equipos/modelos compatibles
+  publicado: boolean          // si aparece en el catálogo público /repuestos
   createdAt: string
   updatedAt: string
 }
@@ -41,5 +45,9 @@ export function makeDefaultItem(): Omit<InventarioItem, 'id' | 'createdAt' | 'up
     costoUnitario: null,
     ubicacion: '',
     notas: '',
+    marca: '',
+    imagenes: [],
+    compatibilidad: '',
+    publicado: false,
   }
 }

@@ -20,6 +20,7 @@ export async function GET() {
       stock_minimo   AS "stockMinimo",
       costo_unitario AS "costoUnitario",
       ubicacion, notas,
+      marca, imagenes, compatibilidad, publicado,
       created_at AS "createdAt",
       updated_at AS "updatedAt"
     FROM inventario_items
@@ -33,20 +34,26 @@ export async function POST(req: NextRequest) {
   if (!session?.role) return unauth()
   await ensureInventarioTables()
 
-  const { sku, nombre, categoria, unidad, stockMinimo, costoUnitario, ubicacion, notas } = await req.json()
+  const {
+    sku, nombre, categoria, unidad, stockMinimo, costoUnitario, ubicacion, notas,
+    marca, imagenes, compatibilidad, publicado,
+  } = await req.json()
 
   const [row] = await sql`
     INSERT INTO inventario_items
-      (id, sku, nombre, categoria, unidad, stock_actual, stock_minimo, costo_unitario, ubicacion, notas)
+      (id, sku, nombre, categoria, unidad, stock_actual, stock_minimo, costo_unitario, ubicacion, notas,
+       marca, imagenes, compatibilidad, publicado)
     VALUES
       (${makeId()}, ${sku ?? ''}, ${nombre ?? ''}, ${categoria ?? ''}, ${unidad ?? 'un'},
-       0, ${stockMinimo ?? 0}, ${costoUnitario ?? null}, ${ubicacion ?? ''}, ${notas ?? ''})
+       0, ${stockMinimo ?? 0}, ${costoUnitario ?? null}, ${ubicacion ?? ''}, ${notas ?? ''},
+       ${marca ?? ''}, ${JSON.stringify(imagenes ?? [])}, ${compatibilidad ?? ''}, ${publicado ?? false})
     RETURNING
       id, sku, nombre, categoria, unidad,
       stock_actual   AS "stockActual",
       stock_minimo   AS "stockMinimo",
       costo_unitario AS "costoUnitario",
       ubicacion, notas,
+      marca, imagenes, compatibilidad, publicado,
       created_at AS "createdAt",
       updated_at AS "updatedAt"
   `

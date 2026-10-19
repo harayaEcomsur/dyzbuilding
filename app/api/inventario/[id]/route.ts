@@ -23,6 +23,7 @@ export async function GET(
       stock_minimo   AS "stockMinimo",
       costo_unitario AS "costoUnitario",
       ubicacion, notas,
+      marca, imagenes, compatibilidad, publicado,
       created_at AS "createdAt",
       updated_at AS "updatedAt"
     FROM inventario_items
@@ -41,7 +42,10 @@ export async function PUT(
   await ensureInventarioTables()
 
   const { id } = await params
-  const { sku, nombre, categoria, unidad, stockMinimo, costoUnitario, ubicacion, notas } = await req.json()
+  const {
+    sku, nombre, categoria, unidad, stockMinimo, costoUnitario, ubicacion, notas,
+    marca, imagenes, compatibilidad, publicado,
+  } = await req.json()
 
   const rows = await sql`
     UPDATE inventario_items SET
@@ -53,6 +57,10 @@ export async function PUT(
       costo_unitario = ${costoUnitario ?? null},
       ubicacion      = ${ubicacion ?? ''},
       notas          = ${notas ?? ''},
+      marca          = ${marca ?? ''},
+      imagenes       = ${JSON.stringify(imagenes ?? [])},
+      compatibilidad = ${compatibilidad ?? ''},
+      publicado      = ${publicado ?? false},
       updated_at     = NOW()
     WHERE id = ${id}
     RETURNING
@@ -61,6 +69,7 @@ export async function PUT(
       stock_minimo   AS "stockMinimo",
       costo_unitario AS "costoUnitario",
       ubicacion, notas,
+      marca, imagenes, compatibilidad, publicado,
       created_at AS "createdAt",
       updated_at AS "updatedAt"
   `

@@ -26,8 +26,8 @@ const SERVICES_EN = [
 
 const PROPERTY_TYPES_ES = ['Oficina / Edificio', 'Hotel / Apart Hotel', 'Supermercado / Retail', 'Industria / Bodega', 'Clínica', 'Centro Comercial', 'Planta Minera / Faena', 'Agroindustria / Frigorífico', 'Data Center', 'Otro']
 const PROPERTY_TYPES_EN = ['Office / Building', 'Hotel / Apart Hotel', 'Supermarket / Retail', 'Industry / Warehouse', 'Clinic', 'Shopping Center', 'Mining Plant / Site', 'Agro-industry / Cold Storage', 'Data Center', 'Other']
-const URGENCY_ES = ['Normal (sin fecha límite)', 'En evaluación / Diseño', 'Urgente (menos de 30 días)']
-const URGENCY_EN = ['Normal (no deadline)', 'Under evaluation / Design', 'Urgent (less than 30 days)']
+export const URGENCY_ES = ['Normal (sin fecha límite)', 'En evaluación / Diseño', 'Urgente (menos de 30 días)']
+export const URGENCY_EN = ['Normal (no deadline)', 'Under evaluation / Design', 'Urgent (less than 30 days)']
 
 const CIUDADES_ES = [
   'Santiago (Región Metropolitana)', 'Valparaíso', 'Concepción / Biobío',

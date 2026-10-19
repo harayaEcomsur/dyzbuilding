@@ -37,6 +37,7 @@ export async function sendContactEmail({
   nombre, email, telefono, mensaje, tipo,
   empresa, tipo_servicio, tipo_inmueble, superficie,
   ciudad, presupuesto, urgencia, descripcion,
+  equipo, items, itemsLibres,
 }: {
   nombre: string
   email: string
@@ -51,12 +52,16 @@ export async function sendContactEmail({
   presupuesto?: string
   urgencia?: string
   descripcion?: string
+  equipo?: string
+  items?: { nombre: string; marca?: string; cantidad: number }[]
+  itemsLibres?: string[]
 }) {
   const { apiKey, from, to, cc } = getEmailConfig()
   const resend = new Resend(apiKey)
 
   const isCotizacion = tipo === 'cotizacion'
-  const tipoLabel = isCotizacion ? 'Solicitud de Cotización' : 'Contacto General'
+  const isCotizacionRepuestos = tipo === 'cotizacion_repuestos'
+  const tipoLabel = isCotizacionRepuestos ? 'Solicitud de Cotización de Repuestos' : isCotizacion ? 'Solicitud de Cotización' : 'Contacto General'
   const isUrgent = /urgente|urgent/i.test(urgencia ?? '')
   const isMajorProject = /UF 5[\.\s]?000|UF 20[\.\s]?000|major project/i.test(presupuesto ?? '')
 
@@ -79,7 +84,39 @@ export async function sendContactEmail({
       : row('Urgencia', escapeHtml(urgencia))
     : ''
 
-  const contentSection = isCotizacion && (tipo_servicio || descripcion)
+  const itemsTable = items && items.length > 0
+    ? `<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:16px;">
+        <tr style="border-bottom:1px solid rgba(200,168,75,0.25)">
+          <td style="padding:6px 0;color:#555;font-size:10px;letter-spacing:0.08em;text-transform:uppercase">Repuesto</td>
+          <td style="padding:6px 0;color:#555;font-size:10px;letter-spacing:0.08em;text-transform:uppercase">Marca</td>
+          <td style="padding:6px 0;color:#555;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;text-align:right">Cant.</td>
+        </tr>
+        ${items.map(it => `<tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:8px 0;color:#f0eeeb">${escapeHtml(it.nombre)}</td>
+          <td style="padding:8px 0;color:#999">${it.marca ? escapeHtml(it.marca) : '—'}</td>
+          <td style="padding:8px 0;color:#f0eeeb;text-align:right">${it.cantidad}</td>
+        </tr>`).join('')}
+      </table>`
+    : ''
+
+  const itemsLibresSection = itemsLibres && itemsLibres.length > 0
+    ? `<div style="margin-top:16px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);">
+        <p style="margin:0 0 8px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#555">Repuestos no listados en el catálogo</p>
+        <ul style="margin:0;padding-left:18px;color:#ccc;font-size:13px;line-height:1.8;">
+          ${itemsLibres.map(i => `<li>${escapeHtml(i)}</li>`).join('')}
+        </ul>
+      </div>`
+    : ''
+
+  const contentSection = isCotizacionRepuestos
+    ? `<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:16px;">
+        ${empresa ? row('Empresa', escapeHtml(empresa)) : ''}
+        ${equipo ? row('Equipo', escapeHtml(equipo), true) : ''}
+        ${urgencyRow}
+      </table>
+      ${itemsTable}
+      ${itemsLibresSection}`
+    : isCotizacion && (tipo_servicio || descripcion)
     ? `<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:16px;">
         ${empresa ? row('Empresa', escapeHtml(empresa)) : ''}
         ${tipo_servicio ? row('Servicio', escapeHtml(tipo_servicio), true) : ''}
@@ -102,7 +139,7 @@ export async function sendContactEmail({
     to,
     cc: cc !== to ? cc : undefined,
     replyTo: email,
-    subject: `[D&Z Building] ${isCotizacion ? `Solicitud de cotización${isUrgent ? ' ⚠ URGENTE' : ''}${isMajorProject ? ' 🏗 PROYECTO MAYOR' : ''}` : 'Contacto'} — ${nombre}`,
+    subject: `[D&Z Building] ${isCotizacionRepuestos ? `Solicitud de cotización de repuestos${isUrgent ? ' ⚠ URGENTE' : ''}` : isCotizacion ? `Solicitud de cotización${isUrgent ? ' ⚠ URGENTE' : ''}${isMajorProject ? ' 🏗 PROYECTO MAYOR' : ''}` : 'Contacto'} — ${nombre}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:32px;background:#0c0c0c;color:#f0eeeb;">
         <div style="border-bottom:1px solid rgba(200,168,75,0.3);padding-bottom:20px;margin-bottom:24px;">
@@ -110,7 +147,7 @@ export async function sendContactEmail({
             D&amp;Z BUILDING
           </h2>
           <p style="font-size:11px;color:#666;letter-spacing:0.08em;margin:4px 0 0;">
-            ${isCotizacion ? 'SOLICITUD DE COTIZACIÓN' : 'MENSAJE DE CONTACTO'}
+            ${isCotizacionRepuestos ? 'SOLICITUD DE COTIZACIÓN DE REPUESTOS' : isCotizacion ? 'SOLICITUD DE COTIZACIÓN' : 'MENSAJE DE CONTACTO'}
           </p>
         </div>
         <table style="width:100%;border-collapse:collapse;font-size:13px;">
@@ -155,7 +192,7 @@ export async function sendAutoReplyEmail({
   const { apiKey, from } = getEmailConfig()
   const resend = new Resend(apiKey)
 
-  const isCot = tipo === 'cotizacion'
+  const isCot = tipo === 'cotizacion' || tipo === 'cotizacion_repuestos'
   const safeNombre = escapeHtml(nombre.split(' ')[0] ?? nombre)
   const safeService = tipo_servicio ? escapeHtml(tipo_servicio) : ''
   const safeCiudad = ciudad ? escapeHtml(ciudad) : ''

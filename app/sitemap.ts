@@ -658,6 +658,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
+      url: `${siteUrl}/repuestos/`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+      alternates: {
+        languages: {
+          es: `${siteUrl}/repuestos/`,
+          en: `${siteUrl}/en/parts/`,
+        },
+      },
+    },
+    {
+      url: `${siteUrl}/en/parts/`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+      alternates: {
+        languages: {
+          es: `${siteUrl}/repuestos/`,
+          en: `${siteUrl}/en/parts/`,
+        },
+      },
+    },
+    {
       url: `${siteUrl}/servicios/`,
       lastModified: now,
       changeFrequency: 'monthly' as const,

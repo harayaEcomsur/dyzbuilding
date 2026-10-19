@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import Script from 'next/script'
 import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
@@ -71,7 +72,7 @@ const TAB_ICONS = {
 const UI = {
   es: {
     navInicio: 'Inicio',
-    navServicios: 'Especialidades', navNosotros: 'Nosotros', navFaq: 'Preguntas', navContacto: 'Contacto',
+    navServicios: 'Especialidades', navNosotros: 'Nosotros', navFaq: 'Preguntas', navContacto: 'Contacto', navRepuestos: 'Repuestos',
     navCta: 'Solicitar Cotización', marcasLabel: 'Solicitud de repuestos', quienesSomos: 'Quiénes somos',
     whatsapp: 'WhatsApp', horario: 'Horario', horarioValue: 'Lunes a viernes, 8:30 – 18:00',
     heroBtn1: 'Nuestras especialidades', heroBtn2: 'Solicitar cotización', svcCta: 'Cotizar →',
@@ -375,6 +376,7 @@ export default async function Home() {
         </a>
         <ul className="nav-links">
           <li><a href="#servicios">{t.navServicios}</a></li>
+          <li><Link href="/repuestos">{t.navRepuestos}</Link></li>
           <li><a href="#nosotros">{t.navNosotros}</a></li>
           <li><a href="#faq">{t.navFaq}</a></li>
           <li><a href="#contacto">{t.navContacto}</a></li>
@@ -390,6 +392,7 @@ export default async function Home() {
             lang="es"
             links={[
               { label: t.navServicios, href: '#servicios' },
+              { label: t.navRepuestos, href: '/repuestos' },
               { label: t.navNosotros, href: '#nosotros' },
               { label: t.navFaq,      href: '#faq' },
               { label: t.navContacto, href: '#contacto' },
@@ -516,6 +519,7 @@ export default async function Home() {
             <span className="ventaja-tag">REPUESTOS</span>
             <h3>Solicitud de repuestos LG, Samsung y Gree</h3>
             <p>Gestionamos la solicitud y despacho de repuestos originales para LG, Samsung y Gree, con soporte técnico postventa certificado por las marcas líderes del mercado.</p>
+            <Link href="/repuestos" className="svc-cta">Ver catálogo de repuestos →</Link>
           </div>
           <div className="ventaja">
             <span className="ventaja-tag">B2B</span>

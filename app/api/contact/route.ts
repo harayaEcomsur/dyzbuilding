@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
       nombre, email, telefono, mensaje, tipo, lang, website,
       empresa, tipo_servicio, tipo_inmueble, superficie,
       ciudad, presupuesto, urgencia, descripcion,
+      equipo, items, itemsLibres,
     } = body
 
     // Honeypot: bots fill hidden 'website' field; silently accept to avoid revealing detection
@@ -17,8 +18,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Campos requeridos faltantes' }, { status: 400 })
     }
 
-    // For cotizacion, require at least a description; for contacto, require mensaje
-    if (tipo === 'cotizacion' ? !descripcion && !mensaje : !mensaje) {
+    if (tipo === 'cotizacion_repuestos') {
+      // Requiere al menos un ítem seleccionado del catálogo o un ítem libre
+      if ((!Array.isArray(items) || items.length === 0) && (!Array.isArray(itemsLibres) || itemsLibres.length === 0)) {
+        return NextResponse.json({ error: 'Selecciona al menos un repuesto o agrega uno' }, { status: 400 })
+      }
+    } else if (tipo === 'cotizacion' ? !descripcion && !mensaje : !mensaje) {
+      // For cotizacion, require at least a description; for contacto, require mensaje
       return NextResponse.json({ error: 'Campos requeridos faltantes' }, { status: 400 })
     }
 
@@ -29,6 +35,7 @@ export async function POST(req: NextRequest) {
       tipo: tipo ?? 'contacto',
       empresa, tipo_servicio, tipo_inmueble, superficie,
       ciudad, presupuesto, urgencia, descripcion,
+      equipo, items, itemsLibres,
     })
 
     // Auto-reply al lead — no bloquea la respuesta al usuario si falla

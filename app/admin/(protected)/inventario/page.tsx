@@ -9,7 +9,7 @@ import { EditIcon, TrashIcon, PlusIcon } from '@/components/DocIcons'
 const UNIDADES = ['un', 'kg', 'm', 'm2', 'm3', 'lt', 'gl.', 'caja', 'par']
 
 function emptyForm() {
-  return { sku: '', nombre: '', categoria: '', unidad: 'un', stockMinimo: '0', costoUnitario: '', ubicacion: '', notas: '' }
+  return { sku: '', nombre: '', categoria: '', unidad: 'un', stockMinimo: '0', costoUnitario: '', ubicacion: '', notas: '', marca: '', compatibilidad: '' }
 }
 
 export default function InventarioPage() {
@@ -41,6 +41,10 @@ export default function InventarioPage() {
         costoUnitario: form.costoUnitario ? parseFloat(form.costoUnitario) : null,
         ubicacion: form.ubicacion.trim(),
         notas: form.notas.trim(),
+        marca: form.marca.trim(),
+        compatibilidad: form.compatibilidad.trim(),
+        imagenes: [],
+        publicado: false,
       })
       setItems(prev => [...prev, created].sort((a, b) => a.nombre.localeCompare(b.nombre)))
       setForm(emptyForm())
@@ -106,6 +110,7 @@ export default function InventarioPage() {
               <div className="field"><label>Nombre</label><input value={form.nombre} onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} placeholder="Ej. Compresor Rotativo LG 5HP" /></div>
               <div className="field"><label>SKU</label><input value={form.sku} onChange={e => setForm(f => ({ ...f, sku: e.target.value }))} /></div>
               <div className="field"><label>Categoría</label><input value={form.categoria} onChange={e => setForm(f => ({ ...f, categoria: e.target.value }))} placeholder="Repuestos, Insumos…" /></div>
+              <div className="field"><label>Marca</label><input value={form.marca} onChange={e => setForm(f => ({ ...f, marca: e.target.value }))} placeholder="LG, Samsung, Gree…" /></div>
               <div className="field"><label>Unidad</label>
                 <select value={form.unidad} onChange={e => setForm(f => ({ ...f, unidad: e.target.value }))}>
                   {UNIDADES.map(u => <option key={u} value={u}>{u}</option>)}
@@ -115,6 +120,7 @@ export default function InventarioPage() {
               <div className="field"><label>Costo unitario (opcional)</label><input type="number" value={form.costoUnitario} onChange={e => setForm(f => ({ ...f, costoUnitario: e.target.value }))} /></div>
               <div className="field"><label>Ubicación</label><input value={form.ubicacion} onChange={e => setForm(f => ({ ...f, ubicacion: e.target.value }))} placeholder="Bodega, estante…" /></div>
               <div className="field"><label>Notas</label><input value={form.notas} onChange={e => setForm(f => ({ ...f, notas: e.target.value }))} /></div>
+              <div className="field" style={{ gridColumn: 'span 2' }}><label>Compatibilidad (equipos)</label><input value={form.compatibilidad} onChange={e => setForm(f => ({ ...f, compatibilidad: e.target.value }))} placeholder="Ej. LG Multi V 5, Multi V S" /></div>
             </div>
             <div>
               <button className="btn-primary" disabled={!form.nombre.trim() || saving} onClick={() => void handleCreate()}>
@@ -150,8 +156,10 @@ export default function InventarioPage() {
                     <th>Nombre</th>
                     <th>SKU</th>
                     <th className="col-categoria">Categoría</th>
+                    <th className="col-categoria">Marca</th>
                     <th>Stock</th>
                     <th className="col-ubicacion">Ubicación</th>
+                    <th>Sitio</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -164,11 +172,15 @@ export default function InventarioPage() {
                         <td style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 12.5, letterSpacing: '0.03em', color: 'var(--text)' }}>{item.nombre || '—'}</td>
                         <td style={{ color: 'var(--dim)', fontSize: 12 }}>{item.sku || '—'}</td>
                         <td className="col-categoria" style={{ color: 'var(--dim)', fontSize: 12 }}>{item.categoria || '—'}</td>
+                        <td className="col-categoria" style={{ color: 'var(--dim)', fontSize: 12 }}>{item.marca || '—'}</td>
                         <td className={low ? 'inv-stock-out' : warn ? 'inv-stock-low' : undefined} style={{ fontSize: 13 }}>
                           {item.stockActual} {item.unidad}
                           {(low || warn) && <span style={{ fontSize: 10, marginLeft: 6, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{low ? 'sin stock' : 'stock bajo'}</span>}
                         </td>
                         <td className="col-ubicacion" style={{ color: 'rgba(255,255,255,.3)', fontSize: 11 }}>{item.ubicacion || '—'}</td>
+                        <td>
+                          <span className={`badge badge-${item.publicado ? 'emitida' : 'borrador'}`}>{item.publicado ? 'Publicado' : 'Oculto'}</span>
+                        </td>
                         <td>
                           <div className="admin-doc-actions">
                             <Link href={`/admin/inventario/${item.id}`} className="doc-btn">

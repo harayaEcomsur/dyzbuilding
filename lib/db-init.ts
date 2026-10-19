@@ -45,6 +45,13 @@ export function ensureInventarioTables() {
         updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
     `
+      // Campos del catálogo público (agregados después de la tabla original) —
+      // ADD COLUMN IF NOT EXISTS es idempotente, mismo criterio que el resto
+      // de este archivo: no hay sistema de migraciones en el proyecto.
+      .then(() => sql`ALTER TABLE inventario_items ADD COLUMN IF NOT EXISTS marca TEXT NOT NULL DEFAULT ''`)
+      .then(() => sql`ALTER TABLE inventario_items ADD COLUMN IF NOT EXISTS imagenes JSONB NOT NULL DEFAULT '[]'::jsonb`)
+      .then(() => sql`ALTER TABLE inventario_items ADD COLUMN IF NOT EXISTS compatibilidad TEXT NOT NULL DEFAULT ''`)
+      .then(() => sql`ALTER TABLE inventario_items ADD COLUMN IF NOT EXISTS publicado BOOLEAN NOT NULL DEFAULT false`)
       .then(() => sql`
         CREATE TABLE IF NOT EXISTS inventario_movimientos (
           id                TEXT PRIMARY KEY,
@@ -81,4 +88,21 @@ export function ensureGuiasDespachoTable() {
     `
   }
   return guiasDespachoEnsured
+}
+
+let marcasEnsured: Promise<unknown> | null = null
+
+export function ensureMarcasTable() {
+  if (!marcasEnsured) {
+    marcasEnsured = sql`
+      CREATE TABLE IF NOT EXISTS marcas (
+        id          TEXT PRIMARY KEY,
+        nombre      TEXT NOT NULL DEFAULT '',
+        logo_url    TEXT NOT NULL DEFAULT '',
+        orden       INTEGER NOT NULL DEFAULT 0,
+        created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `
+  }
+  return marcasEnsured
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import Script from 'next/script'
 import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
@@ -72,7 +73,7 @@ const TAB_ICONS_EN = {
 
 const t = {
   navInicio: 'Home',
-  navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact',
+  navServicios: 'Specialties', navNosotros: 'About', navFaq: 'FAQ', navContacto: 'Contact', navRepuestos: 'Parts',
   navCta: 'Request a Quote', marcasLabel: 'Parts Request', quienesSomos: 'Who we are',
   whatsapp: 'WhatsApp', horario: 'Hours', horarioValue: 'Monday – Friday, 8:30 – 18:00',
   heroBtn1: 'Our specialties', heroBtn2: 'Request a quote', svcCta: 'Get a quote →',
@@ -364,6 +365,7 @@ export default async function HomeEN() {
         </a>
         <ul className="nav-links">
           <li><a href="#servicios">{t.navServicios}</a></li>
+          <li><Link href="/en/parts">{t.navRepuestos}</Link></li>
           <li><a href="#nosotros">{t.navNosotros}</a></li>
           <li><a href="#faq">{t.navFaq}</a></li>
           <li><a href="#contacto">{t.navContacto}</a></li>
@@ -379,6 +381,7 @@ export default async function HomeEN() {
             lang="en"
             links={[
               { label: t.navServicios, href: '#servicios' },
+              { label: t.navRepuestos, href: '/en/parts' },
               { label: t.navNosotros, href: '#nosotros' },
               { label: t.navFaq,      href: '#faq' },
               { label: t.navContacto, href: '#contacto' },
@@ -501,6 +504,7 @@ export default async function HomeEN() {
             <span className="ventaja-tag">PARTS</span>
             <h3>LG, Samsung &amp; Gree parts request</h3>
             <p>We manage parts requests and dispatch for LG, Samsung and Gree, with certified after-sales technical support from the market-leading brands.</p>
+            <Link href="/en/parts" className="svc-cta">View parts catalog →</Link>
           </div>
           <div className="ventaja">
             <span className="ventaja-tag">B2B</span>

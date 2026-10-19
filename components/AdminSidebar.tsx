@@ -84,6 +84,7 @@ const groups: { label: string; items: NavItem[] }[] = [
     label: 'Inventario',
     items: [
       { label: 'Stock e Inventario', href: '/admin/inventario' },
+      { label: 'Marcas', href: '/admin/marcas' },
     ],
   },
   {

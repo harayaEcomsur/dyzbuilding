@@ -8,6 +8,10 @@ import {
   apiFetchInventarioItem, apiUpdateInventarioItem,
   apiFetchMovimientos, apiRegistrarMovimiento,
 } from '@/lib/inventario-api'
+import { Marca } from '@/lib/marcas-store'
+import { apiFetchMarcas } from '@/lib/marcas-api'
+import { apiUploadFoto } from '@/lib/sistemas-api'
+import FileUploadButton from '@/components/FileUploadButton'
 
 const UNIDADES = ['un', 'kg', 'm', 'm2', 'm3', 'lt', 'gl.', 'caja', 'par']
 const TIPO_LABEL: Record<MovimientoTipo, string> = { ingreso: 'Ingreso', salida: 'Salida', ajuste: 'Ajuste' }
@@ -31,6 +35,8 @@ export default function InventarioItemPage() {
   const [movCantidad, setMovCantidad] = useState('')
   const [movMotivo, setMovMotivo] = useState('')
   const [registrando, setRegistrando] = useState(false)
+  const [marcas, setMarcas] = useState<Marca[]>([])
+  const [uploadingFoto, setUploadingFoto] = useState(false)
 
   const load = useCallback(async () => {
     try {
@@ -42,6 +48,7 @@ export default function InventarioItemPage() {
   }, [id])
 
   useEffect(() => { void load() }, [load])
+  useEffect(() => { apiFetchMarcas().then(setMarcas).catch(() => {}) }, [])
 
   function set(patch: Partial<InventarioItem>) {
     setItem(prev => prev ? { ...prev, ...patch } : prev)
@@ -56,12 +63,33 @@ export default function InventarioItemPage() {
         sku: item.sku, nombre: item.nombre, categoria: item.categoria, unidad: item.unidad,
         stockMinimo: item.stockMinimo, costoUnitario: item.costoUnitario,
         ubicacion: item.ubicacion, notas: item.notas,
+        marca: item.marca, imagenes: item.imagenes, compatibilidad: item.compatibilidad, publicado: item.publicado,
       })
       setItem(updated)
       setSaveStatus('saved')
     } catch {
       setSaveStatus('error')
     }
+  }
+
+  async function handleFotosUpload(files: FileList) {
+    if (!item) return
+    setUploadingFoto(true)
+    try {
+      const urls: string[] = []
+      for (const file of Array.from(files)) {
+        urls.push(await apiUploadFoto(file, 'inventario/fotos', { maxDimension: 1600, quality: 0.85 }))
+      }
+      set({ imagenes: [...item.imagenes, ...urls] })
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Error al subir fotos')
+    } finally {
+      setUploadingFoto(false)
+    }
+  }
+  function removeFoto(url: string) {
+    if (!item) return
+    set({ imagenes: item.imagenes.filter(f => f !== url) })
   }
 
   async function handleRegistrarMovimiento() {
@@ -112,6 +140,10 @@ export default function InventarioItemPage() {
         .invd-mov-table { width: 100%; border-collapse: collapse; }
         .invd-mov-table th { font-family: Josefin Sans, sans-serif; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); font-weight: 400; padding: 0 10px 8px; text-align: left; border-bottom: 1px solid var(--border); }
         .invd-mov-table td { padding: 10px; font-size: 13.5px; border-bottom: 1px solid var(--border); }
+        .invd-fotos { display: flex; flex-wrap: wrap; gap: 8px; }
+        .invd-foto-thumb { position: relative; width: 84px; height: 84px; border: 1px solid var(--border); overflow: hidden; }
+        .invd-foto-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .invd-foto-remove { position: absolute; top: 0; right: 0; background: rgba(0,0,0,.7); color: #fff; border: none; width: 18px; height: 18px; font-size: 12px; line-height: 1; cursor: pointer; }
         @media (max-width: 700px) { .invd-grid { grid-template-columns: 1fr 1fr; } .invd-wrap { padding: 20px 18px; } }
       `}</style>
 
@@ -146,6 +178,49 @@ export default function InventarioItemPage() {
             <div className="field"><label>Ubicación</label><input value={item.ubicacion} onChange={e => set({ ubicacion: e.target.value })} /></div>
             <div className="field" style={{ gridColumn: 'span 2' }}><label>Notas</label><input value={item.notas} onChange={e => set({ notas: e.target.value })} /></div>
           </div>
+          <div style={{ marginTop: 14 }}>
+            <button className="btn-primary" onClick={() => void handleSave()}>Guardar cambios</button>
+          </div>
+        </section>
+
+        {/* Catálogo público */}
+        <section>
+          <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 14 }}>Catálogo Público (/repuestos)</div>
+          <div className="invd-grid">
+            <div className="field"><label>Marca</label>
+              <select value={item.marca} onChange={e => set({ marca: e.target.value })}>
+                <option value="">— Sin marca —</option>
+                {marcas.map(m => <option key={m.id} value={m.nombre}>{m.nombre}</option>)}
+              </select>
+            </div>
+            <div className="field" style={{ gridColumn: 'span 2' }}><label>Compatibilidad (equipos)</label><input value={item.compatibilidad} onChange={e => set({ compatibilidad: e.target.value })} placeholder="Ej. LG Multi V 5, Multi V S — todas las capacidades" /></div>
+          </div>
+          <div className="field" style={{ marginTop: 12 }}>
+            <label>Fotos</label>
+            <div className="invd-fotos" style={{ marginBottom: 8 }}>
+              {item.imagenes.map(url => (
+                <div key={url} className="invd-foto-thumb">
+                  <img src={url} alt="" />
+                  <button className="invd-foto-remove" onClick={() => removeFoto(url)}>×</button>
+                </div>
+              ))}
+            </div>
+            <FileUploadButton
+              label={item.imagenes.length ? 'Agregar más fotos' : 'Subir fotos'}
+              busyLabel="Subiendo fotos…"
+              busy={uploadingFoto}
+              accept="image/*"
+              multiple
+              onFiles={files => void handleFotosUpload(files)}
+            />
+          </div>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginTop: 14 }}>
+            <input type="checkbox" checked={item.publicado} onChange={e => set({ publicado: e.target.checked })} style={{ width: 'auto' }} />
+            <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text)' }}>Publicar en el sitio</span>
+          </label>
+          {item.publicado && !item.marca && (
+            <p style={{ fontSize: 11.5, color: '#e0a95c', marginTop: 8 }}>Sin marca asignada — se mostrará en &quot;Otros&quot; en el catálogo.</p>
+          )}
           <div style={{ marginTop: 14 }}>
             <button className="btn-primary" onClick={() => void handleSave()}>Guardar cambios</button>
           </div>

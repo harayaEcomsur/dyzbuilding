@@ -13,6 +13,10 @@ function rowToItem(r: any): InventarioItem {
     costoUnitario: (r.costoUnitario ?? r.costo_unitario) != null ? parseFloat(r.costoUnitario ?? r.costo_unitario) : null,
     ubicacion: r.ubicacion ?? '',
     notas: r.notas ?? '',
+    marca: r.marca ?? '',
+    imagenes: Array.isArray(r.imagenes) ? r.imagenes : [],
+    compatibilidad: r.compatibilidad ?? '',
+    publicado: r.publicado ?? false,
     createdAt: r.createdAt ?? (r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at)),
     updatedAt: r.updatedAt ?? (r.updated_at instanceof Date ? r.updated_at.toISOString() : String(r.updated_at)),
   }
