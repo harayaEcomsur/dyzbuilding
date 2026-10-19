@@ -81,13 +81,16 @@ export default async function RepuestosPage() {
         />
       )}
 
-      <nav className="sp-topnav">
-        <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
-          <Image src="/logo.png" alt="D&Z Building" width={110} height={36} style={{ objectFit: 'contain' }} priority />
+      <nav className="sp-topnav" role="navigation" aria-label="Navegación principal">
+        <Link href="/" className="sp-topnav-logo">
+          <Image src="/logo.png" alt="D&Z Building — Repuestos" width={120} height={44} priority />
         </Link>
-        <Link href="/#contacto" className="sp-hero-cta" style={{ fontSize: '11px' }}>
-          Solicitar cotización
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <Link href="/#servicios" className="sp-topnav-link">Ver servicios</Link>
+          <Link href="#catalogo" className="nav-cta" data-ga-event="cta_clicked" data-ga-location="sp_nav" data-ga-lang="es">
+            Ver catálogo
+          </Link>
+        </div>
       </nav>
 
       <div className="sp-hero">

@@ -174,7 +174,7 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
         @media (max-width: 640px) { .rp-form-grid-2 { grid-template-columns: 1fr; } .rp-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
       `}</style>
 
-      <div className="sp-section">
+      <div className="sp-section" id={lang === 'en' ? 'catalog' : 'catalogo'}>
         {loading ? (
           <p style={{ color: 'var(--dim)', textAlign: 'center', padding: '48px 0' }}>{t.loading}</p>
         ) : (
