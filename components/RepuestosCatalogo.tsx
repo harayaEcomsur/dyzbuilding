@@ -164,8 +164,9 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
         .rp-card-btn { flex: 1; font-family: 'Josefin Sans', sans-serif; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; min-height: 44px; padding: 0 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; transition: all .18s; }
         .rp-card-btn.active { border-color: rgba(200,168,75,.5); color: var(--accent); background: rgba(200,168,75,.06); }
         .rp-card-qty { width: 52px; min-height: 44px; background: rgba(255,255,255,.04); border: 1px solid var(--border); color: var(--text); padding: 0 6px; font-size: 13px; text-align: center; }
-        .rp-libre-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-        .rp-libre-row input { flex: 1; min-width: 220px; }
+        .rp-libre-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+        .rp-libre-fg { flex: 1; min-width: 220px; margin-bottom: 0; }
+        .rp-libre-btn { flex-shrink: 0; min-height: 44px; }
         .rp-libre-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
         .rp-libre-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,.03); border: 1px solid var(--border); font-size: 13px; color: var(--text); }
         .rp-libre-item button { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 13px; padding: 12px; margin: -12px -12px -12px 0; }
@@ -241,8 +242,17 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
           <h3 style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: 'clamp(18px,2vw,24px)', fontWeight: 300, margin: '0 0 8px' }}>{t.notFoundTitle}</h3>
           <p style={{ color: 'var(--dim)', fontSize: 14, margin: '0 0 4px' }}>{t.notFoundDesc}</p>
           <div className="rp-libre-row">
-            <input value={libreInput} onChange={e => setLibreInput(e.target.value)} placeholder={t.notFoundPlaceholder} onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addLibre() } }} />
-            <button type="button" className="sp-hero-cta-outline" onClick={addLibre} disabled={!libreInput.trim()}>{t.notFoundAdd}</button>
+            <div className="fg rp-libre-fg">
+              <label htmlFor="rp-libre-input" className="sr-only">{t.notFoundPlaceholder}</label>
+              <input
+                id="rp-libre-input"
+                value={libreInput}
+                onChange={e => setLibreInput(e.target.value)}
+                placeholder={t.notFoundPlaceholder}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addLibre() } }}
+              />
+            </div>
+            <button type="button" className="sp-hero-cta sp-hero-cta-outline rp-libre-btn" onClick={addLibre} disabled={!libreInput.trim()}>{t.notFoundAdd}</button>
           </div>
           {itemsLibres.length > 0 && (
             <div className="rp-libre-list">
