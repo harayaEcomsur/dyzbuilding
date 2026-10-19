@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import RepuestosCatalogo from '@/components/RepuestosCatalogo'
+import SiteHeader from '@/components/SiteHeader'
 import { getCatalogoPublico, getMarcasPublicas } from '@/lib/catalogo-data'
+import { getSiteContent } from '@/lib/site-content'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
 
@@ -37,7 +39,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RepuestosPage() {
-  const [items, marcas] = await Promise.all([getCatalogoPublico(), getMarcasPublicas()])
+  const [items, marcas, c] = await Promise.all([getCatalogoPublico(), getMarcasPublicas(), getSiteContent()])
+  const waDigits = c.empresa.telefono.replace(/\D/g, '')
+  const waNumber = waDigits.startsWith('56') ? waDigits : `56${waDigits}`
+  const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hola, me interesa cotizar repuestos para mi equipo.')}`
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -72,7 +77,7 @@ export default async function RepuestosPage() {
   }
 
   return (
-    <div className="sp-wrap">
+    <div className="sp-wrap sp-wrap-fixed-nav">
       {items.length > 0 && (
         <script
           type="application/ld+json"
@@ -81,17 +86,8 @@ export default async function RepuestosPage() {
         />
       )}
 
-      <nav className="sp-topnav" role="navigation" aria-label="Navegación principal">
-        <Link href="/" className="sp-topnav-logo">
-          <Image src="/logo.png" alt="D&Z Building — Repuestos" width={120} height={44} priority />
-        </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-          <Link href="/#servicios" className="sp-topnav-link">Ver servicios</Link>
-          <Link href="#catalogo" className="nav-cta" data-ga-event="cta_clicked" data-ga-location="sp_nav" data-ga-lang="es">
-            Ver catálogo
-          </Link>
-        </div>
-      </nav>
+      <a href="#catalogo" className="skip-link">Saltar al contenido</a>
+      <SiteHeader lang="es" empresaNombre={c.empresa.nombre} telefono={c.empresa.telefono} waUrl={waUrl} />
 
       <div className="sp-hero">
         <div className="sp-breadcrumb">

@@ -5,8 +5,7 @@ import Link from 'next/link'
 import Script from 'next/script'
 import ContactForm from '@/components/ContactForm'
 import HeroCanvas from '@/components/HeroCanvas'
-import LangSwitcher from '@/components/LangSwitcher'
-import MobileMenu from '@/components/MobileMenu'
+import SiteHeader from '@/components/SiteHeader'
 import BottomTabBar from '@/components/BottomTabBar'
 import RevealSection from '@/components/RevealSection'
 import CountUp from '@/components/CountUp'
@@ -370,38 +369,7 @@ export default async function Home() {
         }
       `}</Script>
       <a href="#inicio" className="skip-link">Saltar al contenido</a>
-      <nav>
-        <a className="nav-logo" href="#inicio">
-          <Image src="/logo.png" alt={c.empresa.nombre} width={650} height={300} priority style={{ height: 44, width: 'auto' }} />
-        </a>
-        <ul className="nav-links">
-          <li><a href="#servicios">{t.navServicios}</a></li>
-          <li><Link href="/repuestos">{t.navRepuestos}</Link></li>
-          <li><a href="#nosotros">{t.navNosotros}</a></li>
-          <li><a href="#faq">{t.navFaq}</a></li>
-          <li><a href="#contacto">{t.navContacto}</a></li>
-        </ul>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <a className="nav-tel" href={`tel:${c.empresa.telefono}`} data-ga-event="phone_clicked" data-ga-location="nav" data-ga-lang="es" aria-label={`Llamar a ${c.empresa.telefono}`}>
-            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><path d="M1.5 1.5h2l1 2-1.5 1.5a8.5 8.5 0 003.5 3.5L8 7l2 1v2a1 1 0 01-1 1A11 11 0 01.5 2.5a1 1 0 011-1z"/></svg>
-            {c.empresa.telefono}
-          </a>
-          <LangSwitcher lang="es" />
-          <a className="nav-cta" href="#contacto" data-ga-event="cta_clicked" data-ga-location="nav" data-ga-label={t.navCta} data-ga-lang="es">{t.navCta}</a>
-          <MobileMenu
-            lang="es"
-            links={[
-              { label: t.navServicios, href: '#servicios' },
-              { label: t.navRepuestos, href: '/repuestos' },
-              { label: t.navNosotros, href: '#nosotros' },
-              { label: t.navFaq,      href: '#faq' },
-              { label: t.navContacto, href: '#contacto' },
-            ]}
-            cta={{ label: t.navCta, href: '#contacto' }}
-            quickContact={{ waUrl, waLabel: 'WhatsApp', phoneUrl: `tel:${c.empresa.telefono}`, phoneLabel: 'Llamar' }}
-          />
-        </div>
-      </nav>
+      <SiteHeader lang="es" empresaNombre={c.empresa.nombre} telefono={c.empresa.telefono} waUrl={waUrl} />
 
       <main>
       {/* HERO */}

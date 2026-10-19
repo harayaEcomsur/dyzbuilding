@@ -1,8 +1,8 @@
 'use client'
 import { useCallback } from 'react'
 
-export default function LangSwitcher({ lang }: { lang: 'es' | 'en' }) {
-  const targetUrl = lang === 'es' ? '/en/' : '/'
+export default function LangSwitcher({ lang, altHref }: { lang: 'es' | 'en'; altHref?: string }) {
+  const targetUrl = altHref ?? (lang === 'es' ? '/en/' : '/')
 
   const handleClick = useCallback(() => {
     const w = window as unknown as { gtag?: (...args: unknown[]) => void }
