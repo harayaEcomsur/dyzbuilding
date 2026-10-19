@@ -1,8 +1,11 @@
 'use client'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import LangSwitcher from './LangSwitcher'
 import MobileMenu from './MobileMenu'
+
+const SECTION_IDS = ['servicios', 'nosotros', 'faq', 'contacto']
 
 // Header único, usado tal cual en el home y en /repuestos (y su espejo en
 // inglés) — mismo componente, mismas clases CSS (nav, nav-logo, nav-links,
@@ -38,14 +41,41 @@ export default function SiteHeader({ lang, empresaNombre, telefono, waUrl }: Sit
   const home = lang === 'en' ? '/en' : '/'
   const repuestosHref = lang === 'en' ? '/en/parts' : '/repuestos'
   const isRepuestos = pathname.startsWith('/repuestos') || pathname.startsWith('/en/parts')
+  const isHome = pathname === home
+  const [activeId, setActiveId] = useState<string>('')
+
+  // Scroll-spy: resalta en el nav la sección del home que está a la vista.
+  // Solo corre estando en el home (en /repuestos esos ids no existen).
+  // Banda angosta cerca de la parte superior del viewport en vez de un
+  // listener de scroll crudo — se activa solo al cruzar el umbral, no en
+  // cada frame.
+  useEffect(() => {
+    if (!isHome) { setActiveId(''); return }
+    const els = SECTION_IDS.map(id => document.getElementById(id)).filter((el): el is HTMLElement => !!el)
+    if (els.length === 0) return
+    const observer = new IntersectionObserver(
+      entries => {
+        const hit = entries.find(e => e.isIntersecting)
+        if (hit) setActiveId(hit.target.id)
+      },
+      { rootMargin: '-35% 0px -60% 0px', threshold: 0 }
+    )
+    els.forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [isHome])
 
   const links = [
-    { label: t.navServicios, href: `${home}#servicios` },
-    { label: t.navRepuestos, href: repuestosHref },
-    { label: t.navNosotros, href: `${home}#nosotros` },
-    { label: t.navFaq, href: `${home}#faq` },
-    { label: t.navContacto, href: `${home}#contacto` },
+    { label: t.navServicios, href: `${home}#servicios`, id: 'servicios' },
+    { label: t.navRepuestos, href: repuestosHref, id: null },
+    { label: t.navNosotros, href: `${home}#nosotros`, id: 'nosotros' },
+    { label: t.navFaq, href: `${home}#faq`, id: 'faq' },
+    { label: t.navContacto, href: `${home}#contacto`, id: 'contacto' },
   ]
+
+  function isActive(link: { href: string; id: string | null }) {
+    if (link.href === repuestosHref) return isRepuestos
+    return isHome && link.id === activeId
+  }
 
   return (
     <nav>
@@ -55,7 +85,7 @@ export default function SiteHeader({ lang, empresaNombre, telefono, waUrl }: Sit
       <ul className="nav-links">
         {links.map(link => (
           <li key={link.href}>
-            <a href={link.href} aria-current={isRepuestos && link.href === repuestosHref ? 'page' : undefined}>
+            <a href={link.href} className={isActive(link) ? 'active' : undefined} aria-current={isActive(link) ? 'page' : undefined}>
               {link.label}
             </a>
           </li>
