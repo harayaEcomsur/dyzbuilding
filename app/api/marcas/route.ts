@@ -3,6 +3,7 @@ import { sql } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { ensureMarcasTable } from '@/lib/db-init'
 import { makeId } from '@/lib/marcas-store'
+import { getMarcasPublicas } from '@/lib/catalogo-data'
 
 function unauth() {
   return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
@@ -11,12 +12,7 @@ function unauth() {
 // Lectura pública — la usa tanto el admin como el catálogo público /repuestos.
 // No contiene datos sensibles (solo nombre + logo).
 export async function GET() {
-  await ensureMarcasTable()
-  const rows = await sql`
-    SELECT id, nombre, logo_url AS "logoUrl", orden, created_at AS "createdAt"
-    FROM marcas
-    ORDER BY orden ASC, nombre ASC
-  `
+  const rows = await getMarcasPublicas()
   return NextResponse.json(rows)
 }
 

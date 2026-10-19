@@ -54,11 +54,17 @@ const TX = {
   },
 }
 
-export default function RepuestosCatalogo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
+interface RepuestosCatalogoProps {
+  lang?: 'es' | 'en'
+  initialItems?: CatalogoItem[]
+  initialMarcas?: MarcaLite[]
+}
+
+export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMarcas }: RepuestosCatalogoProps) {
   const t = TX[lang]
-  const [items, setItems] = useState<CatalogoItem[]>([])
-  const [marcas, setMarcas] = useState<MarcaLite[]>([])
-  const [loading, setLoading] = useState(true)
+  const [items, setItems] = useState<CatalogoItem[]>(initialItems ?? [])
+  const [marcas, setMarcas] = useState<MarcaLite[]>(initialMarcas ?? [])
+  const [loading, setLoading] = useState(!initialItems)
   const [marcaFiltro, setMarcaFiltro] = useState<string>('')
   const [seleccion, setSeleccion] = useState<Record<string, number>>({})
   const [itemsLibres, setItemsLibres] = useState<string[]>([])
@@ -69,10 +75,12 @@ export default function RepuestosCatalogo({ lang = 'es' }: { lang?: 'es' | 'en' 
   const formRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (initialItems) return // ya vino renderizado desde el servidor
     Promise.all([
       fetch('/api/catalogo').then(r => r.ok ? r.json() : []),
       fetch('/api/marcas').then(r => r.ok ? r.json() : []),
     ]).then(([i, m]) => { setItems(i); setMarcas(m) }).catch(() => {}).finally(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const marcasConItems = useMemo(() => {
@@ -140,7 +148,7 @@ export default function RepuestosCatalogo({ lang = 'es' }: { lang?: 'es' | 'en' 
     <>
       <style>{`
         .rp-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
-        .rp-chip { font-family: 'Josefin Sans', sans-serif; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border); background: transparent; color: var(--dim); cursor: pointer; transition: all .18s; }
+        .rp-chip { font-family: 'Josefin Sans', sans-serif; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; border: 1px solid var(--border); background: transparent; color: var(--dim); cursor: pointer; transition: all .18s; }
         .rp-chip:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
         .rp-chip.active { color: var(--accent); border-color: rgba(200,168,75,.4); background: rgba(200,168,75,.06); }
         .rp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
@@ -153,14 +161,14 @@ export default function RepuestosCatalogo({ lang = 'es' }: { lang?: 'es' | 'en' 
         .rp-card-nombre { font-family: 'Josefin Sans', sans-serif; font-size: 14.5px; font-weight: 400; color: var(--text); line-height: 1.3; }
         .rp-card-compat { font-size: 12px; color: var(--dim); line-height: 1.5; flex: 1; }
         .rp-card-footer { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-        .rp-card-btn { flex: 1; font-family: 'Josefin Sans', sans-serif; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 9px 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; transition: all .18s; }
+        .rp-card-btn { flex: 1; font-family: 'Josefin Sans', sans-serif; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; min-height: 44px; padding: 0 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; transition: all .18s; }
         .rp-card-btn.active { border-color: rgba(200,168,75,.5); color: var(--accent); background: rgba(200,168,75,.06); }
-        .rp-card-qty { width: 52px; background: rgba(255,255,255,.04); border: 1px solid var(--border); color: var(--text); padding: 8px 6px; font-size: 13px; text-align: center; }
+        .rp-card-qty { width: 52px; min-height: 44px; background: rgba(255,255,255,.04); border: 1px solid var(--border); color: var(--text); padding: 0 6px; font-size: 13px; text-align: center; }
         .rp-libre-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
         .rp-libre-row input { flex: 1; min-width: 220px; }
         .rp-libre-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
         .rp-libre-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,.03); border: 1px solid var(--border); font-size: 13px; color: var(--text); }
-        .rp-libre-item button { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 13px; }
+        .rp-libre-item button { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 13px; padding: 12px; margin: -12px -12px -12px 0; }
         .rp-tray { position: sticky; bottom: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; background: rgba(12,12,12,.92); backdrop-filter: blur(8px); border-top: 1px solid rgba(200,168,75,.25); margin: 32px -24px -24px; flex-wrap: wrap; }
         .rp-form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (max-width: 640px) { .rp-form-grid-2 { grid-template-columns: 1fr; } .rp-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
@@ -189,7 +197,14 @@ export default function RepuestosCatalogo({ lang = 'es' }: { lang?: 'es' | 'en' 
                   return (
                     <div key={item.id} className={`rp-card${isSelected ? ' selected' : ''}`}>
                       <div className="rp-card-img">
-                        {item.imagenes[0] ? <img src={item.imagenes[0]} alt={item.nombre} /> : (
+                        {item.imagenes[0] ? (
+                          <img
+                            src={item.imagenes[0]}
+                            alt={item.marca ? `${item.nombre} — ${item.marca}` : item.nombre}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
                           <span style={{ color: 'rgba(255,255,255,.15)', fontSize: 11, fontFamily: 'Josefin Sans, sans-serif', letterSpacing: '.1em', textTransform: 'uppercase' }}>{item.categoria || '—'}</span>
                         )}
                       </div>
