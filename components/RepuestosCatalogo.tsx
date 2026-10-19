@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { URGENCY_ES, URGENCY_EN } from '@/components/ContactForm'
+import { gtagEvent } from '@/lib/gtag'
 
 interface CatalogoItem {
   id: string
@@ -92,28 +93,66 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
 
   const totalSeleccionados = Object.keys(seleccion).length
 
+  // GA4 ecommerce: la lista visible cambia al cargar y al filtrar por marca —
+  // se reporta como view_item_list cada vez (patrón recomendado por GA4 para
+  // "lista de productos cambió", no solo en el primer render).
+  useEffect(() => {
+    if (visible.length === 0) return
+    gtagEvent('view_item_list', {
+      item_list_id: marcaFiltro || 'all',
+      item_list_name: marcaFiltro || t.allBrands,
+      items: visible.map(it => ({ item_id: it.id, item_name: it.nombre, item_brand: it.marca, item_category: it.categoria })),
+      lang,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, marcaFiltro])
+
   function toggleItem(id: string) {
+    const item = items.find(i => i.id === id)
+    const wasSelected = !!seleccion[id]
     setSeleccion(prev => {
       const next = { ...prev }
       if (next[id]) delete next[id]
       else next[id] = 1
       return next
     })
+    // El evento se dispara fuera del updater de setState: los updaters deben
+    // ser puros (React StrictMode los invoca 2 veces en dev para detectarlo),
+    // así que un gtagEvent ahí adentro se dispararía doble en desarrollo.
+    if (item) {
+      if (wasSelected) {
+        gtagEvent('remove_from_cart', { items: [{ item_id: item.id, item_name: item.nombre, item_brand: item.marca, item_category: item.categoria, quantity: seleccion[id] }], lang })
+      } else {
+        gtagEvent('add_to_cart', { items: [{ item_id: item.id, item_name: item.nombre, item_brand: item.marca, item_category: item.categoria, quantity: 1 }], lang })
+      }
+    }
   }
   function setCantidad(id: string, cantidad: number) {
     setSeleccion(prev => ({ ...prev, [id]: Math.max(1, cantidad) }))
   }
   function addLibre() {
     if (!libreInput.trim()) return
-    setItemsLibres(prev => [...prev, libreInput.trim()])
+    const nombre = libreInput.trim()
+    setItemsLibres(prev => [...prev, nombre])
+    gtagEvent('add_custom_item_to_quote', { item_name: nombre, lang })
     setLibreInput('')
   }
   function removeLibre(idx: number) {
+    const nombre = itemsLibres[idx]
     setItemsLibres(prev => prev.filter((_, i) => i !== idx))
+    gtagEvent('remove_custom_item_from_quote', { item_name: nombre, lang })
   }
 
   function openForm() {
     setFormOpen(true)
+    gtagEvent('begin_checkout', {
+      items: Object.entries(seleccion).map(([id, cantidad]) => {
+        const it = items.find(i => i.id === id)
+        return { item_id: id, item_name: it?.nombre ?? id, item_brand: it?.marca, item_category: it?.categoria, quantity: cantidad }
+      }),
+      items_libres_count: itemsLibres.length,
+      lang,
+    })
     setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
   }
 
@@ -137,8 +176,19 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
       })
       if (!res.ok) throw new Error()
       setStatus('success')
-    } catch {
+      gtagEvent('quote_requested', {
+        form_type: 'cotizacion_repuestos',
+        form_lang: lang,
+        items: selectedItems.map(it => ({ item_name: it.nombre, item_brand: it.marca, quantity: it.cantidad })),
+        items_count: selectedItems.length,
+        items_libres_count: itemsLibres.length,
+        urgency: form.urgencia || 'not_specified',
+        equipo: form.equipo || 'not_specified',
+      })
+    } catch (err) {
+      const rawMsg = err instanceof Error ? err.message : 'error'
       setStatus('error')
+      gtagEvent('contact_error', { form_type: 'cotizacion_repuestos', error: rawMsg, lang })
     }
   }
 

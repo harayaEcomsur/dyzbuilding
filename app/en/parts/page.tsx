@@ -4,6 +4,7 @@ import Image from 'next/image'
 import RepuestosCatalogo from '@/components/RepuestosCatalogo'
 import SiteHeader from '@/components/SiteHeader'
 import BottomTabBar from '@/components/BottomTabBar'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { getCatalogoPublico, getMarcasPublicas } from '@/lib/catalogo-data'
 import { getSiteContent } from '@/lib/site-content'
 
@@ -131,6 +132,7 @@ export default async function PartsPage() {
         { label: 'FAQ', href: '/en#faq', icon: TAB_ICONS.faq },
         { label: 'Contact', href: '/en#contacto', icon: TAB_ICONS.contacto, accent: true },
       ]} />
+      <AnalyticsTracker />
     </div>
   )
 }
