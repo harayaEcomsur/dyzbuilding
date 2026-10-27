@@ -75,11 +75,14 @@ export default async function RepuestosPage() {
         itemListElement: items.map((it, i) => ({
           '@type': 'ListItem',
           position: i + 1,
+          // Sin '@type': 'Product' a propósito: no hay precio fijo (es catálogo
+          // de solicitud de cotización), y Google exige "offers"/"review"/
+          // "aggregateRating" para validar Product — inventar un precio sería
+          // engañoso. Queda como objeto genérico, válido para ItemList.
           item: {
-            '@type': 'Product',
             name: it.nombre,
             category: it.categoria || undefined,
-            ...(it.marca ? { brand: { '@type': 'Brand', name: it.marca } } : {}),
+            ...(it.marca ? { brand: it.marca } : {}),
             ...(it.imagenes[0] ? { image: it.imagenes[0] } : {}),
             ...(it.compatibilidad ? { description: `Compatible con: ${it.compatibilidad}` } : {}),
           },

@@ -74,11 +74,14 @@ export default async function PartsPage() {
         itemListElement: items.map((it, i) => ({
           '@type': 'ListItem',
           position: i + 1,
+          // Deliberately no '@type': 'Product' — there's no fixed price (this
+          // is a request-a-quote catalog), and Google requires "offers"/
+          // "review"/"aggregateRating" to validate Product — faking a price
+          // would be misleading. Plain object, valid as part of an ItemList.
           item: {
-            '@type': 'Product',
             name: it.nombre,
             category: it.categoria || undefined,
-            ...(it.marca ? { brand: { '@type': 'Brand', name: it.marca } } : {}),
+            ...(it.marca ? { brand: it.marca } : {}),
             ...(it.imagenes[0] ? { image: it.imagenes[0] } : {}),
             ...(it.compatibilidad ? { description: `Compatible with: ${it.compatibilidad}` } : {}),
           },
