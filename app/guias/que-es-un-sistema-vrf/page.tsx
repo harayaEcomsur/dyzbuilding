@@ -213,8 +213,15 @@ export default function GuiaQueEsVrfPage() {
             <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: '0 0 16px' }}>
               A diferencia de los sistemas de splits tradicionales —donde cada compresor exterior sólo puede controlar 1 a 4 unidades interiores—, un sistema VRF puede gestionar entre 2 y 60 o más unidades interiores desde una sola unidad exterior, con cada zona operando de forma completamente independiente.
             </p>
-            <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: '0 0 16px' }}>
               La clave del sistema es el compresor inverter de velocidad variable: en lugar de operar siempre a máxima potencia (encendido/apagado), el compresor ajusta su velocidad exactamente a lo que demanda el edificio en cada momento, lo que reduce el consumo energético entre un 30 y 50% respecto a sistemas convencionales.
+            </p>
+            <p style={{ fontFamily: "'Outfit',sans-serif", fontSize: 'clamp(15px,1.4vw,17px)', color: 'var(--dim)', lineHeight: 1.75, margin: 0 }}>
+              ¿Y los <strong style={{ color: 'var(--text)' }}>sistemas VRV</strong>? Es el mismo concepto con otro nombre: &ldquo;VRV&rdquo; (Variable Refrigerant Volume) es la marca registrada de Daikin para esta misma tecnología, mientras que LG, Samsung, Gree y el resto de fabricantes usan el término genérico &ldquo;VRF&rdquo;. En D&amp;Z Building diseñamos, instalamos y mantenemos{' '}
+              <Link href="/servicios/climatizacion-vrf" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>
+                sistemas VRV y VRF de climatización
+              </Link>{' '}
+              para proyectos comerciales e industriales en todo Chile.
             </p>
           </div>
         </div>
