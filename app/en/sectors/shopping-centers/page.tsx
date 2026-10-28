@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import Script from 'next/script'
+import SiteFooter from '@/components/SiteFooter'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
 
@@ -277,14 +278,7 @@ export default function EnSectorShoppingCentersPage() {
         </div>
 
         {/* Footer */}
-        <footer className="sp-footer">
-          <Link href="/en/" style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src="/logo.png" alt="D&Z Building" width={90} height={30} style={{ objectFit: 'contain' }} />
-          </Link>
-          <span style={{ color: 'var(--dim)', fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', letterSpacing: '.06em' }}>
-            © {new Date().getFullYear()} D&Z Building SpA
-          </span>
-        </footer>
+        <SiteFooter lang="en" />
       </div>
     </>
   )

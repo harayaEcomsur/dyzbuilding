@@ -6,6 +6,7 @@ import RevealSection from '@/components/RevealSection'
 import FaqAccordion from '@/components/FaqAccordion'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
+import SiteFooter from '@/components/SiteFooter'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
 
@@ -348,22 +349,7 @@ export default async function CommercialRefrigerationPage() {
         </div>
 
         {/* Footer */}
-        <footer className="sp-footer">
-          <Link href="/en/" style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src="/logo.png" alt="D&Z Building" width={90} height={30} style={{ objectFit: 'contain' }} />
-          </Link>
-          <nav style={{ display: 'flex', gap: 20 }}>
-            <Link href="/en/services/vrf-systems/" style={{ color: 'var(--dim)', fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', textDecoration: 'none', letterSpacing: '.06em' }}>
-              VRF Systems
-            </Link>
-            <Link href="/en/#contacto" style={{ color: 'var(--dim)', fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', textDecoration: 'none', letterSpacing: '.06em' }}>
-              Contact
-            </Link>
-          </nav>
-          <span style={{ color: 'var(--dim)', fontFamily: "'Josefin Sans',sans-serif", fontSize: '11px', letterSpacing: '.06em' }}>
-            © {new Date().getFullYear()} D&Z Building SpA
-          </span>
-        </footer>
+        <SiteFooter lang="en" />
       </div>
     </>
   )

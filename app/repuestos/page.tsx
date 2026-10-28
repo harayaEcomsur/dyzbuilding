@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import RepuestosCatalogo from '@/components/RepuestosCatalogo'
 import SiteHeader from '@/components/SiteHeader'
 import BottomTabBar from '@/components/BottomTabBar'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { getCatalogoPublico, getMarcasPublicas } from '@/lib/catalogo-data'
 import { getSiteContent } from '@/lib/site-content'
+import SiteFooter from '@/components/SiteFooter'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dyzbuilding.cl'
 
@@ -120,14 +120,7 @@ export default async function RepuestosPage() {
 
       <RepuestosCatalogo lang="es" initialItems={items} initialMarcas={marcas} />
 
-      <footer className="sp-footer sp-footer-pad-tabbar">
-        <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
-          <Image src="/logo.png" alt="D&Z Building" width={90} height={30} style={{ objectFit: 'contain' }} />
-        </Link>
-        <span style={{ color: 'var(--dim)', fontFamily: "'Josefin Sans', sans-serif", fontSize: '11px', letterSpacing: '.06em' }}>
-          © {new Date().getFullYear()} D&Z Building SpA
-        </span>
-      </footer>
+      <SiteFooter lang="es" padTabbar />
 
       <BottomTabBar lang="es" tabs={[
         { label: 'Inicio', href: '/', icon: TAB_ICONS.inicio },
