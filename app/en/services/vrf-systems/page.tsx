@@ -474,6 +474,8 @@ export default async function VrfSystemsPage() {
           <p>
             <Link href="/en/" style={{ color: 'var(--accent)' }}>{c.empresa.nombre}</Link>
             {' '}· Commercial HVAC & Industrial Refrigeration · Santiago, Chile
+            {' · '}
+            <a href="https://haraya.dev" target="_blank" rel="noopener" className="sp-footer-credit" style={{ textTransform: 'none' }}>Site by HarayaDev</a>
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             <Link href="/en/">Home</Link>
