@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { GuiaDespachoRecord, TIPOS_DESPACHO, makeId } from '@/lib/guias-despacho-store'
 import { apiFetchHistory, apiCreateRecord, apiDeleteRecord } from '@/lib/guias-despacho-api'
 import { EditIcon, PdfIcon, VersionIcon, TrashIcon } from '@/components/DocIcons'
+import AdminStatsBar from '@/components/AdminStatsBar'
 
 function fmtDate(iso: string) {
   try {
@@ -47,6 +48,20 @@ export default function GuiasDespachoHistorial() {
     await apiCreateRecord(newId, newData, 'borrador', record.id)
     router.push(`/admin/guias-despacho/nueva?id=${newId}`)
   }
+
+  const stats = useMemo(() => {
+    const now = new Date()
+    const esteMes = records.filter(r => {
+      const d = new Date(r.createdAt)
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
+    })
+    return [
+      { label: 'Total', value: String(records.length) },
+      { label: 'Este mes', value: String(esteMes.length), accent: true },
+      { label: 'Borradores', value: String(records.filter(r => r.estado === 'borrador').length) },
+      { label: 'Emitidas', value: String(records.filter(r => r.estado === 'emitida').length) },
+    ]
+  }, [records])
 
   const visible = records.filter(r => {
     if (!search) return true
@@ -90,6 +105,8 @@ export default function GuiasDespachoHistorial() {
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Documentos</div>
           <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em' }}>Guías de Despacho</h1>
         </div>
+
+        {!loading && records.length > 0 && <AdminStatsBar items={stats} />}
 
         <div className="gd-nueva">
           <div className="gd-nueva-text">

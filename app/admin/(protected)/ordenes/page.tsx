@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { OrdenCompraRecord, makeId, calcTotal } from '@/lib/ordenes-store'
 import { apiFetchHistory, apiCreateRecord, apiDeleteRecord } from '@/lib/ordenes-api'
 import { EditIcon, PdfIcon, VersionIcon, TrashIcon } from '@/components/DocIcons'
+import AdminStatsBar from '@/components/AdminStatsBar'
 
 function fmtDate(iso: string) {
   try {
@@ -50,6 +51,20 @@ export default function OrdenesHistorial() {
     await apiCreateRecord(newId, newData, 'borrador', calcTotal(newData), record.id)
     router.push(`/admin/ordenes/nueva?id=${newId}`)
   }
+
+  const stats = useMemo(() => {
+    const emitidas = records.filter(r => r.estado === 'emitida')
+    const montoTotal = emitidas.reduce((s, r) => s + r.total, 0)
+    const conMonto = emitidas.filter(r => r.total > 0)
+    const montoPromedio = conMonto.length > 0 ? conMonto.reduce((s, r) => s + r.total, 0) / conMonto.length : 0
+    return [
+      { label: 'Total', value: String(records.length) },
+      { label: 'Borradores', value: String(records.filter(r => r.estado === 'borrador').length) },
+      { label: 'Emitidas', value: String(emitidas.length), accent: true },
+      { label: 'Monto emitido', value: fmtMonto(montoTotal, 'CLP'), accent: true },
+      { label: 'Monto promedio', value: fmtMonto(montoPromedio, 'CLP') },
+    ]
+  }, [records])
 
   const visible = records.filter(r => {
     if (!search) return true
@@ -98,6 +113,8 @@ export default function OrdenesHistorial() {
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Documentos</div>
           <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em' }}>Órdenes de Compra</h1>
         </div>
+
+        {!loading && records.length > 0 && <AdminStatsBar items={stats} />}
 
         <div className="oc-nueva">
           <div className="oc-nueva-text">

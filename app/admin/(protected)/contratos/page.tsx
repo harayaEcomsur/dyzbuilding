@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ContratoRecord, makeId, TIPOS_CONTRATO } from '@/lib/contratos-store'
 import { apiFetchHistory, apiCreateRecord, apiDeleteRecord } from '@/lib/contratos-api'
 import { EditIcon, PdfIcon, VersionIcon, TrashIcon } from '@/components/DocIcons'
+import AdminStatsBar from '@/components/AdminStatsBar'
 
 function fmtDate(iso: string) {
   try {
@@ -43,6 +44,18 @@ export default function ContratosHistorial() {
     await apiCreateRecord(newId, newData, 'borrador', record.id)
     router.push(`/admin/contratos/nuevo?id=${newId}`)
   }
+
+  const stats = useMemo(() => {
+    const porTipo = Object.entries(TIPOS_CONTRATO)
+      .map(([k, label]) => ({ label, value: String(records.filter(r => r.tipo === k).length) }))
+      .filter(t => t.value !== '0')
+    return [
+      { label: 'Total', value: String(records.length) },
+      { label: 'Borradores', value: String(records.filter(r => r.estado === 'borrador').length) },
+      { label: 'Emitidos', value: String(records.filter(r => r.estado === 'emitido').length), accent: true },
+      ...porTipo,
+    ]
+  }, [records])
 
   const visible = records.filter(r => {
     if (!search) return true
@@ -91,6 +104,8 @@ export default function ContratosHistorial() {
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Documentos</div>
           <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em' }}>Contratos</h1>
         </div>
+
+        {!loading && records.length > 0 && <AdminStatsBar items={stats} />}
 
         <div className="ctr-nueva">
           <div className="ctr-nueva-text">

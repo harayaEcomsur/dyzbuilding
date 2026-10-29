@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { SolicitudRepuestosRecord, SolicitudEstado } from '@/lib/solicitudes-repuestos-store'
 import { apiFetchSolicitudesRepuestos, apiUpdateSolicitudRepuestos } from '@/lib/solicitudes-repuestos-api'
@@ -9,6 +9,7 @@ import { InventarioItem } from '@/lib/inventario-store'
 import { makeId as makeGuiaId } from '@/lib/guias-despacho-store'
 import { apiCreateRecord as apiCreateGuia } from '@/lib/guias-despacho-api'
 import type { GuiaDespachoData, GuiaItem } from '@/lib/guias-despacho-store'
+import AdminStatsBar from '@/components/AdminStatsBar'
 
 function fmtDate(iso: string) {
   try {
@@ -112,6 +113,17 @@ export default function SolicitudesRepuestos() {
     }
   }
 
+  const stats = useMemo(() => {
+    const totalItems = records.reduce((s, r) => s + r.items.length + r.itemsLibres.length, 0)
+    return [
+      { label: 'Total', value: String(records.length) },
+      { label: 'Nuevas', value: String(records.filter(r => r.estado === 'nueva').length), accent: true },
+      { label: 'En proceso', value: String(records.filter(r => r.estado === 'en_proceso').length) },
+      { label: 'Descartadas', value: String(records.filter(r => r.estado === 'descartada').length) },
+      { label: 'Ítems solicitados', value: String(totalItems) },
+    ]
+  }, [records])
+
   const visible = records.filter(r => filter === 'all' || r.estado === filter)
 
   return (
@@ -137,6 +149,8 @@ export default function SolicitudesRepuestos() {
             Cotizaciones de repuestos enviadas desde el catálogo público del sitio.
           </p>
         </div>
+
+        {!loading && records.length > 0 && <AdminStatsBar items={stats} />}
 
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
           {(['all', 'nueva', 'en_proceso', 'descartada'] as const).map(f => (

@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { InventarioItem } from '@/lib/inventario-store'
 import { apiFetchInventario, apiCreateInventarioItem, apiDeleteInventarioItem } from '@/lib/inventario-api'
 import { EditIcon, TrashIcon, PlusIcon } from '@/components/DocIcons'
+import AdminStatsBar from '@/components/AdminStatsBar'
 
 const UNIDADES = ['un', 'kg', 'm', 'm2', 'm3', 'lt', 'gl.', 'caja', 'par']
 
@@ -62,6 +63,20 @@ export default function InventarioPage() {
     setItems(prev => prev.filter(i => i.id !== id))
   }
 
+  const stats = useMemo(() => {
+    const sinStock = items.filter(i => i.stockActual <= 0)
+    const stockBajo = items.filter(i => i.stockActual > 0 && i.stockActual <= i.stockMinimo)
+    const publicados = items.filter(i => i.publicado)
+    const valorTotal = items.reduce((s, i) => s + (i.costoUnitario ? i.stockActual * i.costoUnitario : 0), 0)
+    return [
+      { label: 'Ítems', value: String(items.length) },
+      { label: 'Sin stock', value: String(sinStock.length), warn: sinStock.length > 0 },
+      { label: 'Stock bajo', value: String(stockBajo.length), warn: stockBajo.length > 0 },
+      { label: 'Publicados', value: String(publicados.length), accent: true },
+      { label: 'Valor en bodega', value: `$ ${Math.round(valorTotal).toLocaleString('es-CL')}` },
+    ]
+  }, [items])
+
   const visible = items.filter(i => {
     if (!search) return true
     const q = search.toLowerCase()
@@ -93,6 +108,8 @@ export default function InventarioPage() {
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 7.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Inventario</div>
           <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 22, fontWeight: 200, letterSpacing: '0.06em' }}>Stock e Inventario</h1>
         </div>
+
+        {!loading && items.length > 0 && <AdminStatsBar items={stats} />}
 
         <div className="inv-nueva">
           <div className="inv-nueva-text">

@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { CotizacionRecord, EstadoCliente, makeId } from '@/lib/cotizaciones-store'
 import { apiFetchHistory, apiCreateRecord, apiDeleteRecord, apiUpdateEstadoCliente } from '@/lib/cotizaciones-api'
 import { EditIcon, PdfIcon, VersionIcon, TrashIcon } from '@/components/DocIcons'
+import AdminStatsBar from '@/components/AdminStatsBar'
 
 const SYM: Record<string, string> = { CLP: '$', USD: 'US$', UF: 'UF' }
 
@@ -56,6 +57,25 @@ export default function Cotizaciones() {
     await apiCreateRecord(newId, { ...record.data, numero: newNum }, 'borrador', record.id)
     router.push(`/admin/cotizaciones/nueva?id=${newId}`)
   }
+
+  const stats = useMemo(() => {
+    const emitidas = records.filter(r => r.estado === 'emitida')
+    const aprobadas = records.filter(r => r.estadoCliente === 'aprobada')
+    const rechazadas = records.filter(r => r.estadoCliente === 'rechazada')
+    const pendientes = emitidas.filter(r => r.estadoCliente === 'pendiente')
+    const montoAprobado = aprobadas.reduce((s, r) => s + r.total, 0)
+    const conMonto = emitidas.filter(r => r.total > 0)
+    const montoPromedio = conMonto.length > 0 ? conMonto.reduce((s, r) => s + r.total, 0) / conMonto.length : 0
+    return [
+      { label: 'Total', value: String(records.length) },
+      { label: 'Borradores', value: String(records.filter(r => r.estado === 'borrador').length) },
+      { label: 'Pendientes', value: String(pendientes.length) },
+      { label: 'Aprobadas', value: String(aprobadas.length), accent: true },
+      { label: 'Monto aprobado', value: fmt(montoAprobado, 'CLP'), accent: true },
+      { label: 'Rechazadas', value: String(rechazadas.length), warn: rechazadas.length > 0 },
+      { label: 'Monto promedio', value: fmt(montoPromedio, 'CLP') },
+    ]
+  }, [records])
 
   const visible = records.filter(r => {
     if (filter !== 'all' && r.estado !== filter) return false
@@ -140,6 +160,8 @@ export default function Cotizaciones() {
           <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 8 }}>Documentos</div>
           <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 24, fontWeight: 200, letterSpacing: '0.06em' }}>Cotizaciones</h1>
         </div>
+
+        {!loading && records.length > 0 && <AdminStatsBar items={stats} />}
 
         {/* Nueva cotización — sección de creación */}
         <div className="cot-nueva">

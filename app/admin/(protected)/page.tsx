@@ -113,6 +113,7 @@ export default function AdminDashboard() {
         <Kpi label="Monto promedio" value={data ? fmt(c!.montoPromedio) : '—'} />
         <Kpi label="Pendientes" value={data ? String(c!.pendientes) : '—'} />
         <Kpi label="Aprobados" value={data ? String(c!.aprobadas) : '—'} accent />
+        <Kpi label="Monto aprobado" value={data ? fmt(c!.montoAprobado) : '—'} accent />
         <Kpi label="Rechazados" value={data ? String(c!.rechazadas) : '—'} />
         <Kpi label="Tasa de aprobación" value={tasaAprobacion !== null ? `${tasaAprobacion}%` : '—'} />
       </div>
