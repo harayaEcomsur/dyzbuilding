@@ -98,7 +98,7 @@ export default function AdminDashboard() {
   const tasaAprobacion = respondidas > 0 ? Math.round((c!.aprobadas / respondidas) * 100) : null
 
   return (
-    <div className="admin-page" style={{ maxWidth: 980 }}>
+    <div className="admin-page">
       <div className="eyebrow" style={{ marginBottom: 12 }}>Panel de Administración</div>
       <h1 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 30, fontWeight: 200, letterSpacing: '0.06em', color: 'var(--text)', marginBottom: 32 }}>
         Dashboard
