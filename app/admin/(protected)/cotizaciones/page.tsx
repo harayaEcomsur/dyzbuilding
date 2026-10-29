@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { CotizacionRecord, makeId } from '@/lib/cotizaciones-store'
-import { apiFetchHistory, apiCreateRecord, apiDeleteRecord } from '@/lib/cotizaciones-api'
+import { CotizacionRecord, EstadoCliente, makeId } from '@/lib/cotizaciones-store'
+import { apiFetchHistory, apiCreateRecord, apiDeleteRecord, apiUpdateEstadoCliente } from '@/lib/cotizaciones-api'
 import { EditIcon, PdfIcon, VersionIcon, TrashIcon } from '@/components/DocIcons'
 
 const SYM: Record<string, string> = { CLP: '$', USD: 'US$', UF: 'UF' }
@@ -40,6 +40,12 @@ export default function Cotizaciones() {
     if (!confirm(`¿Eliminar la cotización ${numero}? Esta acción no se puede deshacer.`)) return
     await apiDeleteRecord(id)
     setRecords(r => r.filter(x => x.id !== id))
+  }
+
+  async function handleEstadoClienteChange(id: string, estadoCliente: EstadoCliente) {
+    setRecords(r => r.map(x => x.id === id ? { ...x, estadoCliente } : x))
+    try { await apiUpdateEstadoCliente(id, estadoCliente) }
+    catch { void load() }
   }
 
   async function handleNuevaVersion(record: CotizacionRecord) {
@@ -191,6 +197,7 @@ export default function Cotizaciones() {
                   <th className="col-updated">Modificado</th>
                   <th style={{ textAlign: 'right' }}>Total</th>
                   <th>Estado</th>
+                  <th>Resultado</th>
                   <th></th>
                 </tr>
               </thead>
@@ -216,6 +223,22 @@ export default function Cotizaciones() {
                     </td>
                     <td>
                       <span className={`badge badge-${r.estado}`}>{r.estado}</span>
+                    </td>
+                    <td>
+                      {r.estado === 'emitida' ? (
+                        <select
+                          className={`badge badge-${r.estadoCliente}`}
+                          style={{ border: 'none', cursor: 'pointer', appearance: 'none', background: 'none' }}
+                          value={r.estadoCliente}
+                          onChange={e => void handleEstadoClienteChange(r.id, e.target.value as EstadoCliente)}
+                        >
+                          <option value="pendiente">pendiente</option>
+                          <option value="aprobada">aprobada</option>
+                          <option value="rechazada">rechazada</option>
+                        </select>
+                      ) : (
+                        <span style={{ color: 'var(--dim)' }}>—</span>
+                      )}
                     </td>
                     <td>
                       <div className="admin-doc-actions">

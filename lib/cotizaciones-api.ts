@@ -1,4 +1,4 @@
-import type { CotizacionRecord, QuotationData } from './cotizaciones-store'
+import type { CotizacionRecord, EstadoCliente, QuotationData } from './cotizaciones-store'
 import { calcTotal } from './cotizaciones-store'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,6 +12,7 @@ function rowToRecord(r: any): CotizacionRecord {
     moneda: r.moneda,
     total: parseFloat(r.total) || 0,
     estado: r.estado,
+    estadoCliente: r.estadoCliente ?? r.estado_cliente ?? 'pendiente',
     data: typeof r.data === 'string' ? JSON.parse(r.data) : (r.data ?? {}),
     createdAt: r.createdAt ?? (r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at)),
     updatedAt: r.updatedAt ?? (r.updated_at instanceof Date ? r.updated_at.toISOString() : String(r.updated_at)),
@@ -84,4 +85,13 @@ export async function apiUpdateRecord(
 export async function apiDeleteRecord(id: string): Promise<void> {
   const res = await fetch(`/api/cotizaciones/${id}`, { method: 'DELETE' })
   if (!res.ok) throw new Error('Error al eliminar cotización')
+}
+
+export async function apiUpdateEstadoCliente(id: string, estadoCliente: EstadoCliente): Promise<void> {
+  const res = await fetch(`/api/cotizaciones/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ estadoCliente }),
+  })
+  if (!res.ok) throw new Error('Error al actualizar el estado')
 }

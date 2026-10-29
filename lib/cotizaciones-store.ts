@@ -25,6 +25,8 @@ export interface QuotationData {
   lang?: 'es' | 'en'
 }
 
+export type EstadoCliente = 'pendiente' | 'aprobada' | 'rechazada'
+
 export interface CotizacionRecord {
   id: string
   numero: string
@@ -34,6 +36,7 @@ export interface CotizacionRecord {
   moneda: string
   total: number
   estado: 'borrador' | 'emitida'
+  estadoCliente: EstadoCliente
   data: QuotationData
   createdAt: string
   updatedAt: string

@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendContactEmail, sendAutoReplyEmail } from '@/lib/email'
+import { sql } from '@/lib/db'
+import { ensureSolicitudesRepuestosTable } from '@/lib/db-init'
+import { makeId } from '@/lib/solicitudes-repuestos-store'
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,6 +40,25 @@ export async function POST(req: NextRequest) {
       ciudad, presupuesto, urgencia, descripcion,
       equipo, items, itemsLibres,
     })
+
+    if (tipo === 'cotizacion_repuestos') {
+      // Persiste la solicitud para que el admin pueda generar la guía de
+      // despacho desde ella — el email por sí solo no queda en ningún listado.
+      try {
+        await ensureSolicitudesRepuestosTable()
+        await sql`
+          INSERT INTO solicitudes_repuestos
+            (id, nombre, empresa, email, telefono, equipo, urgencia, items, items_libres, lang)
+          VALUES
+            (${makeId()}, ${nombre}, ${empresa ?? ''}, ${email}, ${telefono ?? ''},
+             ${equipo ?? ''}, ${urgencia ?? ''},
+             ${JSON.stringify(items ?? [])}, ${JSON.stringify(itemsLibres ?? [])},
+             ${lang === 'en' ? 'en' : 'es'})
+        `
+      } catch (err) {
+        console.error('[solicitudes-repuestos]', err instanceof Error ? err.message : err)
+      }
+    }
 
     // Auto-reply al lead — no bloquea la respuesta al usuario si falla
     sendAutoReplyEmail({ nombre, email, tipo: tipo ?? 'contacto', lang: lang === 'en' ? 'en' : 'es', tipo_servicio, ciudad }).catch(

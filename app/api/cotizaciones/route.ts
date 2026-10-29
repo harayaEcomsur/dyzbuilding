@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { getSession } from '@/lib/session'
+import { ensureCotizacionesColumns } from '@/lib/db-init'
 
 function unauth() {
   return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
@@ -9,6 +10,7 @@ function unauth() {
 export async function GET() {
   const session = await getSession()
   if (!session?.role) return unauth()
+  await ensureCotizacionesColumns()
 
   const rows = await sql`
     SELECT
@@ -17,7 +19,9 @@ export async function GET() {
       cliente_empresa AS "clienteEmpresa",
       fecha, moneda,
       total::float    AS total,
-      estado, data,
+      estado,
+      estado_cliente  AS "estadoCliente",
+      data,
       created_at      AS "createdAt",
       updated_at      AS "updatedAt",
       parent_id       AS "parentId"
@@ -30,6 +34,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const session = await getSession()
   if (!session?.role) return unauth()
+  await ensureCotizacionesColumns()
 
   const { id, numero, clienteNombre, clienteEmpresa, fecha, moneda, total, estado, data, parentId } =
     await req.json()
@@ -48,6 +53,7 @@ export async function POST(req: NextRequest) {
       fecha, moneda,
       total::float    AS total,
       estado,
+      estado_cliente  AS "estadoCliente",
       created_at      AS "createdAt",
       updated_at      AS "updatedAt",
       parent_id       AS "parentId"

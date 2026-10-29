@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { getSession } from '@/lib/session'
+import { ensureCotizacionesColumns } from '@/lib/db-init'
 
 function unauth() {
   return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
@@ -12,6 +13,7 @@ export async function GET(
 ) {
   const session = await getSession()
   if (!session?.role) return unauth()
+  await ensureCotizacionesColumns()
 
   const { id } = await params
   const rows = await sql`
@@ -21,7 +23,9 @@ export async function GET(
       cliente_empresa AS "clienteEmpresa",
       fecha, moneda,
       total::float    AS total,
-      estado, data,
+      estado,
+      estado_cliente  AS "estadoCliente",
+      data,
       created_at      AS "createdAt",
       updated_at      AS "updatedAt",
       parent_id       AS "parentId"
@@ -38,6 +42,7 @@ export async function PUT(
 ) {
   const session = await getSession()
   if (!session?.role) return unauth()
+  await ensureCotizacionesColumns()
 
   const { id } = await params
   const { numero, clienteNombre, clienteEmpresa, fecha, moneda, total, estado, data } =
@@ -62,9 +67,35 @@ export async function PUT(
       fecha, moneda,
       total::float    AS total,
       estado,
+      estado_cliente  AS "estadoCliente",
       created_at      AS "createdAt",
       updated_at      AS "updatedAt",
       parent_id       AS "parentId"
+  `
+  if (!rows[0]) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
+  return NextResponse.json(rows[0])
+}
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const session = await getSession()
+  if (!session?.role) return unauth()
+  await ensureCotizacionesColumns()
+
+  const { id } = await params
+  const { estadoCliente } = await req.json()
+  if (!['pendiente', 'aprobada', 'rechazada'].includes(estadoCliente)) {
+    return NextResponse.json({ error: 'estadoCliente inválido' }, { status: 400 })
+  }
+
+  const rows = await sql`
+    UPDATE cotizaciones SET
+      estado_cliente = ${estadoCliente},
+      updated_at     = NOW()
+    WHERE id = ${id}
+    RETURNING id, estado_cliente AS "estadoCliente"
   `
   if (!rows[0]) return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
   return NextResponse.json(rows[0])

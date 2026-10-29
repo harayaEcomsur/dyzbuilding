@@ -90,6 +90,47 @@ export function ensureGuiasDespachoTable() {
   return guiasDespachoEnsured
 }
 
+let cotizacionesColumnsEnsured: Promise<unknown> | null = null
+
+// La tabla `cotizaciones` se creó directamente en la base (no vía este archivo).
+// Esta columna de seguimiento de respuesta del cliente se agregó después —
+// ADD COLUMN IF NOT EXISTS es idempotente, mismo criterio que el resto de
+// este archivo: no hay sistema de migraciones en el proyecto.
+export function ensureCotizacionesColumns() {
+  if (!cotizacionesColumnsEnsured) {
+    cotizacionesColumnsEnsured = sql`
+      ALTER TABLE cotizaciones ADD COLUMN IF NOT EXISTS estado_cliente TEXT NOT NULL DEFAULT 'pendiente'
+    `
+  }
+  return cotizacionesColumnsEnsured
+}
+
+let solicitudesRepuestosEnsured: Promise<unknown> | null = null
+
+export function ensureSolicitudesRepuestosTable() {
+  if (!solicitudesRepuestosEnsured) {
+    solicitudesRepuestosEnsured = sql`
+      CREATE TABLE IF NOT EXISTS solicitudes_repuestos (
+        id               TEXT PRIMARY KEY,
+        nombre           TEXT NOT NULL DEFAULT '',
+        empresa          TEXT NOT NULL DEFAULT '',
+        email            TEXT NOT NULL DEFAULT '',
+        telefono         TEXT NOT NULL DEFAULT '',
+        equipo           TEXT NOT NULL DEFAULT '',
+        urgencia         TEXT NOT NULL DEFAULT '',
+        items            JSONB NOT NULL DEFAULT '[]'::jsonb,
+        items_libres     JSONB NOT NULL DEFAULT '[]'::jsonb,
+        estado           TEXT NOT NULL DEFAULT 'nueva',
+        guia_despacho_id TEXT,
+        lang             TEXT NOT NULL DEFAULT 'es',
+        created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `
+  }
+  return solicitudesRepuestosEnsured
+}
+
 let marcasEnsured: Promise<unknown> | null = null
 
 export function ensureMarcasTable() {

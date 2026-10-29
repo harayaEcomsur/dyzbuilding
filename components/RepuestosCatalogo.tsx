@@ -162,7 +162,7 @@ export default function RepuestosCatalogo({ lang = 'es', initialItems, initialMa
     try {
       const selectedItems = Object.entries(seleccion).map(([id, cantidad]) => {
         const it = items.find(i => i.id === id)
-        return { nombre: it?.nombre ?? id, marca: it?.marca, cantidad }
+        return { id, nombre: it?.nombre ?? id, marca: it?.marca, cantidad }
       })
       const res = await fetch('/api/contact', {
         method: 'POST',
