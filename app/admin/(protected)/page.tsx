@@ -49,11 +49,11 @@ function fmtDate(iso: string) {
 
 function Kpi({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div style={{ background: 'var(--bg2)', padding: '22px 20px', borderTop: `2px solid ${accent ? 'var(--accent)' : 'var(--border)'}` }}>
-      <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: 26, fontWeight: 300, color: accent ? 'var(--accent)' : 'var(--text)', marginBottom: 6 }}>
+    <div style={{ background: 'var(--bg2)', padding: '22px 20px', borderTop: `2px solid ${accent ? 'var(--accent)' : 'var(--border)'}`, minWidth: 0 }}>
+      <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: 26, fontWeight: 300, color: accent ? 'var(--accent)' : 'var(--text)', marginBottom: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         {value}
       </div>
-      <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)' }}>
+      <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         {label}
       </div>
     </div>
@@ -62,10 +62,10 @@ function Kpi({ label, value, accent }: { label: string; value: string; accent?: 
 
 function Section({ title, href, children }: { title: string; href: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', padding: '22px 24px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 16 }}>
-        <h2 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 14, fontWeight: 300, letterSpacing: '0.06em', color: 'var(--text)' }}>{title}</h2>
-        <Link href={href} style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--accent)', textDecoration: 'none' }}>Ver →</Link>
+    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', padding: '22px 24px', minWidth: 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, marginBottom: 16 }}>
+        <h2 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 14, fontWeight: 300, letterSpacing: '0.06em', color: 'var(--text)', whiteSpace: 'nowrap' }}>{title}</h2>
+        <Link href={href} style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--accent)', textDecoration: 'none', whiteSpace: 'nowrap' }}>Ver →</Link>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {children}
@@ -76,9 +76,9 @@ function Section({ title, href, children }: { title: string; href: string; child
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13.5 }}>
-      <span style={{ color: 'var(--dim)' }}>{label}</span>
-      <span style={{ color: 'var(--text)', fontFamily: 'Josefin Sans, sans-serif' }}>{value}</span>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, fontSize: 13.5 }}>
+      <span style={{ color: 'var(--dim)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+      <span style={{ color: 'var(--text)', fontFamily: 'Josefin Sans, sans-serif', whiteSpace: 'nowrap', flexShrink: 0 }}>{value}</span>
     </div>
   )
 }
@@ -170,17 +170,17 @@ export default function AdminDashboard() {
               }}
             >
               <div style={{ display: 'flex', gap: 14, alignItems: 'center', minWidth: 0 }}>
-                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 13, color: 'var(--text)' }}>{r.numero}</span>
+                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 13, color: 'var(--text)', whiteSpace: 'nowrap', flexShrink: 0 }}>{r.numero}</span>
                 <span style={{ fontSize: 13.5, color: 'var(--dim)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {r.clienteNombre || r.clienteEmpresa || '—'}
                 </span>
               </div>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: 13, color: 'var(--dim)' }}>{fmtDate(r.updatedAt)}</span>
-                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 13.5, color: r.total > 0 ? 'var(--text)' : 'var(--dim)' }}>
+                <span style={{ fontSize: 13, color: 'var(--dim)', whiteSpace: 'nowrap' }}>{fmtDate(r.updatedAt)}</span>
+                <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 13.5, color: r.total > 0 ? 'var(--text)' : 'var(--dim)', whiteSpace: 'nowrap' }}>
                   {r.total > 0 ? fmt(r.total, r.moneda) : '—'}
                 </span>
-                <span className={`badge badge-${r.estado === 'emitida' ? r.estadoCliente : r.estado}`}>
+                <span className={`badge badge-${r.estado === 'emitida' ? r.estadoCliente : r.estado}`} style={{ whiteSpace: 'nowrap' }}>
                   {r.estado === 'emitida' ? r.estadoCliente : r.estado}
                 </span>
               </div>

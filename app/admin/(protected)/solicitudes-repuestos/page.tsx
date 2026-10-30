@@ -188,16 +188,16 @@ export default function SolicitudesRepuestos() {
               return (
                 <div className="sr-card" key={r.id}>
                   <div className="sr-head" onClick={() => setExpanded(isOpen ? null : r.id)}>
-                    <div style={{ display: 'flex', gap: 14, alignItems: 'center', minWidth: 0 }}>
-                      <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 14, color: 'var(--text)' }}>
+                    <div style={{ display: 'flex', gap: 14, alignItems: 'center', minWidth: 0, flexWrap: 'wrap' }}>
+                      <span style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 14, color: 'var(--text)', whiteSpace: 'nowrap' }}>
                         {r.empresa || r.nombre}
                       </span>
-                      {r.empresa && <span style={{ fontSize: 13, color: 'var(--dim)' }}>{r.nombre}</span>}
-                      <span style={{ fontSize: 12.5, color: 'var(--dim)' }}>{totalItems} ítem{totalItems !== 1 ? 's' : ''}</span>
+                      {r.empresa && <span style={{ fontSize: 13, color: 'var(--dim)', whiteSpace: 'nowrap' }}>{r.nombre}</span>}
+                      <span style={{ fontSize: 12.5, color: 'var(--dim)', whiteSpace: 'nowrap' }}>{totalItems} ítem{totalItems !== 1 ? 's' : ''}</span>
                     </div>
-                    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                      <span style={{ fontSize: 12.5, color: 'var(--dim)' }}>{fmtDate(r.createdAt)}</span>
-                      <span className={`badge ${r.estado === 'en_proceso' ? 'badge-emitida' : r.estado === 'descartada' ? 'badge-rechazada' : 'badge-pendiente'}`}>
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: 12.5, color: 'var(--dim)', whiteSpace: 'nowrap' }}>{fmtDate(r.createdAt)}</span>
+                      <span className={`badge ${r.estado === 'en_proceso' ? 'badge-emitida' : r.estado === 'descartada' ? 'badge-rechazada' : 'badge-pendiente'}`} style={{ whiteSpace: 'nowrap' }}>
                         {ESTADO_LABEL[r.estado]}
                       </span>
                     </div>
