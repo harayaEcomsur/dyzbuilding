@@ -49,11 +49,11 @@ function fmtDate(iso: string) {
 
 function Kpi({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div style={{ background: 'var(--bg2)', padding: '22px 20px', borderTop: `2px solid ${accent ? 'var(--accent)' : 'var(--border)'}`, minWidth: 0 }}>
-      <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: 26, fontWeight: 300, color: accent ? 'var(--accent)' : 'var(--text)', marginBottom: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+    <div style={{ background: 'var(--bg2)', padding: '22px 20px', borderTop: `2px solid ${accent ? 'var(--accent)' : 'var(--border)'}`, flex: '1 0 auto' }}>
+      <div style={{ fontFamily: 'Outfit, sans-serif', fontSize: 26, fontWeight: 300, color: accent ? 'var(--accent)' : 'var(--text)', marginBottom: 6, whiteSpace: 'nowrap' }}>
         {value}
       </div>
-      <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--dim)', whiteSpace: 'nowrap' }}>
         {label}
       </div>
     </div>
@@ -62,7 +62,7 @@ function Kpi({ label, value, accent }: { label: string; value: string; accent?: 
 
 function Section({ title, href, children }: { title: string; href: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', padding: '22px 24px', minWidth: 0 }}>
+    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', padding: '22px 24px', flex: '1 1 300px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, marginBottom: 16 }}>
         <h2 style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 14, fontWeight: 300, letterSpacing: '0.06em', color: 'var(--text)', whiteSpace: 'nowrap' }}>{title}</h2>
         <Link href={href} style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 9.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--accent)', textDecoration: 'none', whiteSpace: 'nowrap' }}>Ver →</Link>
@@ -76,9 +76,9 @@ function Section({ title, href, children }: { title: string; href: string; child
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, fontSize: 13.5 }}>
-      <span style={{ color: 'var(--dim)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
-      <span style={{ color: 'var(--text)', fontFamily: 'Josefin Sans, sans-serif', whiteSpace: 'nowrap', flexShrink: 0 }}>{value}</span>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16, fontSize: 13.5 }}>
+      <span style={{ color: 'var(--dim)', whiteSpace: 'nowrap' }}>{label}</span>
+      <span style={{ color: 'var(--text)', fontFamily: 'Josefin Sans, sans-serif', whiteSpace: 'nowrap' }}>{value}</span>
     </div>
   )
 }
@@ -108,7 +108,7 @@ export default function AdminDashboard() {
       <div style={{ fontFamily: 'Josefin Sans, sans-serif', fontSize: 10.5, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--dim)', marginBottom: 12 }}>
         Presupuestos
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 1, background: 'var(--border)', marginBottom: 40 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 1, background: 'var(--border)', marginBottom: 40 }}>
         <Kpi label="Realizados" value={data ? String(c!.total) : '—'} />
         <Kpi label="Monto promedio" value={data ? fmt(c!.montoPromedio) : '—'} />
         <Kpi label="Pendientes" value={data ? String(c!.pendientes) : '—'} />
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Secciones */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20, marginBottom: 40 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginBottom: 40 }}>
         <Section title="Órdenes de compra" href="/admin/ordenes">
           <Row label="Total" value={data ? String(data.ordenes.total) : '—'} />
           <Row label="Borradores" value={data ? String(data.ordenes.borradores) : '—'} />
