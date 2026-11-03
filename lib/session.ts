@@ -3,7 +3,11 @@ import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 
 function getEncodedKey() {
-  const secretKey = process.env.SESSION_SECRET ?? 'fallback-dev-key-change-in-production'
+  const secretKey = process.env.SESSION_SECRET
+  // Antes caía a un valor hardcodeado y visible en el repo público si faltaba
+  // la env var — cualquiera podía firmar un JWT de superadmin válido con ese
+  // mismo valor. Mejor fallar fuerte: sin SESSION_SECRET, nadie entra.
+  if (!secretKey) throw new Error('Falta SESSION_SECRET — el login no puede funcionar sin esta variable de entorno.')
   return new TextEncoder().encode(secretKey)
 }
 
